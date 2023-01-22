@@ -8,7 +8,9 @@ CREATE TABLE "Recipes"
 	"instructions" JSON NOT NULL,
 	"rating" SMALLINT NOT NULL,
 	"serving_size" SMALLINT DEFAULT 1,
-	"time" INTERVAL NOT NULL  -- TODO
+	"total_time" INTERVAL NOT NULL,
+	"prep_time" INTERVAL DEFAULT NULL,
+	"cook_time" INTERVAL DEFAULT NULL
 );
 
 

@@ -11,23 +11,28 @@
 ***********************************************************************************************************************/
 
 
--- INSERT INTO "Recipes" ("name", "rating", "serving_size", "time", "instructions") VALUES
--- ('Jacket Potatoes', 4, 1, INTERVAL '4 HOURS', 
--- '[
--- 	"Slice a cross shape about 1/4-inch thick into each potato. This helps them release some steam, makes the interior more fluffy, and also makes them easier to slice into when they''re piping hot.",
--- 	"Bake at 400°F for ${timer::02:00:00}. The potatoes won''t burn at this temperature and the long bake means the skin will be so crisp that it''s practically cracker-like.",
--- 	"After the two hours are up, remove the potatoes and carefully cut deeper into the slices you made initially. Then put the potatoes back in the oven for ${timer::00:10:00}. This helps to dry out the flesh further and makes it extra fluffy."
--- ]');
+INSERT INTO "Recipes" ("name", "rating", "serving_size", "total_time", "instructions") VALUES
+('Jacket Potatoes', 4, 1, INTERVAL '4 HOURS', 
+'[
+	"Slice a cross shape about 1/4-inch thick into each potato. This helps them release some steam, makes the interior more fluffy, and also makes them easier to slice into when they''re piping hot.",
+	"Bake at 400°F for ${timer::02:00:00}. The potatoes won''t burn at this temperature and the long bake means the skin will be so crisp that it''s practically cracker-like.",
+	"After the two hours are up, remove the potatoes and carefully cut deeper into the slices you made initially. Then put the potatoes back in the oven for ${timer::00:10:00}. This helps to dry out the flesh further and makes it extra fluffy."
+]');
 
 
 
--- INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
--- ('', 'Russet Potatoes', ''),
--- ('', 'Sea Salt', ''),
--- ('', 'Black Pepper', ''),
--- ('', 'Chives', ''),
--- ('', 'Salted Butter', ''),
--- ('', 'Sour Cream', '');
+INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
+('', 'Russet Potatoes', '');
+INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
+('', 'Sea Salt', '');
+INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
+('', 'Black Pepper', '');
+INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
+('', 'Chives', '');
+INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
+('', 'Salted Butter', '');
+INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
+('', 'Sour Cream', '');
 
 
 INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "quantity", "is_required", "notes")
