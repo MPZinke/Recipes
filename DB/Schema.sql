@@ -1,5 +1,6 @@
 
 
+DROP TABLE IF EXISTS "Recipes" CASCADE;
 CREATE TABLE "Recipes"
 (
 	"id" SERIAL NOT NULL PRIMARY KEY,
@@ -8,12 +9,13 @@ CREATE TABLE "Recipes"
 	"instructions" JSON NOT NULL,
 	"rating" SMALLINT NOT NULL,
 	"serving_size" SMALLINT DEFAULT 1,
-	"total_time" INTERVAL NOT NULL,
-	"prep_time" INTERVAL DEFAULT NULL,
-	"cook_time" INTERVAL DEFAULT NULL
+	"total_time" INTERVAL NOT NULL DEFAULT INTERVAL '0 HOURS',
+	"prep_time" INTERVAL DEFAULT INTERVAL '0 HOURS',
+	"cook_time" INTERVAL DEFAULT INTERVAL '0 HOURS'
 );
 
 
+DROP TABLE IF EXISTS "Ingredients" CASCADE;
 CREATE TABLE "Ingredients"
 (
 	"id" SERIAL NOT NULL PRIMARY KEY,
@@ -25,6 +27,7 @@ CREATE TABLE "Ingredients"
 );
 
 
+DROP TABLE IF EXISTS "RecipesIngredients" CASCADE;
 CREATE TABLE "RecipesIngredients"
 (
 	"id" SERIAL NOT NULL PRIMARY KEY,

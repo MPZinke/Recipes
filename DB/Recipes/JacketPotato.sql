@@ -11,11 +11,7 @@
 ***********************************************************************************************************************/
 
 
-<<<<<<< HEAD
 INSERT INTO "Recipes" ("name", "rating", "serving_size", "total_time", "instructions") VALUES
-=======
-INSERT INTO "Recipes" ("name", "rating", "serving_size", "time", "instructions") VALUES
->>>>>>> e5146537da8168f62d5bef6194d150e44b73027f
 ('Jacket Potatoes', 4, 1, INTERVAL '4 HOURS', 
 '[
 	"Slice a cross shape about 1/4-inch thick into each potato. This helps them release some steam, makes the interior more fluffy, and also makes them easier to slice into when they''re piping hot.",
@@ -26,7 +22,6 @@ INSERT INTO "Recipes" ("name", "rating", "serving_size", "time", "instructions")
 
 
 INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
-<<<<<<< HEAD
 ('', 'Russet Potatoes', '');
 INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
 ('', 'Sea Salt', '');
@@ -37,13 +32,6 @@ INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
 INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
 ('', 'Salted Butter', '');
 INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
-=======
-('', 'Russet Potatoes', ''),
-('', 'Sea Salt', ''),
-('', 'Black Pepper', ''),
-('', 'Chives', ''),
-('', 'Salted Butter', ''),
->>>>>>> e5146537da8168f62d5bef6194d150e44b73027f
 ('', 'Sour Cream', '');
 
 

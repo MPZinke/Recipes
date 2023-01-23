@@ -1,0 +1,30 @@
+
+<!----------------------------------------------------------------------------------------------------------------------
+-                                                                                                                      -
+-    Created by: MPZinke on 2023.01.22                                                                                 -
+-                                                                                                                      -
+-    DESCRIPTION:                                                                                                      -
+-    BUGS:                                                                                                             -
+-    FUTURE:                                                                                                           -
+-                                                                                                                      -
+----------------------------------------------------------------------------------------------------------------------->
+
+
+<html>
+	<body>
+		<h1>
+			{{ recipe._name }}
+		</h1>
+		<table>
+			{% for ingredient in recipe._ingredients %}
+				<tr>
+					<td>
+						<a href="/ingredient/{{ ingredient._name }}">
+							{{ ingredient._name }}
+						</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</body>
+</html>
