@@ -37,6 +37,7 @@ def GET_recipes():
 @app.route("/recipe/<string:recipe_name>", methods=["GET"])
 def GET_recipe(recipe_name: str):
 	recipe: Recipe = Recipe.from_name(recipe_name)
+	print(recipe._instructions)
 	return render_template("recipe.j2", recipe=recipe)
 
 

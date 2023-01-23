@@ -10,13 +10,36 @@
 ----------------------------------------------------------------------------------------------------------------------->
 
 
-<html>
-	<body>
-		<h1>
-			{{ recipe.name() }}
-		</h1>
-		<table>
-			{% for ingredient in recipe.ingredients() %}
+{% macro list_steps(listed_steps) %}
+	<ul>
+		{% for step in listed_steps %}
+			<li>
+				{{ step }}
+			</li>
+		{% endfor %}
+	</ul>
+{% endmacro %}
+
+
+{% macro list_steps(listed_steps) %}
+	<ul>
+		{% for step in listed_steps %}
+			<li>
+				{{ step }}
+			</li>
+		{% endfor %}
+	</ul>
+{% endmacro %}
+
+
+{% extends "header.j2" %}
+{% block body %}
+	<h1>
+		{{ recipe.name() }}
+	</h1>
+	<table>
+		{% with ingredients = recipe.ingredients() %}
+			{% for ingredient in ingredients %}
 				<tr>
 					<td>
 						<a href="/ingredient/{{ ingredient.name() }}">
@@ -25,6 +48,21 @@
 					</td>
 				</tr>
 			{% endfor %}
-		</table>
-	</body>
-</html>
+		{% endwith %}
+	</table>
+	<h2>
+		Instructions
+	</h2>
+	{% with instructions = recipe.instructions() %}
+		{% if instructions.__class__.__name__ == "list" %}
+			{{ list_steps(instructions) }}
+		{% elif instructions.__class__.__name__ == "dict" %}
+			{% for section, steps in instructions.items() %}
+				<h3>
+					{{ section }}
+				</h3>
+				{{ list_steps(steps) }}
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+{% endblock %}

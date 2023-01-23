@@ -10,18 +10,17 @@
 ----------------------------------------------------------------------------------------------------------------------->
 
 
-<html>
-	<body>
-		<table>
-			{% for recipe in recipes %}
-				<tr>
-					<td>
-						<a href="/recipe/{{ recipe.name() }}">
-							{{ recipe.name() }}
-						</a>
-					</td>
-				</tr>
-			{% endfor %}
-		</table>
-	</body>
-</html>
+{% extends "header.j2" %}
+{% block body %}
+	<table>
+		{% for recipe in recipes %}
+			<tr>
+				<td>
+					<a href="/recipe/{{ recipe.name() }}">
+						{{ recipe.name() }}
+					</a>
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
+{% endblock %}
