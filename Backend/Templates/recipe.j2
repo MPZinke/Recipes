@@ -13,14 +13,14 @@
 <html>
 	<body>
 		<h1>
-			{{ recipe._name }}
+			{{ recipe.name() }}
 		</h1>
 		<table>
-			{% for ingredient in recipe._ingredients %}
+			{% for ingredient in recipe.ingredients() %}
 				<tr>
 					<td>
-						<a href="/ingredient/{{ ingredient._name }}">
-							{{ ingredient._name }}
+						<a href="/ingredient/{{ ingredient.name() }}">
+							{{ ingredient.name() }}
 						</a>
 					</td>
 				</tr>

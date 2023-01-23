@@ -21,6 +21,7 @@ from pathlib import Path
 
 from DB import Queries
 from Recipe import Recipe
+from Ingredient import Ingredient
 
 
 ROOT_DIR = str(Path(__file__).absolute().parent)
@@ -37,6 +38,14 @@ def GET_recipes():
 def GET_recipe(recipe_name: str):
 	recipe: Recipe = Recipe.from_name(recipe_name)
 	return render_template("recipe.j2", recipe=recipe)
+
+
+@app.route("/ingredient/<string:ingredient_name>", methods=["GET"])
+def GET_ingredient(ingredient_name: str):
+	ingredient: Ingredient = Ingredient.from_name(ingredient_name)
+	recipes: list[dict] = Queries.SELECT_Recipes_name_FROM_RecipesIngredients_WHERE_Ingredients_name(ingredient_name)
+	recipe_names: list[str] = [recipe["name"] for recipe in recipes]
+	return render_template("ingredient.j2", ingredient=ingredient, recipe_names=recipe_names)
 
 
 def main():

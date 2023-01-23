@@ -44,8 +44,6 @@ class Recipe(object):
 	def all() -> list[Recipe]:
 		recipe_data: list[dict] = Queries.SELECT_ALL_FROM_Recipes()
 		[recipe.update({"ingredients": RecipeIngredient.from_Recipe_id(recipe["id"])}) for recipe in recipe_data]
-		print(len(recipe_data))
-		print(recipe_data[0]["name"])
 		return [Recipe(**recipe) for recipe in recipe_data]
 
 
@@ -61,3 +59,43 @@ class Recipe(object):
 		recipe_data["ingredients"] = RecipeIngredient.from_Recipe_id(recipe_data["id"])
 
 		return Recipe(**recipe_data)
+
+
+	def id(self) -> int:
+		return self._id
+
+
+	def is_deleted(self) -> bool:
+		return self._is_deleted
+
+
+	def name(self) -> str:
+		return self._name
+
+
+	def instructions(self) -> dict|list:
+		return self._instructions
+
+
+	def rating(self) -> int:
+		return self._rating
+
+
+	def serving_size(self) -> int:
+		return self._serving_size
+
+
+	def prep_time(self) -> timedelta:
+		return self._prep_time
+
+
+	def cook_time(self) -> timedelta:
+		return self._cook_time
+
+
+	def total_time(self) -> timedelta:
+		return self._total_time
+
+
+	def ingredients(self) -> list[RecipeIngredient]:
+		return self._ingredients
