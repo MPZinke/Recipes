@@ -1,0 +1,129 @@
+
+<!----------------------------------------------------------------------------------------------------------------------
+-                                                                                                                      -
+-    Created by: MPZinke on 2023.01.22                                                                                 -
+-                                                                                                                      -
+-    DESCRIPTION:                                                                                                      -
+-    BUGS:                                                                                                             -
+-    FUTURE:                                                                                                           -
+-                                                                                                                      -
+----------------------------------------------------------------------------------------------------------------------->
+
+
+
+<!----------------------------------------------------------------------------------------------------------------------
+-                                                                                                                      -
+-    Created by: MPZinke on 2023.01.22                                                                                 -
+-                                                                                                                      -
+-    DESCRIPTION:                                                                                                      -
+-    BUGS:                                                                                                             -
+-    FUTURE:                                                                                                           -
+-                                                                                                                      -
+----------------------------------------------------------------------------------------------------------------------->
+
+
+<div>
+	<h1 id="time">
+	</h1>
+
+	{# If now > END_TIME: print, finished at... #}
+
+	<button onclick="reset_timer();">
+		Reset
+	</button>
+	<button onclick="start_timer();">
+		Restart
+	</button>
+	<button onclick="start_timer();">
+		Pause
+	</button>
+</div>
+
+
+<script>
+	const TIME_H1 = document.getElementById("time");
+
+	let DURATION = {{ duration }};
+	let END_TIME = window.sessionStorage.getItem("end_time");
+	let UPDATE_THREAD = null;
+
+
+	function print_time(duration_ms)
+	{
+		TIME_H1.innerHTML = Math.round(duration_ms / 1_000);
+	}
+
+
+	function load_timer()
+	{
+		if(UPDATE_THREAD == null)
+		{
+			UPDATE_THREAD = setInterval(update_display, 200);
+		}
+	}
+
+
+	function reset_timer()
+	{
+		stop_timer();
+
+		END_TIME = null;
+		window.sessionStorage.removeItem(`end_time`);
+
+		print_time(DURATION);
+	}
+
+
+	function start_timer()
+	{
+		stop_timer();
+
+		END_TIME = Date.now() + DURATION;
+		window.sessionStorage.setItem("end_time", END_TIME);
+
+		UPDATE_THREAD = setInterval(update_display, 200);
+	}
+
+
+	function stop_timer()
+	{
+		if(UPDATE_THREAD != null)
+		{
+			clearInterval(UPDATE_THREAD);
+			UPDATE_THREAD = null;
+		}
+	}
+
+
+	function update_display()
+	{
+		let remaining_time = 0;
+		if(END_TIME < Date.now())
+		{
+			stop_timer();
+			// ALARM
+		}
+		else /*if(window.sessionStorage.getItem("end_time"))*/
+		{
+			remaining_time = END_TIME - Date.now();
+		}
+
+		print_time(remaining_time);
+	}
+
+
+	// If a timer does not exist, start a timer
+	console.log(END_TIME);
+	if(END_TIME == null)
+	{
+		console.log("Here1")
+		start_timer();
+	}
+	// If a timer does exist and is still active, load timer
+	else if(Date.now() < END_TIME)
+	{
+		console.log("Here2")
+		load_timer();
+	}
+
+</script>
