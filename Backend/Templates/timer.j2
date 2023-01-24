@@ -186,6 +186,9 @@
 		/*
 		SUMMARY: Start a timer if none exists and continues for remaining amount if a timer does exist.
 		*/
+		// Since a timer has started, we can assume it is going based off of the URL.
+		window.sessionStorage.setItem("timer_duration", parse_duration_from_url());
+
 		// No paused timer, create a new timer
 		if(window.sessionStorage.getItem("remaining_time") == null)
 		{
@@ -228,26 +231,21 @@
 		// Start a timer for that duration
 	if(window.sessionStorage.getItem("end_time") == null)
 	{
-		window.sessionStorage.setItem("timer_duration", parse_duration_from_url());
 		start_timer();
 	}
 	// If a timer exists AND its duration is changed 
 		// Start a new timer
 	else if(window.sessionStorage.getItem("timer_duration") != parse_duration_from_url())
 	{
-		// invalidate the endtime
-		reset_timer();
-		window.sessionStorage.setItem("timer_duration", parse_duration_from_url());
+		reset_timer();  // invalidate the endtime
 		start_timer();
 	}
-	// If a timer exists AND is paused,
-	//  do nothing
-	else if(window.sessionStorage.getItem("remaining_time") != null);
-	// If a timer exists AND its duration is unchanged
-		// Continue the timer
-	else if(window.sessionStorage.getItem("timer_duration") == parse_duration_from_url())
+	// No paused timer exists and the duration is unchanged && timer is not complete
+		// Continue timer
+	else if(window.sessionStorage.getItem("remaining_time") == null && window.sessionStorage.getItem("end_time") > Date.now())
 	{
 		start_timer();
 	}
+	// Else: Timer exists that is paused or completed
 
 </script>
