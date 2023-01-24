@@ -10,42 +10,96 @@
 ----------------------------------------------------------------------------------------------------------------------->
 
 
-
-<!----------------------------------------------------------------------------------------------------------------------
--                                                                                                                      -
--    Created by: MPZinke on 2023.01.22                                                                                 -
--                                                                                                                      -
--    DESCRIPTION:                                                                                                      -
--    BUGS:                                                                                                             -
--    FUTURE:                                                                                                           -
--                                                                                                                      -
------------------------------------------------------------------------------------------------------------------------>
-
-
 <div>
-	<h1 id="time">
+	<h1 id="time_h1">
 	</h1>
 
-	{# If now > END_TIME: print, finished at... #}
+	<div id="finished_div">
+	</div>
 
-	<button onclick="reset_timer();">
+	<button id="reset_button" onclick="reset_timer();">
 		Reset
 	</button>
-	<button onclick="start_timer();">
+	<button id="restart_button" onclick="start_timer();">
 		Restart
 	</button>
-	<button onclick="start_timer();">
+	<button id="start_button" onclick="start_timer();">
+		Start
+	</button>
+	<button id="pause_button" onclick="pause_timer();">
 		Pause
+	</button>
+	<button id="resume_button" onclick="start_timer();" hidden>
+		Resume
 	</button>
 </div>
 
 
 <script>
-	const TIME_H1 = document.getElementById("time");
+	const TIME_H1 = document.getElementById("time_h1");
+	const RESET_BUTTON = document.getElementById("reset_button");
+	const START_BUTTON = document.getElementById("start_button");
+	const RESTART_BUTTON = document.getElementById("restart_button");
+	const PAUSE_BUTTON = document.getElementById("pause_button");
+	const RESUME_BUTTON = document.getElementById("resume_button");
 
-	let DURATION = {{ duration }};
-	let END_TIME = window.sessionStorage.getItem("end_time");
+	// "end_time": Controls whether the timer is set & running
+	// "remaining_time": Controls whether the timer is paused
+	// "timer_duration": Controls whether the current timer is valid
+
 	let UPDATE_THREAD = null;
+
+
+	function parse_duration_from_url()
+	{
+		const url = window.location.href;
+		const url_parts = url.split("/");
+		const duration_part = url_parts[url_parts.length-1];
+
+		const duration_parts = duration_part.split(":");
+		const hours = parseInt(duration_parts[0]);
+		const minutes = parseInt(duration_parts[1]);
+		const seconds = parseInt(duration_parts[2]);
+
+		return hours * 3_600_000 + minutes * 60_000 + seconds * 1_000;
+	}
+
+
+	// —————————————————————————————————————————————————— DISPLAY  —————————————————————————————————————————————————— //
+
+	function set_page()
+	{
+		if(window.sessionStorage.getItem("end_time"))
+		{
+			PAUSE_BUTTON.hidden = false;
+			RESUME_BUTTON.hidden = true;
+
+			START_BUTTON.hidden = true;
+			RESTART_BUTTON.hidden = false;
+
+			print_time(Math.round(window.sessionStorage.getItem("end_time") - Date.now()));
+		}
+		else if(window.sessionStorage.getItem("remaining_time"))
+		{
+			PAUSE_BUTTON.hidden = true;
+			RESUME_BUTTON.hidden = false;
+
+			RESTART_BUTTON.hidden = true;
+			START_BUTTON.hidden = false;
+
+			print_time(window.sessionStorage.getItem("remaining_time"));
+		}
+		else
+		{
+			PAUSE_BUTTON.hidden = true;
+			START_BUTTON.hidden = false;
+
+			RESTART_BUTTON.hidden = true;
+			START_BUTTON.hidden = false;
+
+			print_time(window.sessionStorage.getItem("timer_duration"));
+		}
+	}
 
 
 	function print_time(duration_ms)
@@ -54,76 +108,146 @@
 	}
 
 
-	function load_timer()
-	{
-		if(UPDATE_THREAD == null)
-		{
-			UPDATE_THREAD = setInterval(update_display, 200);
-		}
-	}
+	// ——————————————————————————————————————————————————— TIMER  ——————————————————————————————————————————————————— //
 
-
-	function reset_timer()
-	{
-		stop_timer();
-
-		END_TIME = null;
-		window.sessionStorage.removeItem(`end_time`);
-
-		print_time(DURATION);
-	}
-
-
-	function start_timer()
-	{
-		stop_timer();
-
-		END_TIME = Date.now() + DURATION;
-		window.sessionStorage.setItem("end_time", END_TIME);
-
-		UPDATE_THREAD = setInterval(update_display, 200);
-	}
-
-
-	function stop_timer()
-	{
-		if(UPDATE_THREAD != null)
-		{
-			clearInterval(UPDATE_THREAD);
-			UPDATE_THREAD = null;
-		}
-	}
-
-
-	function update_display()
+	function countdown()
 	{
 		let remaining_time = 0;
-		if(END_TIME < Date.now())
+		if(window.sessionStorage.getItem("end_time") < Date.now())
 		{
 			stop_timer();
 			// ALARM
 		}
-		else /*if(window.sessionStorage.getItem("end_time"))*/
+		else
 		{
-			remaining_time = END_TIME - Date.now();
+			remaining_time = window.sessionStorage.getItem("end_time") - Date.now();
 		}
 
 		print_time(remaining_time);
 	}
 
 
-	// If a timer does not exist, start a timer
-	console.log(END_TIME);
-	if(END_TIME == null)
+	function load_timer()
 	{
-		console.log("Here1")
+		/*
+		SUMMARY: If an end time exists in storage, continue timer.
+		*/
+		if(UPDATE_THREAD == null)
+		{
+			UPDATE_THREAD = setInterval(countdown, 200);
+		}
+	}
+
+
+	function pause_timer()
+	{
+		/*
+		SUMMARY: Stops the countdown and saves the remaining time.
+		*/
+		if(UPDATE_THREAD != null)
+		{
+			stop_timer();
+
+			const end_time = window.sessionStorage.getItem("end_time");
+			window.sessionStorage.setItem("remaining_time", end_time - Date.now());
+			window.sessionStorage.removeItem("end_time");
+		}
+
+		set_page();
+	}
+
+
+	function reset_timer()
+	{
+		/*
+		SUMMARY: Stops a timer, resets the end time, and updates the display.
+		*/
+		stop_timer();
+
+		window.sessionStorage.removeItem(`end_time`);
+		window.sessionStorage.removeItem(`remaining_time`);
+
+		set_page();
+	}
+
+
+	function restart_timer()
+	{
+		/*
+		SUMMARY: Starts a timer as though page has loaded for first time
+		*/
+		reset_timer();
 		start_timer();
 	}
-	// If a timer does exist and is still active, load timer
-	else if(Date.now() < END_TIME)
+
+
+	function start_timer()
 	{
-		console.log("Here2")
-		load_timer();
+		/*
+		SUMMARY: Start a timer if none exists and continues for remaining amount if a timer does exist.
+		*/
+		// No paused timer, create a new timer
+		if(window.sessionStorage.getItem("remaining_time") == null)
+		{
+			let timer_duration = parseInt(window.sessionStorage.getItem("timer_duration"));
+			window.sessionStorage.setItem("end_time", Date.now() + timer_duration);
+		}
+		// Run paused timer
+		else
+		{
+			let remaining_time = parseInt(window.sessionStorage.getItem("remaining_time"));
+			window.sessionStorage.setItem("end_time", Date.now() + remaining_time);
+			window.sessionStorage.removeItem("remaining_time");  // time is no longer paused
+		}
+
+		UPDATE_THREAD = setInterval(countdown, 200);
+
+		set_page();
+	}
+
+
+	function stop_timer()
+	{
+		/*
+		SUMMARY: Stop the count down.
+		*/
+		if(UPDATE_THREAD != null)
+		{
+			clearInterval(UPDATE_THREAD);
+			UPDATE_THREAD = null;
+		}
+
+		set_page();
+	}
+
+
+	// ———————————————————————————————————————————————————— RUN  ———————————————————————————————————————————————————— //
+
+
+	// If a timer does not exist
+		// Start a timer for that duration
+	if(window.sessionStorage.getItem("end_time") == null)
+	{
+		window.sessionStorage.setItem("timer_duration", parse_duration_from_url());
+		start_timer();
+	}
+	// If a timer exists AND its duration is changed 
+		// Start a new timer
+	else if(window.sessionStorage.getItem("timer_duration") != parse_duration_from_url())
+	{
+		// invalidate the endtime
+		reset_timer();
+		window.sessionStorage.setItem("timer_duration", parse_duration_from_url());
+		start_timer();
+	}
+	// If a timer exists AND is paused,
+	//  do nothing
+	else if(window.sessionStorage.getItem("remaining_time") != null);
+	// If a timer exists AND its duration is unchanged
+		// Continue the timer
+	else if(window.sessionStorage.getItem("timer_duration") == parse_duration_from_url())
+	{
+		start_timer();
 	}
 
 </script>
