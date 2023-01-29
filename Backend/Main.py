@@ -52,12 +52,9 @@ def GET_ingredient(ingredient_name: str):
 @app.route("/timer/<string:duration>", methods=["GET"])
 def GET_timer(duration: str):
 	if(re.fullmatch(r"[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}", duration) is None):
-		raise Exception("")
+		raise Exception(f"Duration of '{duration}' is not of correct format 'HH:MM:SS'")
 
-	duration_times = [int(time) for time in duration.split(":")]
-	duration_ms = 3_600_000 * duration_times[0] + 60_000 * duration_times[1] + 1_000 * duration_times[2]
-
-	return render_template("timer.j2", duration=duration_ms)
+	return render_template("timer.j2")
 
 
 def main():
