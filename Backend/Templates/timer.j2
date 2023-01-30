@@ -14,7 +14,7 @@
 	<h1 id="time_h1">
 	</h1>
 
-	<div id="finished_div">
+	<div id="finished_h1">
 	</div>
 
 	<button id="reset_button" onclick="reset();">
@@ -34,6 +34,7 @@
 
 <script>
 	const TIME_H1 = document.getElementById("time_h1");
+	const FINISHED_H1 = document.getElementById("finished_h1");
 	const PAUSE_BUTTON = document.getElementById("pause_button");
 	const RESUME_BUTTON = document.getElementById("resume_button");
 	const START_BUTTON = document.getElementById("start_button");
@@ -78,43 +79,44 @@
 
 	function blink(element)
 	{
-		show_resume_button();
 		element.style.opacity = element.style.opacity == 0.0 ? 1.0 : 0.0;
+	}
+
+
+	function display_alarm()
+	{
+
 	}
 
 
 	function display_completed_timer()
 	{
-
+		show_start_button();
+		update_completed_time(get_session_var("end_time"));
 	}
 
 
 	function display_paused_timer()
 	{
 		show_resume_button();
-		update_time(Math.round(get_session_var("paused_remaining_duration")));
+		BLINK_THREAD = setInterval(() => { blink(TIME_H1); }, 750);
+		display_remaining_duration(get_session_var("paused_remaining_duration"));
 	}
 
 
 	function display_reset_timer()
 	{
-		
+		show_start_button();
+		stop_blink(TIME_H1);
+		display_remaining_duration(get_session_var("timer_duration"));
 	}
 
 
 	function display_running_timer()
 	{
 		show_pause_button();
-		update_time(Math.round(get_session_var("end_time") - Date.now()));
-	}
-
-
-	function reset_display()
-	{
 		stop_blink(TIME_H1);
-
-		show_start_button();
-		update_time(get_session_var("timer_duration"));
+		display_remaining_duration(get_session_var("end_time") - Date.now());
 	}
 
 
@@ -142,12 +144,6 @@
 	}
 
 
-	function show_time_h1()
-	{
-		TIME_H1.style.opacity = 1.0;
-	}
-
-
 	function stop_blink(element)
 	{
 		if(BLINK_THREAD != null)
@@ -160,34 +156,41 @@
 	}
 
 
-	function update_page()
+	function display_remaining_duration(remaining_duration_ms)
 	{
-		TIME_H1.style.opacity = 1.0;
+		const hours = Math.floor(remaining_duration_ms / 3_600_000);
+		const minutes = Math.floor((remaining_duration_ms % 3_600_000) / 60_000);
+		const seconds = Math.floor((remaining_duration_ms % 60_000) / 1_000);
 
-		// If timer is running.
-		if(window.sessionStorage.getItem("is_running") != null)
+		let remaining_duration_string = seconds;
+
+		if(minutes || hours)
 		{
-			show_pause_button();
-			update_time(Math.round(get_session_var("end_time") - Date.now()));
+			if(seconds < 10)
+			{
+				remaining_duration_string = `0${remaining_duration_string}`;
+			}
+
+			remaining_duration_string = `${minutes}:${remaining_duration_string}`;
 		}
-		// If timer is paused
-		else if(get_session_var("paused_remaining_duration"))
+
+		if(hours)
 		{
-			show_resume_button();
-			update_time(get_session_var("paused_remaining_duration"));
+			if(minutes < 10)
+			{
+				remaining_duration_string = `0${remaining_duration_string}`;
+			}
+
+			remaining_duration_string = `${hours}:${remaining_duration_string}`;
 		}
-		// If timer has completed
-		else
-		{
-			show_start_button();
-			update_time(get_session_var("timer_duration"));
-		}
+
+		TIME_H1.innerHTML = remaining_duration_string;
 	}
 
 
-	function update_time(duration_ms)
+	function update_completed_time(time_unix_ms)
 	{
-		TIME_H1.innerHTML = Math.round(duration_ms / 1_000);
+		FINISHED_H1.innerHTML = time_unix_ms;
 	}
 
 
@@ -195,21 +198,23 @@
 
 	function alarm()
 	{
-		reset_timer();
+		stop_timer();
+		display_completed_timer();
 		alert("Time is up");  // TODO: ALARM
-
 	}
+
 
 	function countdown()
 	{
+		/*
+		SUMMARY: Called by timer thread to determine state in countdown process.
+		*/
 		if(get_session_var("end_time") < Date.now())
 		{
 			return alarm();
 		}
 
-		let remaining_time = get_session_var("end_time") - Date.now();
-		update_time(remaining_time);
-		show_pause_button();
+		display_running_timer();
 	}
 
 
@@ -218,7 +223,7 @@
 	function load_timer()
 	{
 		/*
-		SUMMARY: If a remaining interval exists in storage, continue timer.
+		SUMMARY: Reinitializes the thread to countdown a timer.
 		*/
 		TIMER_THREAD = setInterval(countdown, 200);
 	}
@@ -256,7 +261,6 @@
 		SUMMARY: Resumes at timer after being paused.
 		*/
 		set_session_var("end_time", Date.now() + get_session_var("paused_remaining_duration"));
-
 		set_session_var("is_running", true);
 		window.sessionStorage.removeItem("paused_remaining_duration");
 
@@ -299,23 +303,20 @@
 	function pause()
 	{
 		pause_timer();
-
-		show_resume_button();
-		BLINK_THREAD = setInterval(() => { blink(TIME_H1); }, 750);
+		display_paused_timer();
 	}
 
 
 	function reset()
 	{
 		reset_timer();
-		reset_display();
+		display_reset_timer();
 	}
 
 
 	function resume()
 	{
 		resume_timer();
-		stop_blink(TIME_H1);
 		display_running_timer();
 	}
 
@@ -329,17 +330,21 @@
 
 	// ———————————————————————————————————————————————————— RUN  ———————————————————————————————————————————————————— //
 
-	// A timer has completed regardless of whether it was running
-	if(get_session_var("end_time") != null && get_session_var("end_time") <= Date.now())
+	// If the time has been changed.
+	if(get_session_var("timer_duration") != null && get_session_var("timer_duration") != parse_duration_from_url())
 	{
-		// Print completion time
+		reset_timer();
+		display_reset_timer();
+	}
+	// A timer has completed regardless of whether it was running
+	else if(get_session_var("end_time") != null && get_session_var("end_time") <= Date.now())
+	{
+		display_completed_timer();
 	}
 	// If timer is not complete && duration is unchanged
 		// Continue timer
-	else if(get_session_var("is_running") == true
-	  && get_session_var("timer_duration") == parse_duration_from_url()
-	  && get_session_var("end_time") > Date.now())
-	/* [IMPLICIT] && window.sessionStorage.getItem("timer_duration") != parse_duration_from_url() */
+	else if(get_session_var("is_running") == true && Date.now() < get_session_var("end_time"))
+	/* [IMPLICIT] && get_session_var("timer_duration") == parse_duration_from_url() */
 	{
 		load_timer();
 		display_running_timer();
@@ -355,7 +360,7 @@
 	else
 	{
 		reset_timer();  // invalidate the endtime
-		reset_display();
+		display_reset_timer();
 	}
 
 </script>
