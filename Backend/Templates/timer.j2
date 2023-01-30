@@ -43,7 +43,8 @@
 	// "paused_remaining_duration": Controls whether the timer is paused & how much time is remaining
 	// "timer_duration": Controls whether the current timer is valid
 
-	let UPDATE_THREAD = null;
+	let BLINK_THREAD = null;
+	let TIMER_THREAD = null;
 
 
 	function parse_duration_from_url()
@@ -61,12 +62,59 @@
 	}
 
 
+	function get_session_var(key)
+	{
+		return JSON.parse(window.sessionStorage.getItem(key));
+	}
+
+
+	function set_session_var(key, value)
+	{
+		window.sessionStorage.setItem(key, value);
+	}
+
+
 	// —————————————————————————————————————————————————— DISPLAY  —————————————————————————————————————————————————— //
 
-	function flash_time()
+	function blink(element)
 	{
 		show_resume_button();
-		TIME_H1.style.opacity = TIME_H1.style.opacity == 0.0 ? 1.0 : 0.0;
+		element.style.opacity = element.style.opacity == 0.0 ? 1.0 : 0.0;
+	}
+
+
+	function display_completed_timer()
+	{
+
+	}
+
+
+	function display_paused_timer()
+	{
+		show_resume_button();
+		update_time(Math.round(get_session_var("paused_remaining_duration")));
+	}
+
+
+	function display_reset_timer()
+	{
+		
+	}
+
+
+	function display_running_timer()
+	{
+		show_pause_button();
+		update_time(Math.round(get_session_var("end_time") - Date.now()));
+	}
+
+
+	function reset_display()
+	{
+		stop_blink(TIME_H1);
+
+		show_start_button();
+		update_time(get_session_var("timer_duration"));
 	}
 
 
@@ -94,6 +142,24 @@
 	}
 
 
+	function show_time_h1()
+	{
+		TIME_H1.style.opacity = 1.0;
+	}
+
+
+	function stop_blink(element)
+	{
+		if(BLINK_THREAD != null)
+		{
+			clearInterval(BLINK_THREAD);
+			BLINK_THREAD = null;
+		}
+
+		element.style.opacity = 1.0;
+	}
+
+
 	function update_page()
 	{
 		TIME_H1.style.opacity = 1.0;
@@ -102,57 +168,59 @@
 		if(window.sessionStorage.getItem("is_running") != null)
 		{
 			show_pause_button();
-
-			print_time(Math.round(window.sessionStorage.getItem("end_time") - Date.now()));
+			update_time(Math.round(get_session_var("end_time") - Date.now()));
 		}
 		// If timer is paused
-		else if(window.sessionStorage.getItem("paused_remaining_duration"))
+		else if(get_session_var("paused_remaining_duration"))
 		{
 			show_resume_button();
-
-			print_time(window.sessionStorage.getItem("paused_remaining_duration"));
+			update_time(get_session_var("paused_remaining_duration"));
 		}
 		// If timer has completed
 		else
 		{
 			show_start_button();
-
-			print_time(window.sessionStorage.getItem("timer_duration"));
+			update_time(get_session_var("timer_duration"));
 		}
 	}
 
 
-	function print_time(duration_ms)
+	function update_time(duration_ms)
 	{
 		TIME_H1.innerHTML = Math.round(duration_ms / 1_000);
 	}
 
 
-	// ——————————————————————————————————————————————————— TIMER  ——————————————————————————————————————————————————— //
+	// —————————————————————————————————————————————————— ACTIONS  —————————————————————————————————————————————————— //
+
+	function alarm()
+	{
+		reset_timer();
+		alert("Time is up");  // TODO: ALARM
+
+	}
 
 	function countdown()
 	{
-		let remaining_time = 0;
-		if(window.sessionStorage.getItem("end_time") < Date.now())
+		if(get_session_var("end_time") < Date.now())
 		{
-			reset_timer();
-			alert("Time is up");  // TODO: ALARM
-		}
-		else
-		{
-			remaining_time = window.sessionStorage.getItem("end_time") - Date.now();
+			return alarm();
 		}
 
-		update_page();
+		let remaining_time = get_session_var("end_time") - Date.now();
+		update_time(remaining_time);
+		show_pause_button();
 	}
 
+
+	// ——————————————————————————————————————————————————— TIMER  ——————————————————————————————————————————————————— //
 
 	function load_timer()
 	{
 		/*
 		SUMMARY: If a remaining interval exists in storage, continue timer.
 		*/
-		UPDATE_THREAD = setInterval(countdown, 200);
+		TIMER_THREAD = setInterval(countdown, 200);
 	}
 
 
@@ -163,11 +231,8 @@
 		*/
 		stop_timer();
 
-		const end_time = window.sessionStorage.getItem("end_time");
-		window.sessionStorage.setItem("paused_remaining_duration", end_time - Date.now());
+		set_session_var("paused_remaining_duration", get_session_var("end_time") - Date.now());
 		window.sessionStorage.removeItem("end_time");
-
-		UPDATE_THREAD = setInterval(flash_time, 750);
 	}
 
 
@@ -181,19 +246,21 @@
 		window.sessionStorage.removeItem("end_time");
 		window.sessionStorage.removeItem("is_running");
 		window.sessionStorage.removeItem("paused_remaining_duration");
+		set_session_var("timer_duration", parse_duration_from_url());
 	}
 
 
 	function resume_timer()
 	{
-		let remaining_time = parseInt(window.sessionStorage.getItem("paused_remaining_duration"));
-		window.sessionStorage.setItem("end_time", Date.now() + remaining_time);
+		/*
+		SUMMARY: Resumes at timer after being paused.
+		*/
+		set_session_var("end_time", Date.now() + get_session_var("paused_remaining_duration"));
 
-		window.sessionStorage.setItem("is_running", true);
+		set_session_var("is_running", true);
 		window.sessionStorage.removeItem("paused_remaining_duration");
 
-		clearInterval(UPDATE_THREAD);
-		UPDATE_THREAD = setInterval(countdown, 200);
+		TIMER_THREAD = setInterval(countdown, 200);
 	}
 
 
@@ -203,13 +270,12 @@
 		SUMMARY: Start a timer if none exists and continues for remaining amount if a timer does exist.
 		*/
 		// Since a timer has started, we can assume it is going based off of the URL.
-		window.sessionStorage.setItem("timer_duration", parse_duration_from_url());
+		let timer_duration = parse_duration_from_url();
+		set_session_var("timer_duration", timer_duration);
+		set_session_var("end_time", Date.now() + timer_duration);
+		set_session_var("is_running", true);
 
-		let timer_duration = parseInt(window.sessionStorage.getItem("timer_duration"));
-		window.sessionStorage.setItem("end_time", Date.now() + timer_duration);
-		window.sessionStorage.setItem("is_running", true);
-
-		UPDATE_THREAD = setInterval(countdown, 200);
+		TIMER_THREAD = setInterval(countdown, 200);
 	}
 
 
@@ -218,13 +284,13 @@
 		/*
 		SUMMARY: Stop the count down.
 		*/
-		if(UPDATE_THREAD != null)
+		if(TIMER_THREAD != null)
 		{
-			clearInterval(UPDATE_THREAD);
-			UPDATE_THREAD = null;
+			clearInterval(TIMER_THREAD);
+			TIMER_THREAD = null;
 		}
 
-		window.sessionStorage.removeItem("is_running");
+		set_session_var("is_running", false);
 	}
 
 
@@ -233,61 +299,63 @@
 	function pause()
 	{
 		pause_timer();
+
 		show_resume_button();
+		BLINK_THREAD = setInterval(() => { blink(TIME_H1); }, 750);
 	}
 
 
 	function reset()
 	{
 		reset_timer();
-		update_page();
+		reset_display();
 	}
 
 
 	function resume()
 	{
 		resume_timer();
-		update_page();
+		stop_blink(TIME_H1);
+		display_running_timer();
 	}
 
 
 	function start()
 	{
 		start_timer();
-		update_page();
+		display_running_timer();
 	}
 
 
 	// ———————————————————————————————————————————————————— RUN  ———————————————————————————————————————————————————— //
 
-
-	// A timer has completed
-	if(parseInt(window.sessionStorage.getItem("end_time")) <= Date.now())
+	// A timer has completed regardless of whether it was running
+	if(get_session_var("end_time") != null && get_session_var("end_time") <= Date.now())
 	{
 		// Print completion time
 	}
-	// If a timer's duration has changed 
-		// Start a new timer
-	else if(window.sessionStorage.getItem("timer_duration") != null
-	  && window.sessionStorage.getItem("timer_duration") != parse_duration_from_url())
-	{
-		reset_timer();  // invalidate the endtime
-		window.sessionStorage.setItem("timer_duration", parse_duration_from_url());
-		update_page();
-	}
 	// If timer is not complete && duration is unchanged
 		// Continue timer
-	else if(JSON.parse(window.sessionStorage.getItem("is_running")) == true
+	else if(get_session_var("is_running") == true
+	  && get_session_var("timer_duration") == parse_duration_from_url()
+	  && get_session_var("end_time") > Date.now())
 	/* [IMPLICIT] && window.sessionStorage.getItem("timer_duration") != parse_duration_from_url() */
-	  && parseInt(window.sessionStorage.getItem("end_time")) > Date.now())
 	{
 		load_timer();
-		update_page();
+		display_running_timer();
 	}
+	// If a paused timer exists,
+		// Load paused timer
+	else if(get_session_var("paused_remaining_duration") != null)
+	{
+		display_paused_timer();
+	}
+	// If a timer's duration has changed or the timer is not longer running.
+		// Setup page for new timer
 	else
 	{
-		window.sessionStorage.setItem("timer_duration", parse_duration_from_url());
-		update_page();
+		reset_timer();  // invalidate the endtime
+		reset_display();
 	}
 
 </script>
