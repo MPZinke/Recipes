@@ -27,26 +27,26 @@ INSERT INTO "Recipes" ("name", "rating", "serving_size", "total_time", "prep_tim
 ]');
 
 
-INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
-('', 'Salted Butter', '');
-INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
-('', 'White Sugar', '');
-INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
-('', 'Light Brown Sugar', '');
-INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
-('', 'Vanilla Extract', '');
-INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
-('', 'Eggs', '');
-INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
-('', 'All-Purose Flour', '');
-INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
-('', 'Baking Soda', '');
-INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
-('', 'Baking Powder', '');
-INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
-('', 'Sea Salt', '');
-INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
-('', 'Chocolate Chips', '');
+INSERT INTO "Ingredients" ("name") VALUES
+('Salted Butter');
+INSERT INTO "Ingredients" ("name") VALUES
+('Sugar');
+INSERT INTO "Ingredients" ("name") VALUES
+('Light Brown Sugar');
+INSERT INTO "Ingredients" ("name") VALUES
+('Vanilla Extract');
+INSERT INTO "Ingredients" ("name") VALUES
+('Eggs');
+INSERT INTO "Ingredients" ("name") VALUES
+('All-Purose Flour');
+INSERT INTO "Ingredients" ("name") VALUES
+('Baking Soda');
+INSERT INTO "Ingredients" ("name") VALUES
+('Baking Powder');
+INSERT INTO "Ingredients" ("name") VALUES
+('Sea Salt');
+INSERT INTO "Ingredients" ("name") VALUES
+('Chocolate Chips');
 
 
 
@@ -56,7 +56,7 @@ FROM
 (
 	VALUES
 	('Chocolate Chip Cookies', 'Salted Butter', 1, 'Cup', TRUE, 'Softened'),
-	('Chocolate Chip Cookies', 'White Sugar', 1, 'Cup', TRUE, 'Granulated'),
+	('Chocolate Chip Cookies', 'Sugar', 1, 'Cup', TRUE, 'Granulated'),
 	('Chocolate Chip Cookies', 'Light Brown Sugar', 1, 'Ground', TRUE, 'Packed'),
 	('Chocolate Chip Cookies', 'Vanilla Extract', 2, 'Tea Spoons', TRUE, ''),
 	('Chocolate Chip Cookies', 'Eggs', 2, 'Large', TRUE, ''),
@@ -64,7 +64,7 @@ FROM
 	('Chocolate Chip Cookies', 'Baking Soda', 1, 'Tea Spoon', TRUE, ''),
 	('Chocolate Chip Cookies', 'Baking Powder', 0.5, 'Tea Spoon', TRUE, ''),
 	('Chocolate Chip Cookies', 'Sea Salt', 1, 'Tea Spoon', FALSE, ''),
-	('Chocolate Chip Cookies', 'Chocolate Chips', 2, 'Cups', FALSE, '')
+	('Chocolate Chip Cookies', 'Chocolate Chips', 2, 'Cups', TRUE, '')
 ) AS "Temp"("Recipes.name", "Ingredients.name", "amount", "quantity", "is_required", "notes")
 JOIN "Recipes" ON "Temp"."Recipes.name" = "Recipes"."name"
 JOIN "Ingredients" ON "Temp"."Ingredients.name" = "Ingredients"."name";

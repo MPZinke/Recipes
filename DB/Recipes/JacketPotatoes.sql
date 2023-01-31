@@ -20,19 +20,18 @@ INSERT INTO "Recipes" ("name", "rating", "serving_size", "total_time", "instruct
 ]');
 
 
-
-INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
-('', 'Russet Potatoes', '');
-INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
-('', 'Sea Salt', '');
-INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
-('', 'Black Pepper', '');
-INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
-('', 'Chives', '');
-INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
-('', 'Salted Butter', '');
-INSERT INTO "Ingredients" ("brand", "name", "description") VALUES
-('', 'Sour Cream', '');
+INSERT INTO "Ingredients" ("name") VALUES
+('Russet Potatoes');
+INSERT INTO "Ingredients" ("name") VALUES
+('Sea Salt');
+INSERT INTO "Ingredients" ("name") VALUES
+('Black Pepper');
+INSERT INTO "Ingredients" ("name") VALUES
+('Chives');
+INSERT INTO "Ingredients" ("name") VALUES
+('Salted Butter');
+INSERT INTO "Ingredients" ("name") VALUES
+('Sour Cream');
 
 
 INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "quantity", "is_required", "notes")

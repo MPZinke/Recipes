@@ -38,17 +38,19 @@
 		{{ recipe.name() }}
 	</h1>
 	<table>
-		{% with ingredients = recipe.ingredients() %}
-			{% for ingredient in ingredients %}
-				<tr>
-					<td>
-						<a href="/ingredient/{{ ingredient.name() }}">
-							{{ ingredient.name() }}
-						</a>
-					</td>
-				</tr>
-			{% endfor %}
-		{% endwith %}
+		{% for ingredient in recipe.ingredients() %}
+			<tr>
+				<td>
+					{% if ingredient.amount() != 0 %}
+						{{ ingredient.amount() }}
+					{% endif %}
+					{{ ingredient.quantity() }}
+					<a href="/ingredient/{{ ingredient.name() }}">
+						{{ ingredient.name() }}
+					</a>
+				</td>
+			</tr>
+		{% endfor %}
 	</table>
 	<h2>
 		Instructions

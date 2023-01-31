@@ -11,8 +11,13 @@
 
 
 <div>
-	<h1 id="time_h1">
-	</h1>
+	<div>
+		<h3>
+			Remaining Time
+		</h3>
+		<h1 id="time_h1">
+		</h1>
+	</div>
 
 	<div id="finished_h1">
 	</div>
@@ -190,6 +195,14 @@
 
 	function update_completed_time(time_unix_ms)
 	{
+		let date = new Date(time_unix_ms);
+		let hours = date.getHours();
+		let minutes = "0" + date.getMinutes();
+		let seconds = "0" + date.getSeconds();
+
+		// Will display time in 10:30:23 format
+		let formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+
 		FINISHED_H1.innerHTML = time_unix_ms;
 	}
 

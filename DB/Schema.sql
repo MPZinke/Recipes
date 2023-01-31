@@ -21,7 +21,7 @@ CREATE TABLE "Ingredients"
 	"id" SERIAL NOT NULL PRIMARY KEY,
 	"is_deleted" BOOLEAN DEFAULT FALSE,
 	"brand" VARCHAR(64) NOT NULL DEFAULT '',
-	"name" VARCHAR(64) NOT NULL UNIQUE,
+	"name" VARCHAR(64) NOT NULL,
 	"description" TEXT NOT NULL DEFAULT '',
 	UNIQUE ("name", "brand")
 );
