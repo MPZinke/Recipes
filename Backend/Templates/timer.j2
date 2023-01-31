@@ -15,11 +15,16 @@
 		<h3>
 			Remaining Time
 		</h3>
-		<h1 id="time_h1">
+		<h1 id="time_h3">
 		</h1>
 	</div>
 
-	<div id="finished_h1">
+	<div id="completed_div" hidden>
+		<h3>
+			Completed At
+		</h3>
+		<h4 id="completed_h4">
+		</h4>
 	</div>
 
 	<button id="reset_button" onclick="reset();">
@@ -38,8 +43,9 @@
 
 
 <script>
-	const TIME_H1 = document.getElementById("time_h1");
-	const FINISHED_H1 = document.getElementById("finished_h1");
+	const TIME_H3 = document.getElementById("time_h3");
+	const COMPLETED_H4 = document.getElementById("completed_h4");
+	const COMPLETED_DIV = document.getElementById("completed_div");
 	const PAUSE_BUTTON = document.getElementById("pause_button");
 	const RESUME_BUTTON = document.getElementById("resume_button");
 	const START_BUTTON = document.getElementById("start_button");
@@ -81,6 +87,8 @@
 
 
 	// —————————————————————————————————————————————————— DISPLAY  —————————————————————————————————————————————————— //
+	// —————————————————————————————————————————————————— DISPLAY  —————————————————————————————————————————————————— //
+	// —————————————————————————————————————————————————————————————————————————————————————————————————————————————— //
 
 	function blink(element)
 	{
@@ -97,14 +105,15 @@
 	function display_completed_timer()
 	{
 		show_start_button();
-		update_completed_time(get_session_var("end_time"));
+		display_remaining_duration(0);
+		display_completed_time(get_session_var("end_time"));
 	}
 
 
 	function display_paused_timer()
 	{
 		show_resume_button();
-		BLINK_THREAD = setInterval(() => { blink(TIME_H1); }, 750);
+		BLINK_THREAD = setInterval(() => { blink(TIME_H3); }, 750);
 		display_remaining_duration(get_session_var("paused_remaining_duration"));
 	}
 
@@ -112,7 +121,7 @@
 	function display_reset_timer()
 	{
 		show_start_button();
-		stop_blink(TIME_H1);
+		stop_blink(TIME_H3);
 		display_remaining_duration(get_session_var("timer_duration"));
 	}
 
@@ -120,10 +129,17 @@
 	function display_running_timer()
 	{
 		show_pause_button();
-		stop_blink(TIME_H1);
+		stop_blink(TIME_H3);
 		display_remaining_duration(get_session_var("end_time") - Date.now());
 	}
 
+
+	function hide_completed_time()
+	{
+		COMPLETED_DIV.hidden = true;
+	}
+
+	// —————————————————————————————————————————————— DISPLAY::BUTTONS —————————————————————————————————————————————— //
 
 	function show_pause_button()
 	{
@@ -161,6 +177,23 @@
 	}
 
 
+	// ——————————————————————————————————————————— DISPLAY::HTML  SETTING ——————————————————————————————————————————— //
+
+	function display_completed_time(time_unix_ms)
+	{
+		let date = new Date(time_unix_ms);
+		let hours = date.getHours();
+		let minutes = "0" + date.getMinutes();
+		let seconds = "0" + date.getSeconds();
+
+		// Will display time in 10:30:23 format
+		let formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+
+		COMPLETED_H4.innerHTML = formattedTime;
+		COMPLETED_DIV.hidden = false;
+	}
+
+
 	function display_remaining_duration(remaining_duration_ms)
 	{
 		const hours = Math.floor(remaining_duration_ms / 3_600_000);
@@ -189,21 +222,7 @@
 			remaining_duration_string = `${hours}:${remaining_duration_string}`;
 		}
 
-		TIME_H1.innerHTML = remaining_duration_string;
-	}
-
-
-	function update_completed_time(time_unix_ms)
-	{
-		let date = new Date(time_unix_ms);
-		let hours = date.getHours();
-		let minutes = "0" + date.getMinutes();
-		let seconds = "0" + date.getSeconds();
-
-		// Will display time in 10:30:23 format
-		let formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-
-		FINISHED_H1.innerHTML = time_unix_ms;
+		TIME_H3.innerHTML = remaining_duration_string;
 	}
 
 
