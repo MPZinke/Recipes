@@ -12,7 +12,7 @@
 
 
 INSERT INTO "Recipes" ("name", "rating", "serving_size", "total_time", "prep_time", "cook_time", "instructions") VALUES
-('Chocolate Chip Cookies', 5, 36, INTERVAL '30 Minutes', INTERVAL '10 Minutes', INTERVAL '8 Minutes',  
+('Chocolate Chip Cookies', 5, 36, INTERVAL '30 MINUTES', INTERVAL '10 MINUTES', INTERVAL '8 MINUTES',  
 '[
 	"Preheat oven to 375 degrees Farenheit. Line a baking pan with parchment paper and set aside.",
 	"Mix flour, baking soda, salt, and baking powder in a bowl. Set aside.",
