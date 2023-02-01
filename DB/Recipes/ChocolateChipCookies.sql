@@ -50,21 +50,22 @@ INSERT INTO "Ingredients" ("name") VALUES
 ('Chocolate Chips');
 
 
-INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "quantity", "is_required", "notes")
-SELECT "Recipes"."id", "Ingredients"."id", "Temp"."amount", "Temp"."quantity", "Temp"."is_required", "Temp"."notes"
+INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")
+SELECT "Recipes"."id", "Ingredients"."id", "Temp"."amount", "Temp"."units", "Temp"."quality", "Temp"."is_required",
+  "Temp"."notes"
 FROM
 (
 	VALUES
-	('Chocolate Chip Cookies', 'Salted Butter', 1, 'cup', TRUE, 'softened'),
-	('Chocolate Chip Cookies', 'Sugar', 1, 'cup', TRUE, 'granulated'),
-	('Chocolate Chip Cookies', 'Light Brown Sugar', 1, 'cup', TRUE, 'packed'),
-	('Chocolate Chip Cookies', 'Vanilla Extract', 2, 'teaspoons', TRUE, ''),
-	('Chocolate Chip Cookies', 'Eggs', 2, 'large', TRUE, ''),
-	('Chocolate Chip Cookies', 'All-Purose Flour', 3, 'cups', TRUE, ''),
-	('Chocolate Chip Cookies', 'Baking Soda', 1, 'teaspoon', TRUE, ''),
-	('Chocolate Chip Cookies', 'Baking Powder', 0.5, 'teaspoon', TRUE, ''),
-	('Chocolate Chip Cookies', 'Sea Salt', 1, 'teaspoon', FALSE, ''),
-	('Chocolate Chip Cookies', 'Chocolate Chips', 2, 'cups', TRUE, '')
-) AS "Temp"("Recipes.name", "Ingredients.name", "amount", "quantity", "is_required", "notes")
+	('Chocolate Chip Cookies', 'Salted Butter', 1.0, ARRAY['Cup', 'Cups'], 'Softened', TRUE, ''),
+	('Chocolate Chip Cookies', 'Sugar', 1.0, ARRAY['Cup', 'Cups'], 'Granulated', TRUE, ''),
+	('Chocolate Chip Cookies', 'Light Brown Sugar', 1.0, ARRAY['Cup', 'Cups'], 'Packed', TRUE, ''),
+	('Chocolate Chip Cookies', 'Vanilla Extract', 2.0, ARRAY['Teaspoon', 'Teaspoon'], '', TRUE, ''),
+	('Chocolate Chip Cookies', 'Eggs', 2.0, ARRAY['', ''], 'Large', TRUE, ''),
+	('Chocolate Chip Cookies', 'All-Purose Flour', 3.0, ARRAY['Cup', 'Cups'], '', TRUE, ''),
+	('Chocolate Chip Cookies', 'Baking Soda', 1.0, ARRAY['Teaspoon', 'Teaspoon'], '', TRUE, ''),
+	('Chocolate Chip Cookies', 'Baking Powder', 0.5, ARRAY['Teaspoon', 'Teaspoon'], '', TRUE, ''),
+	('Chocolate Chip Cookies', 'Sea Salt', 1.0, ARRAY['Teaspoon', 'Teaspoon'], '', FALSE, ''),
+	('Chocolate Chip Cookies', 'Chocolate Chips', 2.0, ARRAY['Cup', 'Cups'], '', TRUE, '')
+) AS "Temp"("Recipes.name", "Ingredients.name", "amount", "units", "quality", "is_required", "notes")
 JOIN "Recipes" ON "Temp"."Recipes.name" = "Recipes"."name"
 JOIN "Ingredients" ON "Temp"."Ingredients.name" = "Ingredients"."name";

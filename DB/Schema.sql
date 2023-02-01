@@ -33,8 +33,9 @@ CREATE TABLE "RecipesIngredients"
 (
 	"id" SERIAL NOT NULL PRIMARY KEY,
 	"is_deleted" BOOLEAN DEFAULT FALSE,
-	"amount" INT DEFAULT 0,  -- 'TWO' 16oz cans; 0 means there is an unspecified amount
-	"quantity" VARCHAR(64) DEFAULT '',  -- 2 'SIXTEEN OZ' cans
+	"amount" NUMERIC(16,8) DEFAULT 0,
+	"units" VARCHAR(64)[] DEFAULT '{'''', ''''}',
+	"quality" VARCHAR(64) DEFAULT '',
 	"is_required" BOOLEAN DEFAULT TRUE,
 	"notes" TEXT NOT NULL DEFAULT '',
 	"Recipes.id" INT NOT NULL,

@@ -35,17 +35,18 @@ INSERT INTO "Ingredients" ("name") VALUES
 ('Sour Cream');
 
 
-INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "quantity", "is_required", "notes")
-SELECT "Recipes"."id", "Ingredients"."id", "Temp"."amount", "Temp"."quantity", "Temp"."is_required", "Temp"."notes"
+INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")
+SELECT "Recipes"."id", "Ingredients"."id", "Temp"."amount", "Temp"."units", "Temp"."quality", "Temp"."is_required",
+  "Temp"."notes"
 FROM
 (
 	VALUES
-	('Jacket Potatoes', 'Russet Potatoes', 1, 'Medium', TRUE, ''),
-	('Jacket Potatoes', 'Sea Salt', 0, 'Course', FALSE, ''),
-	('Jacket Potatoes', 'Black Pepper', 0, 'Ground', FALSE, ''),
-	('Jacket Potatoes', 'Chives', 0, '', FALSE, 'for garnish'),
-	('Jacket Potatoes', 'Salted Butter', 0, '', FALSE, ''),
-	('Jacket Potatoes', 'Sour Cream', 0, '', FALSE, '')
-) AS "Temp"("Recipes.name", "Ingredients.name", "amount", "quantity", "is_required", "notes")
+	('Jacket Potatoes', 'Russet Potatoes', 1.0, ARRAY['', ''], 'Medium', TRUE, ''),
+	('Jacket Potatoes', 'Sea Salt', 0.0, ARRAY['', ''], 'Course', FALSE, ''),
+	('Jacket Potatoes', 'Black Pepper', 0.0, ARRAY['', ''], 'Ground', FALSE, ''),
+	('Jacket Potatoes', 'Chives', 0.0, ARRAY['', ''], '', FALSE, 'For garnish'),
+	('Jacket Potatoes', 'Salted Butter', 0.0, ARRAY['', ''], '', FALSE, ''),
+	('Jacket Potatoes', 'Sour Cream', 0.0, ARRAY['', ''], '', FALSE, '')
+) AS "Temp"("Recipes.name", "Ingredients.name", "amount", "units", "quality", "is_required", "notes")
 JOIN "Recipes" ON "Temp"."Recipes.name" = "Recipes"."name"
 JOIN "Ingredients" ON "Temp"."Ingredients.name" = "Ingredients"."name";

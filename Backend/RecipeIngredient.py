@@ -1,5 +1,6 @@
 
 
+from decimal import Decimal
 from typing import TypeVar
 
 
@@ -11,13 +12,14 @@ RecipeIngredient = TypeVar("Recipe");
 
 
 class RecipeIngredient(Ingredient):
-	def __init__(self, *, id: int, is_deleted: bool, brand: str, name: str, description: str, amount: int,
-	  quantity: str, is_required: bool, notes: str, Ingredients_id: int):
+	def __init__(self, *, id: int, is_deleted: bool, brand: str, name: str, description: str, amount: Decimal,
+	  units: list[str], quality: str, is_required: bool, notes: str, Ingredients_id: int):
 		Ingredient.__init__(self, id=Ingredients_id, is_deleted=is_deleted, brand=brand, name=name,
 		  description=description)
 		self._id: int = id
-		self._amount: int = amount
-		self._quantity: str = quantity
+		self._amount: Decimal = amount
+		self._units: list[str] = units
+		self._quality: str = quality
 		self._is_required: bool = is_required
 		self._notes: str = notes
 
@@ -60,8 +62,16 @@ class RecipeIngredient(Ingredient):
 		return self._amount
 
 
-	def quantity(self) -> str:
-		return self._quantity
+	def unit(self, amount: Decimal) -> int:
+		return self._units[amount.as_integer_ratio()[0] > 1]
+
+
+	def units(self) -> int:
+		return self._units
+
+
+	def quality(self) -> str:
+		return self._quality
 
 
 	def is_required(self) -> bool:

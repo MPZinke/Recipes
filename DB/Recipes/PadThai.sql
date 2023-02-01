@@ -60,30 +60,31 @@ INSERT INTO "Ingredients" ("name") VALUES
 ('Creamy Peanut Butter');
 
 
-INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "quantity", "is_required", "notes")
-SELECT "Recipes"."id", "Ingredients"."id", "Temp"."amount", "Temp"."quantity", "Temp"."is_required", "Temp"."notes"
+INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")
+SELECT "Recipes"."id", "Ingredients"."id", "Temp"."amount", "Temp"."units", "Temp"."quality", "Temp"."is_required",
+  "Temp"."notes"
 FROM
 (
 	VALUES
 	-- For Noodles
-	('Pad Thai', 'Flat Rice Noodles', 8, 'Ounces', TRUE, 'Softened'),
-	('Pad Thai', 'Oil', 3, 'tablespoons', TRUE, ''),
-	('Pad Thai', 'Garlic Cloves', 3, '', TRUE, 'Minced'),
-	('Pad Thai', 'Chicken Breast', 8, '', TRUE, 'Or shrimp or extra-firm tofu. Cut into small pieces'),
-	('Pad Thai', 'Eggs', 2, '', TRUE, 'Scrambled'),
-	('Pad Thai', 'Bean Sprouts', 1, 'Cup', TRUE, 'Fresh'),
-	('Pad Thai', 'Red Bell Pepper', 1, '', TRUE, 'Thinly sliced'),
-	('Pad Thai', 'Green Onions', 3, '', TRUE, 'Chopped'),
-	('Pad Thai', 'Roasted Peanuts', 0, '1 ½ Cups', TRUE, 'Dry'),
-	('Pad Thai', 'Limes', 2, '', TRUE, 'Cut into wedges'),
-	('Pad Thai', 'Cilantro', 0, '1 ½ Cups', TRUE, 'Fresh, chopped'),
+	('Pad Thai', 'Flat Rice Noodles', 8.0, ARRAY['Ounce', 'Ounces'], 'Softened', TRUE, ''),
+	('Pad Thai', 'Oil', 3.0, ARRAY['Tablespoon', 'Tablespoons'], '', TRUE, ''),
+	('Pad Thai', 'Garlic Cloves', 3.0, ARRAY['', ''], 'Minced', TRUE, ''),
+	('Pad Thai', 'Chicken Breast', 8.0, ARRAY['', ''], '', TRUE, 'Or shrimp or extra-firm tofu. Cut into small pieces'),
+	('Pad Thai', 'Eggs', 2.0, ARRAY['', ''], '', TRUE, 'Scrambled'),
+	('Pad Thai', 'Bean Sprouts', 1.0, ARRAY['Cup', 'Cups'], 'Fresh', TRUE, ''),
+	('Pad Thai', 'Red Bell Pepper', 1.0, ARRAY['', ''], 'Thinly sliced', TRUE, ''),
+	('Pad Thai', 'Green Onions', 3.0, ARRAY['', ''], 'Chopped', TRUE, ''),
+	('Pad Thai', 'Roasted Peanuts', 1.5, ARRAY['Cup', 'Cups'], 'Dry', TRUE, ''),
+	('Pad Thai', 'Limes', 2.0, ARRAY['', ''], '', TRUE, 'Cut into wedges'),
+	('Pad Thai', 'Cilantro', 1.5, ARRAY['Cup', 'Cups'], 'Fresh, chopped', TRUE, ''),
 	-- For Sauce
-	('Pad Thai', 'Fish Sauce', 3, 'Tablespoons', TRUE, ''),
-	('Pad Thai', 'Low-Sodium Soy Sauce', 1, 'Tablespoon', TRUE, ''),
-	('Pad Thai', 'Light Brown Sugar', 5, 'Tablespoons', TRUE, ''),
-	('Pad Thai', 'Rice Vinegar', 2, 'Tablespoons', TRUE, 'Or Tamarind Paste'),
-	('Pad Thai', 'Sriracha', 1, 'Tablespoon', TRUE, 'Or more to taste'),
-	('Pad Thai', 'Creamy Peanut Butter', 2, 'Tablespoons', FALSE, '')
-) AS "Temp"("Recipes.name", "Ingredients.name", "amount", "quantity", "is_required", "notes")
+	('Pad Thai', 'Fish Sauce', 3.0, ARRAY['Tablespoon', 'Tablespoons'], '', TRUE, ''),
+	('Pad Thai', 'Low-Sodium Soy Sauce', 1.0, ARRAY['Tablespoon', 'Tablespoons'], '', TRUE, ''),
+	('Pad Thai', 'Light Brown Sugar', 5.0, ARRAY['Tablespoon', 'Tablespoons'], '', TRUE, ''),
+	('Pad Thai', 'Rice Vinegar', 2.0, ARRAY['Tablespoon', 'Tablespoons'], '', TRUE, 'Or Tamarind Paste'),
+	('Pad Thai', 'Sriracha', 1.0, ARRAY['Tablespoon', 'Tablespoons'], '', TRUE, 'Or more to taste'),
+	('Pad Thai', 'Creamy Peanut Butter', 2.0, ARRAY['Tablespoon', 'Tablespoons'], '', FALSE, '')
+) AS "Temp"("Recipes.name", "Ingredients.name", "amount", "units", "quality", "is_required", "notes")
 JOIN "Recipes" ON "Temp"."Recipes.name" = "Recipes"."name"
 JOIN "Ingredients" ON "Temp"."Ingredients.name" = "Ingredients"."name";

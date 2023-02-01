@@ -48,21 +48,22 @@ INSERT INTO "Ingredients" ("name") VALUES
 ('Chocolate Chips');
 
 
-INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "quantity", "is_required", "notes")
-SELECT "Recipes"."id", "Ingredients"."id", "Temp"."amount", "Temp"."quantity", "Temp"."is_required", "Temp"."notes"
+INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")
+SELECT "Recipes"."id", "Ingredients"."id", "Temp"."amount", "Temp"."units", "Temp"."quality", "Temp"."is_required",
+  "Temp"."notes"
 FROM
 (
 	VALUES
-	('Banana Bread', 'Sugar', 3, 'Cups', TRUE, ''),
-	('Banana Bread', 'All-Purose Flour', 3, 'Cups', TRUE, ''),
-	('Banana Bread', 'Salted Butter', 1, 'Cup Melted', TRUE, ''),
-	('Banana Bread', 'Eggs', 4, 'Large', TRUE, ''),
-	('Banana Bread', 'Banana', 2, 'Cups Mashed', TRUE, ''),
-	('Banana Bread', 'Butter Milk', 0, '½ Cup', TRUE, ''),
-	('Banana Bread', 'Baking Soda', 2, 'Teaspoons', TRUE, ''),
-	('Banana Bread', 'Vanilla Extract', 2, 'Teaspoons', TRUE, ''),
-	('Banana Bread', 'Pecans', 2, 'Cups Chopped', FALSE, ''),
-	('Banana Bread', 'Chocolate Chips', 2, 'Cups', FALSE, '')
-) AS "Temp"("Recipes.name", "Ingredients.name", "amount", "quantity", "is_required", "notes")
+	('Banana Bread', 'Sugar', 3.0, ARRAY['Cup', 'Cups'], '', TRUE, ''),
+	('Banana Bread', 'All-Purose Flour', 3.0, ARRAY['Cup', 'Cups'], '', TRUE, ''),
+	('Banana Bread', 'Salted Butter', 1.0, ARRAY['Cup', 'Cups'], 'Melted', TRUE, 'Melted'),
+	('Banana Bread', 'Eggs', 4.0, ARRAY['', ''], 'Large', TRUE, ''),
+	('Banana Bread', 'Banana', 2.0, ARRAY['Cup', 'Cups'], 'Mashed', TRUE, ''),
+	('Banana Bread', 'Butter Milk', 0.5, ARRAY['Cup', 'Cups'], '', TRUE, ''),
+	('Banana Bread', 'Baking Soda', 2.0, ARRAY['Teaspoon', 'Teaspoons'], '', TRUE, ''),
+	('Banana Bread', 'Vanilla Extract', 2.0, ARRAY['Teaspoon', 'Teaspoons'], '', TRUE, ''),
+	('Banana Bread', 'Pecans', 2.0, ARRAY['Cup', 'Cups'], 'Chopped', FALSE, ''),
+	('Banana Bread', 'Chocolate Chips', 2.0, ARRAY['Cup', 'Cups'], '', FALSE, '')
+) AS "Temp"("Recipes.name", "Ingredients.name", "amount", "units", "quality", "is_required", "notes")
 JOIN "Recipes" ON "Temp"."Recipes.name" = "Recipes"."name"
 JOIN "Ingredients" ON "Temp"."Ingredients.name" = "Ingredients"."name";

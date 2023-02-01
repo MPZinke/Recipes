@@ -11,17 +11,6 @@
 
 
 {% macro list_steps(listed_steps) %}
-	<ul>
-		{% for step in listed_steps %}
-			<li>
-				{{ step | replace_timer() }}
-			</li>
-		{% endfor %}
-	</ul>
-{% endmacro %}
-
-
-{% macro list_steps(listed_steps) %}
 	{% for step in listed_steps %}
 		<div>
 			<input type="checkbox" onclick="strikethrough_text(this);" />
@@ -94,10 +83,11 @@
 		{% for ingredient in recipe.ingredients() %}
 			<tr>
 				<td>
-					{% if ingredient.amount() != 0 %}
-						{{ ingredient.amount() }}
+					{% if ingredient.amount() != 0.0 %}
+						{{ (ingredient.amount()) | format_decimal() }}
 					{% endif %}
-					{{ ingredient.quantity() }}
+					{{ ingredient.unit(ingredient.amount()) }}
+					{{ ingredient.quality() }}
 					<a href="/ingredient/{{ ingredient.name() }}">{{ ingredient.name() }}</a>
 					{% if ingredient.notes() != "" %}
 						—
@@ -134,22 +124,14 @@
 		function strikethrough_text(element)
 		{
 			const instruction_div = element.parentElement;
-			if(instruction_div.style.color != "rgb(102, 102, 102)")
+			if(instruction_div.style.color != "var(--disabled-text-color)")
 			{
-				instruction_div.style.color = "#666666";
+				instruction_div.style.color = "var(--disabled-text-color)";
 			}
 			else
 			{
-				instruction_div.style.color = "#DDDDDD";
+				instruction_div.style.color = "var(--text-color)";
 			}
-			// if(instruction_div.style.textDecoration != "line-through")
-			// {
-			// 	instruction_div.style.textDecoration = "line-through";
-			// }
-			// else
-			// {
-			// 	instruction_div.style.textDecoration = "none";
-			// }
 		}
 	</script>
 {% endblock %}

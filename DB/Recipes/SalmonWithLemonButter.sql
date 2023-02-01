@@ -66,23 +66,23 @@ INSERT INTO "Ingredients" ("name") VALUES
 ('Lemon Slices');
 
 
-INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "quantity", "is_required", "notes")
-SELECT "Recipes"."id", "Ingredients"."id", "Temp"."amount", "Temp"."quantity", "Temp"."is_required", "Temp"."notes"
+INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")
+SELECT "Recipes"."id", "Ingredients"."id", "Temp"."amount", "Temp"."units", "Temp"."quality", "Temp"."is_required", "Temp"."notes"
 FROM
 (
 	VALUES
-	('Salmon with Lemon Butter', 'Skinless Salmon Fillets', 4, '', TRUE, '6 Ounces, 1" thick'),
-	('Salmon with Lemon Butter', 'Salt', 0, '', TRUE, ''),
-	('Salmon with Lemon Butter', 'Ground Pepper', 0, '', TRUE, ''),
-	('Salmon with Lemon Butter', 'Olive Oil', 2, 'Teaspoons', TRUE, ''),
-	('Salmon with Lemon Butter', 'Garlic', 2, 'Cloves', TRUE, 'Minced'),
-	('Salmon with Lemon Butter', 'Low-Sodium Chicken Broth', 0, '¼ Cup', TRUE, ''),
-	('Salmon with Lemon Butter', 'Lemon Juice', 2, 'Tablespoons', TRUE, ''),
-	('Salmon with Lemon Butter', 'Unsalted Butter', 3, 'Tablespoons', TRUE, 'Chopped into 1 tablespoon pieces'),
-	('Salmon with Lemon Butter', 'Unsalted Butter', 1, 'Teaspoon', TRUE, ''),
-	('Salmon with Lemon Butter', 'Honey', 0, '½ Teaspoon', TRUE, ''),
-	('Salmon with Lemon Butter', 'Fresh Parsley', 2, 'Tablespoons', TRUE, ''),
-	('Salmon with Lemon Butter', 'Lemon Slicies', 0, '', FALSE, 'for garnish')
-) AS "Temp"("Recipes.name", "Ingredients.name", "amount", "quantity", "is_required", "notes")
+	('Salmon with Lemon Butter', 'Skinless Salmon Fillets', 4, ARRAY['6oz, 1" thick', '6oz, 1" thick'], '', TRUE, ''),
+	('Salmon with Lemon Butter', 'Salt', 0, ARRAY['', ''], '', TRUE, ''),
+	('Salmon with Lemon Butter', 'Ground Pepper', 0, ARRAY['', ''], '', TRUE, ''),
+	('Salmon with Lemon Butter', 'Olive Oil', 2, ARRAY['Teaspoon', 'Teaspoons'], '', TRUE, ''),
+	('Salmon with Lemon Butter', 'Garlic', 2, ARRAY['Clove', 'Cloves'], 'Minced', TRUE, ''),
+	('Salmon with Lemon Butter', 'Low-Sodium Chicken Broth', 0.25, ARRAY['Cup', 'Cups'], '', TRUE, ''),
+	('Salmon with Lemon Butter', 'Lemon Juice', 2.0, ARRAY['Tablespoon', 'Tablespoons'], '', TRUE, ''),
+	('Salmon with Lemon Butter', 'Unsalted Butter', 3.0, ARRAY['Tablespoon', 'Tablespoons'], '', TRUE, 'Chop into 1 tablespoon pieces'),
+	('Salmon with Lemon Butter', 'Unsalted Butter', 1, ARRAY['Teaspoon', 'Teaspoons'], '', TRUE, ''),
+	('Salmon with Lemon Butter', 'Honey', 0.5, ARRAY['Teaspoon', 'Teaspoons'], '', TRUE, ''),
+	('Salmon with Lemon Butter', 'Fresh Parsley', 2.0, ARRAY['Tablespoon', 'Tablespoons'], '', TRUE, ''),
+	('Salmon with Lemon Butter', 'Lemon Slicies', 0, ARRAY['', ''],  '', FALSE, 'for garnish')
+) AS "Temp"("Recipes.name", "Ingredients.name", "amount", "units", "quality", "is_required", "notes")
 JOIN "Recipes" ON "Temp"."Recipes.name" = "Recipes"."name"
 JOIN "Ingredients" ON "Temp"."Ingredients.name" = "Ingredients"."name";
