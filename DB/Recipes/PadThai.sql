@@ -73,9 +73,9 @@ FROM
 	('Pad Thai', 'Bean Sprouts', 1, 'Cup', TRUE, 'Fresh'),
 	('Pad Thai', 'Red Bell Pepper', 1, '', TRUE, 'Thinly Sliced'),
 	('Pad Thai', 'Green Onions', 3, '', TRUE, 'Chopped'),
-	('Pad Thai', 'Roasted Peanuts', 1.5, 'Cups', TRUE, 'Dry'),
+	('Pad Thai', 'Roasted Peanuts', 0, '1 ½ Cups', TRUE, 'Dry'),
 	('Pad Thai', 'Limes', 2, '', TRUE, 'Cut into wedges'),
-	('Pad Thai', 'Cilantro', 1.5, 'Cups', TRUE, 'Fresh, Chopped'),
+	('Pad Thai', 'Cilantro', 0, '1 ½ Cups', TRUE, 'Fresh, Chopped'),
 	-- For Sauce
 	('Pad Thai', 'Fish Sauce', 3, 'Tablespoons', TRUE, ''),
 	('Pad Thai', 'Low-Sodium Soy Sauce', 1, 'Tablespoon', TRUE, ''),
