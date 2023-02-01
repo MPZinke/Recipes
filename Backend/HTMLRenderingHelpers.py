@@ -18,7 +18,7 @@ def format_decimal(value: Decimal) -> str:
 		integer_value_str = str(integer_value) if(integer_value) else ""
 		return f"{integer_value_str}{fractions[decimal_value]}"
 
-	return round(value, 2)
+	return str(round(value, 2))
 
 
 def replace_timer(line: str) -> str:

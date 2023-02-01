@@ -10,11 +10,11 @@ Ingredient = TypeVar("Ingredient");
 
 
 class Ingredient:
-	def __init__(self, *, id: int, is_deleted: bool, brand: str, name: str, description: str):
+	def __init__(self, *, id: int, is_deleted: bool, brand: str, names: list[str], description: str):
 		self._id: int = id
 		self._is_deleted: bool = is_deleted
 		self._brand: str = brand
-		self._name: str = name
+		self._names: list[str] = names
 		self._description: str = description
 
 
@@ -38,8 +38,8 @@ class Ingredient:
 		return self._brand
 
 
-	def name(self) -> str:
-		return self._name
+	def names(self) -> list[str]:
+		return self._names
 
 
 	def description(self) -> str:
