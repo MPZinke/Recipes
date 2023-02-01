@@ -44,7 +44,6 @@ def GET_recipes():
 @app.route("/recipe/<string:recipe_name>", methods=["GET"])
 def GET_recipe(recipe_name: str):
 	recipe: Recipe = Recipe.from_name(recipe_name)
-	print(type(recipe.total_time()))
 	return render_template("recipe.j2", recipe=recipe)
 
 

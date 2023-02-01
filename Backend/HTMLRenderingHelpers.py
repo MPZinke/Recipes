@@ -1,9 +1,17 @@
 
 
+from datetime import timedelta
 import re
 
 
-def replace_timer(line) -> str:
+def replace_timer(line: str) -> str:
+	"""
+	SUMMARY: Converts a timer tag in a line into a link to the timer endpoint.
+	PARAMS:  Takes the line to search through and replace.
+	DETAILS: Uses a regex to determine the timer tags. For each tag, the duration is converted to a spelled out version
+	         link to the timer endpoint.
+	RETURNS: A version of the line with tags replaced with links
+	"""
 	timer_flag_regex = r"""\$\{timer::(?P<duration>[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2})\}"""
 	if(len(durations := re.findall(timer_flag_regex, line)) == 0):
 		return line

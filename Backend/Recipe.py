@@ -105,10 +105,3 @@ class Recipe(object):
 
 	def ingredients(self) -> list[RecipeIngredient]:
 		return self._ingredients
-
-
-	# ——————————————————————————————————————————————————— HELPERS  ——————————————————————————————————————————————————— #
-
-	@staticmethod
-	def zero_duration(self=None):
-		return timedelta(seconds=0)

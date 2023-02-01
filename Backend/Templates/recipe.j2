@@ -49,19 +49,19 @@
 			</td>
 		</tr>
 		<tr>
-			{% if recipe.total_time() != recipe.zero_duration() %}
+			{% if recipe.total_time().total_seconds() != 0 %}
 				<td style="border-left: 1px solid #cdd0d4; padding-left: 8px; padding-right: 8px;">
 					Total Time:
 					{{ recipe.total_time() }}
 				</td>
 			{% endif %}
-			{% if recipe.prep_time() != recipe.zero_duration() %}
+			{% if recipe.prep_time().total_seconds() != 0 %}
 				<td style="border-left: 1px solid #cdd0d4; padding-left: 8px; padding-right: 8px;">
 					Prep Time:
 					{{ recipe.prep_time() }}
 				</td>
 			{% endif %}
-			{% if recipe.cook_time() != recipe.zero_duration() %}
+			{% if recipe.cook_time().total_seconds() != 0 %}
 				<td style="border-left: 1px solid #cdd0d4; padding-left: 8px; padding-right: 8px;">
 					Cook Time:
 					{{ recipe.cook_time() }}
@@ -86,11 +86,17 @@
 						{{ ingredient.amount() }}
 					{% endif %}
 					{{ ingredient.quantity() }}
-					<a href="/ingredient/{{ ingredient.name() }}">
-						{{ ingredient.name() }}
-					</a>
-					{% if ingredient.notes() != '' %}
-						{{ ingredient.notes() }}
+					<a href="/ingredient/{{ ingredient.name() }}">{{ ingredient.name() }}</a>
+					{% if ingredient.notes() != "" %}
+						—
+						<i>
+							{{ ingredient.notes() }}
+						</i>
+					{% endif %}
+					{% if ingredient.is_required() == False %}
+						<b>
+						OPTIONAL
+						</b>
 					{% endif %}
 				</td>
 			</tr>

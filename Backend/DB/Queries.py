@@ -59,7 +59,8 @@ def SELECT_ALL_FROM_RecipesIngredients_WHERE_Recipes_id(cursor, Recipe_id: int) 
 		FROM "RecipesIngredients"
 		JOIN "Ingredients" ON "RecipesIngredients"."Ingredients.id" = "Ingredients"."id"
 		WHERE "RecipesIngredients"."Recipes.id" = %s
-		  AND "RecipesIngredients"."is_deleted" = FALSE;
+		  AND "RecipesIngredients"."is_deleted" = FALSE
+		ORDER BY "RecipesIngredients"."is_required" DESC;
 	"""
 	cursor.execute(query, (Recipe_id,))
 	return [recipe_ingredient for recipe_ingredient in cursor]
