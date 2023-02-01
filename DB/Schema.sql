@@ -34,7 +34,7 @@ CREATE TABLE "RecipesIngredients"
 	"id" SERIAL NOT NULL PRIMARY KEY,
 	"is_deleted" BOOLEAN DEFAULT FALSE,
 	"amount" NUMERIC(16,8) DEFAULT 0,
-	"units" VARCHAR(64)[] DEFAULT '{'''', ''''}',
+	"units" VARCHAR(64)[] DEFAULT ARRAY['', ''],
 	"quality" VARCHAR(64) DEFAULT '',
 	"is_required" BOOLEAN DEFAULT TRUE,
 	"notes" TEXT NOT NULL DEFAULT '',

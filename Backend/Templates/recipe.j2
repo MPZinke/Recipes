@@ -84,7 +84,7 @@
 			<tr>
 				<td>
 					{% if ingredient.amount() != 0.0 %}
-						{{ (ingredient.amount()) | format_decimal() }}
+						{{ ingredient.amount() | format_decimal() }}
 					{% endif %}
 					{{ ingredient.unit(ingredient.amount()) }}
 					{{ ingredient.quality() }}
