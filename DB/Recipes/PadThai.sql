@@ -65,24 +65,24 @@ FROM
 (
 	VALUES
 	-- For Noodles
-	('Pad Thai', 'Flat Rice Noodles', 8, 'Ounces', TRUE, 'Softened'),
-	('Pad Thai', 'Oil', 3, 'Tablespoons', TRUE, ''),
-	('Pad Thai', 'Garlic Cloves', 3, '', TRUE, 'Minced'),
-	('Pad Thai', 'Chicken Breast', 8, '', TRUE, 'Or shrimp or extra-firm tofu. Cut into small pieces'),
-	('Pad Thai', 'Eggs', 2, '', TRUE, 'Scrambled'),
-	('Pad Thai', 'Bean Sprouts', 1, 'Cup', TRUE, 'Fresh'),
-	('Pad Thai', 'Red Bell Pepper', 1, '', TRUE, 'Thinly Sliced'),
-	('Pad Thai', 'Green Onions', 3, '', TRUE, 'Chopped'),
-	('Pad Thai', 'Roasted Peanuts', 0, '1 ½ Cups', TRUE, 'Dry'),
-	('Pad Thai', 'Limes', 2, '', TRUE, 'Cut into wedges'),
-	('Pad Thai', 'Cilantro', 0, '1 ½ Cups', TRUE, 'Fresh, Chopped'),
+	('Pad Thai', 'Flat Rice Noodles', 8, 'ounces', TRUE, 'softened'),
+	('Pad Thai', 'Oil', 3, 'tablespoons', TRUE, ''),
+	('Pad Thai', 'Garlic Cloves', 3, '', TRUE, 'minced'),
+	('Pad Thai', 'Chicken Breast', 8, '', TRUE, 'or shrimp or extra-firm tofu. Cut into small pieces'),
+	('Pad Thai', 'Eggs', 2, '', TRUE, 'scrambled'),
+	('Pad Thai', 'Bean Sprouts', 1, 'cup', TRUE, 'fresh'),
+	('Pad Thai', 'Red Bell Pepper', 1, '', TRUE, 'thinly sliced'),
+	('Pad Thai', 'Green Onions', 3, '', TRUE, 'chopped'),
+	('Pad Thai', 'Roasted Peanuts', 0, '1 ½ cups', TRUE, 'dry'),
+	('Pad Thai', 'Limes', 2, '', TRUE, 'cut into wedges'),
+	('Pad Thai', 'Cilantro', 0, '1 ½ cups', TRUE, 'fresh, chopped'),
 	-- For Sauce
-	('Pad Thai', 'Fish Sauce', 3, 'Tablespoons', TRUE, ''),
-	('Pad Thai', 'Low-Sodium Soy Sauce', 1, 'Tablespoon', TRUE, ''),
-	('Pad Thai', 'Light Brown Sugar', 5, 'Tablespoons', TRUE, ''),
-	('Pad Thai', 'Rice Vinegar', 2, 'Tablespoons', TRUE, 'or Tamarind Paste'),
-	('Pad Thai', 'Sriracha', 1, 'Tablespoon', TRUE, 'or more to taste'),
-	('Pad Thai', 'Creamy Peanut Butter', 2, 'Tablespoons', FALSE, '')
+	('Pad Thai', 'Fish Sauce', 3, 'tablespoons', TRUE, ''),
+	('Pad Thai', 'Low-Sodium Soy Sauce', 1, 'tablespoon', TRUE, ''),
+	('Pad Thai', 'Light Brown Sugar', 5, 'tablespoons', TRUE, ''),
+	('Pad Thai', 'Rice Vinegar', 2, 'tablespoons', TRUE, 'or Tamarind Paste'),
+	('Pad Thai', 'Sriracha', 1, 'tablespoon', TRUE, 'or more to taste'),
+	('Pad Thai', 'Creamy Peanut Butter', 2, 'tablespoons', FALSE, '')
 ) AS "Temp"("Recipes.name", "Ingredients.name", "amount", "quantity", "is_required", "notes")
 JOIN "Recipes" ON "Temp"."Recipes.name" = "Recipes"."name"
 JOIN "Ingredients" ON "Temp"."Ingredients.name" = "Ingredients"."name";

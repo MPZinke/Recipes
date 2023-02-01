@@ -54,16 +54,16 @@ SELECT "Recipes"."id", "Ingredients"."id", "Temp"."amount", "Temp"."quantity", "
 FROM
 (
 	VALUES
-	('Chocolate Chip Cookies', 'Salted Butter', 1, 'Cup', TRUE, 'Softened'),
-	('Chocolate Chip Cookies', 'Sugar', 1, 'Cup', TRUE, 'Granulated'),
-	('Chocolate Chip Cookies', 'Light Brown Sugar', 1, 'Ground', TRUE, 'Packed'),
-	('Chocolate Chip Cookies', 'Vanilla Extract', 2, 'Tea Spoons', TRUE, ''),
-	('Chocolate Chip Cookies', 'Eggs', 2, 'Large', TRUE, ''),
-	('Chocolate Chip Cookies', 'All-Purose Flour', 3, 'Cups', TRUE, ''),
-	('Chocolate Chip Cookies', 'Baking Soda', 1, 'Tea Spoon', TRUE, ''),
-	('Chocolate Chip Cookies', 'Baking Powder', 0.5, 'Tea Spoon', TRUE, ''),
-	('Chocolate Chip Cookies', 'Sea Salt', 1, 'Tea Spoon', FALSE, ''),
-	('Chocolate Chip Cookies', 'Chocolate Chips', 2, 'Cups', TRUE, '')
+	('Chocolate Chip Cookies', 'Salted Butter', 1, 'cup', TRUE, 'softened'),
+	('Chocolate Chip Cookies', 'Sugar', 1, 'cup', TRUE, 'granulated'),
+	('Chocolate Chip Cookies', 'Light Brown Sugar', 1, 'cup', TRUE, 'packed'),
+	('Chocolate Chip Cookies', 'Vanilla Extract', 2, 'teaspoons', TRUE, ''),
+	('Chocolate Chip Cookies', 'Eggs', 2, 'large', TRUE, ''),
+	('Chocolate Chip Cookies', 'All-Purose Flour', 3, 'cups', TRUE, ''),
+	('Chocolate Chip Cookies', 'Baking Soda', 1, 'teaspoon', TRUE, ''),
+	('Chocolate Chip Cookies', 'Baking Powder', 0.5, 'teaspoon', TRUE, ''),
+	('Chocolate Chip Cookies', 'Sea Salt', 1, 'teaspoon', FALSE, ''),
+	('Chocolate Chip Cookies', 'Chocolate Chips', 2, 'cups', TRUE, '')
 ) AS "Temp"("Recipes.name", "Ingredients.name", "amount", "quantity", "is_required", "notes")
 JOIN "Recipes" ON "Temp"."Recipes.name" = "Recipes"."name"
 JOIN "Ingredients" ON "Temp"."Ingredients.name" = "Ingredients"."name";

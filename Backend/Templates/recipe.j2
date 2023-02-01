@@ -100,6 +100,9 @@
 					<a href="/ingredient/{{ ingredient.name() }}">
 						{{ ingredient.name() }}
 					</a>
+					{% if ingredient.notes() != '' %}
+						{{ ingredient.notes() }}
+					{% endif %}
 				</td>
 			</tr>
 		{% endfor %}

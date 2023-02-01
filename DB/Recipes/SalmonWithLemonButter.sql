@@ -63,15 +63,15 @@ FROM
 	('Salmon with Lemon Butter', 'Skinless Salmon Fillets', 4, '', TRUE, '6 ounces, 1 inch thick'),
 	('Salmon with Lemon Butter', 'Salt', 0, '', TRUE, ''),
 	('Salmon with Lemon Butter', 'Ground Pepper', 0, '', TRUE, ''),
-	('Salmon with Lemon Butter', 'Olive Oil', 2, 'Teaspoons', TRUE, ''),
-	('Salmon with Lemon Butter', 'Garlic', 2, 'Cloves', TRUE, 'Minced'),
-	('Salmon with Lemon Butter', 'Low-Sodium Chicken Broth', 0, '¼ Cup', TRUE, ''),
-	('Salmon with Lemon Butter', 'Lemon Juice', 2, 'Tablespoons', TRUE, ''),
-	('Salmon with Lemon Butter', 'Unsalted Butter', 3, 'Tablespoons', TRUE, 'Chopped into 1 tablespoon pieces'),
-	('Salmon with Lemon Butter', 'Unsalted Butter', 1, 'Teaspoon', TRUE, ''),
-	('Salmon with Lemon Butter', 'Honey', 0, '½ Teaspoon', TRUE, ''),
-	('Salmon with Lemon Butter', 'Fresh Parsley', 2, 'Tablespoons', TRUE, ''),
-	('Salmon with Lemon Butter', 'Lemon Slicies', 0, '', FALSE, 'For garnish')
+	('Salmon with Lemon Butter', 'Olive Oil', 2, 'teaspoons', TRUE, ''),
+	('Salmon with Lemon Butter', 'Garlic', 2, 'cloves', TRUE, 'minced'),
+	('Salmon with Lemon Butter', 'Low-Sodium Chicken Broth', 0, '¼ cup', TRUE, ''),
+	('Salmon with Lemon Butter', 'Lemon Juice', 2, 'tablespoons', TRUE, ''),
+	('Salmon with Lemon Butter', 'Unsalted Butter', 3, 'tablespoons', TRUE, 'chopped into 1 tablespoon pieces'),
+	('Salmon with Lemon Butter', 'Unsalted Butter', 1, 'teaspoon', TRUE, ''),
+	('Salmon with Lemon Butter', 'Honey', 0, '½ teaspoon', TRUE, ''),
+	('Salmon with Lemon Butter', 'Fresh Parsley', 2, 'tablespoons', TRUE, ''),
+	('Salmon with Lemon Butter', 'Lemon Slicies', 0, '', FALSE, 'for garnish')
 ) AS "Temp"("Recipes.name", "Ingredients.name", "amount", "quantity", "is_required", "notes")
 JOIN "Recipes" ON "Temp"."Recipes.name" = "Recipes"."name"
 JOIN "Ingredients" ON "Temp"."Ingredients.name" = "Ingredients"."name";
