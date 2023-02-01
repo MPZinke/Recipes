@@ -11,13 +11,13 @@
 ***********************************************************************************************************************/
 
 
-INSERT INTO "Recipes" ("name", "rating", "serving_size", "total_time", "instructions") VALUES
-('Banana Bread', 5, 3, INTERVAL '4 HOURS', 
+INSERT INTO "Recipes" ("name", "rating", "serving_size", "total_time", "cook_time", "prep_time", "instructions") VALUES
+('Banana Bread', 5, 3, INTERVAL '1 HOURS 20 MINUTES', INTERVAL '50 MINUTES', INTERVAL '30 MINUTES',
 '[
 	"Combine and stir dry ingredients.",
 	"Combine and stir wet ingredients.",
-	"Combine mixtures. Do not over stir",
-	"Optionally add pecans",
+	"Combine mixtures. Do not over stir.",
+	"Optionally add pecans.",
 	"Bake at 350°F for approximately ${timer::00:50:00} or until the toothpick comes out clean.",
 	"Enjoy!"
 ]');
@@ -52,7 +52,7 @@ FROM
 	VALUES
 	('Banana Bread', 'Sugar', 3, 'Cups', TRUE, ''),
 	('Banana Bread', 'All-Purose Flour', 3, 'Cups', TRUE, ''),
-	('Banana Bread', 'Salted Butter', 1, 'Cup', TRUE, ''),
+	('Banana Bread', 'Salted Butter', 1, 'Cup Melted', TRUE, ''),
 	('Banana Bread', 'Eggs', 4, 'Large', TRUE, ''),
 	('Banana Bread', 'Banana', 2, 'Cups Mashed', TRUE, ''),
 	('Banana Bread', 'Butter Milk', 0, '½ Cup', TRUE, ''),

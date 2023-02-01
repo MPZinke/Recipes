@@ -20,7 +20,7 @@ INSERT INTO "Recipes" ("name", "rating", "serving_size", "total_time", "prep_tim
 	"Beat in eggs and vanilla until fluffy.",
 	"Mix in the dry ingredients until combined.",
 	"Add 12 oz package of chocolate chips and mix well.",
-	"Roll 2-3 TBS of dough at a time into balls and place them evenly spaced on your prepared cookie sheets.",
+	"Roll 2-3 Table Spoons of dough at a time into balls and place them evenly spaced on your prepared cookie sheets.",
 	"Bake in preheated oven for approximately 8-10 minutes. Take them out when they are just BARELY starting to turn brown.",
 	"Let them sit on the baking pan for 2 minutes before removing to cooling rack.",
 	"Repeat until all cookies dough has been baked."
@@ -47,7 +47,6 @@ INSERT INTO "Ingredients" ("name") VALUES
 ('Sea Salt');
 INSERT INTO "Ingredients" ("name") VALUES
 ('Chocolate Chips');
-
 
 
 INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "quantity", "is_required", "notes")

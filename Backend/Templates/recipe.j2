@@ -34,9 +34,61 @@
 
 {% extends "header.j2" %}
 {% block body %}
+	<title>
+		{{ recipe.name() }}
+	</title>
 	<h1>
 		{{ recipe.name() }}
 	</h1>
+	<table>
+		<tr>
+			<td style="border-left: 1px solid #cdd0d4; padding-left: 8px; padding-right: 8px;">
+				Rating:
+				{% for _ in range(recipe.rating()) %}
+					✭
+				{% endfor %}
+				{% for _ in range(recipe.rating(), 5)  %}
+					✩
+				{% endfor %}
+			</td>
+			<td style="border-left: 1px solid #cdd0d4; padding-left: 8px; padding-right: 8px;">
+				Serving Size:
+				{{ recipe.serving_size() }}
+			</td>
+			<td style="border-left: 1px solid #cdd0d4; padding-left: 8px; padding-right: 8px;">
+				<!-- This is here to add a right closing border -->
+			</td>
+		</tr>
+		<tr>
+			{% if recipe.total_time() != recipe.zero_duration() %}
+				<td style="border-left: 1px solid #cdd0d4; padding-left: 8px; padding-right: 8px;">
+					Total Time:
+					{{ recipe.total_time() }}
+				</td>
+			{% endif %}
+			{% if recipe.prep_time() != recipe.zero_duration() %}
+				<td style="border-left: 1px solid #cdd0d4; padding-left: 8px; padding-right: 8px;">
+					Prep Time:
+					{{ recipe.prep_time() }}
+				</td>
+			{% endif %}
+			{% if recipe.cook_time() != recipe.zero_duration() %}
+				<td style="border-left: 1px solid #cdd0d4; padding-left: 8px; padding-right: 8px;">
+					Cook Time:
+					{{ recipe.cook_time() }}
+				</td>
+			{% endif %}
+			<td style="border-left: 1px solid #cdd0d4; padding-left: 8px; padding-right: 8px;">
+				<!-- This is here to add a right closing border -->
+			</td>
+		</tr>
+	</table>
+	<p>
+		{{ recipe.notes() }}
+	</p>
+	<h2>
+		Ingredients
+	</h2>
 	<table>
 		{% for ingredient in recipe.ingredients() %}
 			<tr>

@@ -26,12 +26,14 @@ Recipe = TypeVar("Recipe");
 
 
 class Recipe(object):
-	def __init__(self, *, id: int, is_deleted: bool, name: str, instructions: dict|list, rating: int, serving_size: int,
-	  prep_time: timedelta, cook_time: timedelta, total_time: timedelta, ingredients: list[RecipeIngredient]):
+	def __init__(self, *, id: int, is_deleted: bool, name: str, instructions: dict|list, notes: str, rating: int,
+	  serving_size: int, prep_time: timedelta, cook_time: timedelta, total_time: timedelta,
+	  ingredients: list[RecipeIngredient]):
 		self._id: int = id
 		self._is_deleted: bool = is_deleted
 		self._name: str = name
 		self._instructions: dict|list = instructions
+		self._notes: str = notes
 		self._rating: int = rating
 		self._serving_size: int = serving_size
 		self._prep_time: timedelta = prep_time
@@ -77,6 +79,10 @@ class Recipe(object):
 		return self._instructions
 
 
+	def notes(self) -> str:
+		return self._notes
+
+
 	def rating(self) -> int:
 		return self._rating
 
@@ -99,3 +105,10 @@ class Recipe(object):
 
 	def ingredients(self) -> list[RecipeIngredient]:
 		return self._ingredients
+
+
+	# ——————————————————————————————————————————————————— HELPERS  ——————————————————————————————————————————————————— #
+
+	@staticmethod
+	def zero_duration(self=None):
+		return timedelta(seconds=0)
