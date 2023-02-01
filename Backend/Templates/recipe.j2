@@ -21,6 +21,18 @@
 {% endmacro %}
 
 
+{% macro list_steps(listed_steps) %}
+	{% for step in listed_steps %}
+		<div>
+			<input type="checkbox" onclick="strikethrough_text(this);" />
+			<span>
+				{{ step | replace_timer() }}
+			</span>
+		</div>
+	{% endfor %}
+{% endmacro %}
+
+
 {% extends "header.j2" %}
 {% block body %}
 	<title>
@@ -117,4 +129,27 @@
 			{% endfor %}
 		{% endif %}
 	{% endwith %}
+
+	<script>
+		function strikethrough_text(element)
+		{
+			const instruction_div = element.parentElement;
+			if(instruction_div.style.color != "rgb(102, 102, 102)")
+			{
+				instruction_div.style.color = "#666666";
+			}
+			else
+			{
+				instruction_div.style.color = "#DDDDDD";
+			}
+			// if(instruction_div.style.textDecoration != "line-through")
+			// {
+			// 	instruction_div.style.textDecoration = "line-through";
+			// }
+			// else
+			// {
+			// 	instruction_div.style.textDecoration = "none";
+			// }
+		}
+	</script>
 {% endblock %}
