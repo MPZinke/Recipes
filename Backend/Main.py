@@ -15,6 +15,7 @@ __author__ = "MPZinke"
 
 
 from flask import Flask, render_template
+from jinja2 import Environment
 import os
 from pathlib import Path
 import re
@@ -23,10 +24,15 @@ import re
 from DB import Queries
 from Recipe import Recipe
 from Ingredient import Ingredient
+from HTMLRenderingHelpers import replace_timer
 
 
 ROOT_DIR = str(Path(__file__).absolute().parent)
 app = Flask("Recipes", template_folder=os.path.join(ROOT_DIR, "Templates"))
+
+
+# FROM: https://abstractkitchen.com/blog/how-to-create-custom-jinja-filters-in-flask/
+app.jinja_env.filters["replace_timer"]=replace_timer
 
 
 @app.route("/recipes", methods=["GET"])

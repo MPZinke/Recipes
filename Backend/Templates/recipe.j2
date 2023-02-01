@@ -14,18 +14,7 @@
 	<ul>
 		{% for step in listed_steps %}
 			<li>
-				{{ step }}
-			</li>
-		{% endfor %}
-	</ul>
-{% endmacro %}
-
-
-{% macro list_steps(listed_steps) %}
-	<ul>
-		{% for step in listed_steps %}
-			<li>
-				{{ step }}
+				{{ step | replace_timer() }}
 			</li>
 		{% endfor %}
 	</ul>
