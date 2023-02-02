@@ -28,25 +28,25 @@ INSERT INTO "Recipes" ("name", "rating", "serving_size", "total_time", "prep_tim
 );
 
 
-INSERT INTO "Ingredients" ("name") VALUES
+INSERT INTO "Ingredients" ("names") VALUES
 (ARRAY['Salted Butter', 'Salted Butter']);
-INSERT INTO "Ingredients" ("name") VALUES
+INSERT INTO "Ingredients" ("names") VALUES
 (ARRAY['Sugar', 'Sugar']);
-INSERT INTO "Ingredients" ("name") VALUES
+INSERT INTO "Ingredients" ("names") VALUES
 (ARRAY['Light Brown Sugar', 'Light Brown Sugar']);
-INSERT INTO "Ingredients" ("name") VALUES
+INSERT INTO "Ingredients" ("names") VALUES
 (ARRAY['Vanilla Extract', 'Vanilla Extract']);
-INSERT INTO "Ingredients" ("name") VALUES
+INSERT INTO "Ingredients" ("names") VALUES
 (ARRAY['Egg', 'Eggs']);
-INSERT INTO "Ingredients" ("name") VALUES
+INSERT INTO "Ingredients" ("names") VALUES
 (ARRAY['All-Purose Flour', 'All-Purose Flour']);
-INSERT INTO "Ingredients" ("name") VALUES
+INSERT INTO "Ingredients" ("names") VALUES
 (ARRAY['Baking Soda', 'Baking Soda']);
-INSERT INTO "Ingredients" ("name") VALUES
+INSERT INTO "Ingredients" ("names") VALUES
 (ARRAY['Baking Powder', 'Baking Powder']);
-INSERT INTO "Ingredients" ("name") VALUES
-(ARRAY['Sea Salt', 'Sea Salt']);
-INSERT INTO "Ingredients" ("name") VALUES
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Salt', 'Salt']);
+INSERT INTO "Ingredients" ("names") VALUES
 (ARRAY['Chocolate Chips', 'Chocolate Chips']);
 
 
@@ -57,55 +57,55 @@ FROM
 (
 	VALUES
 	(
-		'Chocolate Chip Cookies', ARRAY['Salted Butter', 'Salted Butter']::VARCHAR(64)[2],
-		1.0, ARRAY['Cup', 'Cups'],
-		'Softened', TRUE, ''
+		ARRAY['Salted Butter', 'Salted Butter']::VARCHAR(64)[2],
+		ARRAY['Cup', 'Cups'],
+		1.0, 'Softened', TRUE, ''
 	),
 	(
-		'Chocolate Chip Cookies', ARRAY['Sugar', 'Sugar']::VARCHAR(64)[2],
-		1.0, ARRAY['Cup', 'Cups'],
-		'Granulated', TRUE, ''
+		ARRAY['Sugar', 'Sugar']::VARCHAR(64)[2],
+		ARRAY['Cup', 'Cups'],
+		1.0, 'Granulated', TRUE, ''
 	),
 	(
-		'Chocolate Chip Cookies', ARRAY['Light Brown Sugar', 'Light Brown Sugar']::VARCHAR(64)[2],
-		1.0, ARRAY['Cup', 'Cups'],
-		'Packed', TRUE, ''
+		ARRAY['Light Brown Sugar', 'Light Brown Sugar']::VARCHAR(64)[2],
+		ARRAY['Cup', 'Cups'],
+		1.0, 'Packed', TRUE, ''
 	),
 	(
-		'Chocolate Chip Cookies', ARRAY['Vanilla Extract', , 'Vanilla Extract']::VARCHAR(64)[2],
-		2.0, ARRAY['Teaspoon', 'Teaspoon'],
-		'', TRUE, ''
+		ARRAY['Vanilla Extract', 'Vanilla Extract']::VARCHAR(64)[2],
+		ARRAY['Teaspoon', 'Teaspoons'],
+		2.0, '', TRUE, ''
 	),
 	(
-		'Chocolate Chip Cookies', ARRAY['Egg', 'Eggs']::VARCHAR(64)[2],
-		2.0, ARRAY['', ''],
-		'Large', TRUE, ''
+		ARRAY['Egg', 'Eggs']::VARCHAR(64)[2],
+		ARRAY['', ''],
+		2.0, 'Large', TRUE, ''
 	),
 	(
-		'Chocolate Chip Cookies', ARRAY['All-Purose Flour', 'All-Purose Flour']::VARCHAR(64)[2],
-		3.0, ARRAY['Cup', 'Cups'],
-		'', TRUE, ''
+		ARRAY['All-Purose Flour', 'All-Purose Flour']::VARCHAR(64)[2],
+		ARRAY['Cup', 'Cups'],
+		3.0, '', TRUE, ''
 	),
 	(
-		'Chocolate Chip Cookies', ARRAY['Baking Soda', 'Baking Soda']::VARCHAR(64)[2],
-		1.0, ARRAY['Teaspoon', 'Teaspoon'],
-		'', TRUE, ''
+		ARRAY['Baking Soda', 'Baking Soda']::VARCHAR(64)[2],
+		ARRAY['Teaspoon', 'Teaspoons'],
+		1.0, '', TRUE, ''
 	),
 	(
-		'Chocolate Chip Cookies', ARRAY['Baking Powder', 'Baking Powder']::VARCHAR(64)[2],
-		0.5, ARRAY['Teaspoon', 'Teaspoon'],
-		'', TRUE, ''
+		ARRAY['Baking Powder', 'Baking Powder']::VARCHAR(64)[2],
+		ARRAY['Teaspoon', 'Teaspoons'],
+		0.5, '', TRUE, ''
 	),
 	(
-		'Chocolate Chip Cookies', ARRAY['Sea Salt', 'Sea Salt']::VARCHAR(64)[2],
-		1.0, ARRAY['Teaspoon', 'Teaspoon'],
-		'', FALSE, ''
+		ARRAY['Salt', 'Salt']::VARCHAR(64)[2],
+		ARRAY['Teaspoon', 'Teaspoons'],
+		1.0, 'Course', FALSE, ''
 	),
 	(
-		'Chocolate Chip Cookies', ARRAY['Chocolate Chips', 'Chocolate Chips']::VARCHAR(64)[2],
-		2.0, ARRAY['Cup', 'Cups'],
-		'', TRUE, ''
+		ARRAY['Chocolate Chips', 'Chocolate Chips']::VARCHAR(64)[2],
+		ARRAY['Cup', 'Cups'],
+		2.0, '', TRUE, ''
 	)
-) AS "Temp"("Recipes.name", "Ingredients.name", "amount", "units", "quality", "is_required", "notes")
-JOIN "Recipes" ON "Temp"."Recipes.name" = "Recipes"."name"
-JOIN "Ingredients" ON "Temp"."Ingredients.name" = "Ingredients"."name";
+) AS "Temp"("Ingredients.names", "units", "amount", "quality", "is_required", "notes")
+JOIN "Recipes" ON "Recipes"."name" = 'Chocolate Chip Cookies'
+JOIN "Ingredients" ON "Temp"."Ingredients.names" = "Ingredients"."names";

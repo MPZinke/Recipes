@@ -15,6 +15,7 @@ __author__ = "MPZinke"
 
 
 from datetime import timedelta
+from decimal import Decimal
 from typing import TypeVar
 
 
@@ -105,3 +106,32 @@ class Recipe(object):
 
 	def ingredients(self) -> list[RecipeIngredient]:
 		return self._ingredients
+
+
+	# ——————————————————————————————————————————————————— SPECIAL  ——————————————————————————————————————————————————— #
+
+	def __mul__(self, amount: int|float) -> Recipe:  # __mul__(left, right)
+		if(isinstance(amount, float)):
+			amount = Decimal(amount)
+
+		ingredients: list[RecipeIngredient] = [ingredient * amount for ingredient in self._ingredients]
+		return Recipe(id=self._id, is_deleted=self._is_deleted, name=self._name, instructions=self._instructions,
+		  notes=self._notes, rating=self._rating, serving_size=self._serving_size, prep_time=self._prep_time,
+		  cook_time=self._cook_time, total_time=self._total_time, ingredients=ingredients)
+
+
+	def __rmul__(self, amount: int|float) -> Recipe:  # __mul__(right, left)
+		if(isinstance(amount, float)):
+			amount = Decimal(amount)
+
+		return self * amount
+
+
+	def __imul__(self, amount: int|float) -> None:
+		if(isinstance(amount, float)):
+			amount = Decimal(amount)
+
+		for ingredient in self._ingredients:
+			ingredient *= amount
+
+		return self

@@ -21,17 +21,17 @@ INSERT INTO "Recipes" ("name", "rating", "serving_size", "total_time", "instruct
 );
 
 
-INSERT INTO "Ingredients" ("name") VALUES
-(ARRAY['Russet Potatoes', 'Russet Potatoes']);
-INSERT INTO "Ingredients" ("name") VALUES
-(ARRAY['Sea Salt', 'Sea Salt']);
-INSERT INTO "Ingredients" ("name") VALUES
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Russet Potato', 'Russet Potatoes']);
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Salt', 'Salt']);
+INSERT INTO "Ingredients" ("names") VALUES
 (ARRAY['Black Pepper', 'Black Pepper']);
-INSERT INTO "Ingredients" ("name") VALUES
+INSERT INTO "Ingredients" ("names") VALUES
 (ARRAY['Chives', 'Chives']);
-INSERT INTO "Ingredients" ("name") VALUES
+INSERT INTO "Ingredients" ("names") VALUES
 (ARRAY['Salted Butter', 'Salted Butter']);
-INSERT INTO "Ingredients" ("name") VALUES
+INSERT INTO "Ingredients" ("names") VALUES
 (ARRAY['Sour Cream', 'Sour Cream']);
 
 
@@ -42,35 +42,35 @@ FROM
 (
 	VALUES
 	(
-		'Jacket Potatoes', ARRAY['Russet Potato', 'Russet Potatoes']::VARCHAR(64)[2],
-		1.0, ARRAY['', ''],
-		'Medium', TRUE, ''
+		ARRAY['Russet Potato', 'Russet Potatoes']::VARCHAR(64)[2],
+		ARRAY['', ''],
+		1.0, 'Medium', TRUE, ''
 	),
 	(
-		'Jacket Potatoes', ARRAY['Sea Salt', 'Sea Salt']::VARCHAR(64)[2],
-		0.0, ARRAY['', ''],
-		'Course', FALSE, ''
+		ARRAY['Salt', 'Salt']::VARCHAR(64)[2],
+		ARRAY['', ''],
+		0.0, 'Course', FALSE, ''
 	),
 	(
-		'Jacket Potatoes', ARRAY['Black Pepper', 'Black Pepper']::VARCHAR(64)[2],
-		0.0, ARRAY['', ''],
-		'Ground', FALSE, ''
+		ARRAY['Black Pepper', 'Black Pepper']::VARCHAR(64)[2],
+		ARRAY['', ''],
+		0.0, 'Ground', FALSE, ''
 	),
 	(
-		'Jacket Potatoes', ARRAY['Chives', 'Chives']::VARCHAR(64)[2],
-		0.0, ARRAY['', ''],
-		'', FALSE, 'For garnish'
+		ARRAY['Chives', 'Chives']::VARCHAR(64)[2],
+		ARRAY['', ''],
+		0.0, '', FALSE, 'For garnish'
 	),
 	(
-		'Jacket Potatoes', ARRAY['Salted Butter', 'Salted Butter']::VARCHAR(64)[2],
-		0.0, ARRAY['', ''],
-		'', FALSE, ''
+		ARRAY['Salted Butter', 'Salted Butter']::VARCHAR(64)[2],
+		ARRAY['', ''],
+		0.0, '', FALSE, ''
 	),
 	(
-		'Jacket Potatoes', ARRAY['Sour Cream', 'Sour Cream']::VARCHAR(64)[2],
-		0.0, ARRAY['', ''],
-		'', FALSE, ''
+		ARRAY['Sour Cream', 'Sour Cream']::VARCHAR(64)[2],
+		ARRAY['', ''],
+		0.0, '', FALSE, ''
 	)
-) AS "Temp"("Recipes.name", "Ingredients.name", "amount", "units", "quality", "is_required", "notes")
-JOIN "Recipes" ON "Temp"."Recipes.name" = "Recipes"."name"
-JOIN "Ingredients" ON "Temp"."Ingredients.name" = "Ingredients"."name";
+) AS "Temp"("Ingredients.names", "units", "amount", "quality", "is_required", "notes")
+JOIN "Recipes" ON "Recipes"."name" = 'Jacket Potatoes'
+JOIN "Ingredients" ON "Temp"."Ingredients.names" = "Ingredients"."names";

@@ -55,55 +55,55 @@ FROM
 (
 	VALUES
 	(
-		'Banana Bread', ARRAY['Sugar', 'Sugar']::VARCHAR(64)[2], 
-		3.0, ARRAY['Cup', 'Cups'],
-		'', TRUE, ''
+		ARRAY['Sugar', 'Sugar']::VARCHAR(64)[2], 
+		ARRAY['Cup', 'Cups'],
+		3.0, '', TRUE, ''
 	),
 	(
-		'Banana Bread', ARRAY['All-Purose Flour', 'All-Purose Flour']::VARCHAR(64)[2], 
-		3.0, ARRAY['Cup', 'Cups'],
-		'', TRUE, ''
+		ARRAY['All-Purose Flour', 'All-Purose Flour']::VARCHAR(64)[2], 
+		ARRAY['Cup', 'Cups'],
+		3.0, '', TRUE, ''
 	),
 	(
-		'Banana Bread', ARRAY['Salted Butter', 'Salted Butter']::VARCHAR(64)[2], 
-		1.0, ARRAY['Cup', 'Cups'],
-		'Melted', TRUE, 'Melted'
+		ARRAY['Salted Butter', 'Salted Butter']::VARCHAR(64)[2], 
+		ARRAY['Cup', 'Cups'],
+		1.0, 'Melted', TRUE, 'Melted'
 	),
 	(
-		'Banana Bread', ARRAY['Egg', 'Eggs']::VARCHAR(64)[2], 
-		4.0, ARRAY['', ''],
-		'Large', TRUE, ''
+		ARRAY['Egg', 'Eggs']::VARCHAR(64)[2], 
+		ARRAY['', ''],
+		4.0, 'Large', TRUE, ''
 	),
 	(
-		'Banana Bread', ARRAY['Banana', 'Bananas']::VARCHAR(64)[2], 
-		2.0, ARRAY['Cup', 'Cups'],
-		'Mashed', TRUE, ''
+		ARRAY['Banana', 'Bananas']::VARCHAR(64)[2], 
+		ARRAY['Cup', 'Cups'],
+		2.0, 'Mashed', TRUE, ''
 	),
 	(
-		'Banana Bread', ARRAY['Butter Milk', 'Butter Milk']::VARCHAR(64)[2], 
-		0.5, ARRAY['Cup', 'Cups'],
-		'', TRUE, ''
+		ARRAY['Butter Milk', 'Butter Milk']::VARCHAR(64)[2], 
+		ARRAY['Cup', 'Cups'],
+		0.5, '', TRUE, ''
 	),
 	(
-		'Banana Bread', ARRAY['Baking Soda', 'Baking Soda']::VARCHAR(64)[2], 
-		2.0, ARRAY['Teaspoon', 'Teaspoons'],
-		'', TRUE, ''
+		ARRAY['Baking Soda', 'Baking Soda']::VARCHAR(64)[2], 
+		ARRAY['Teaspoon', 'Teaspoons'],
+		2.0, '', TRUE, ''
 	),
 	(
-		'Banana Bread', ARRAY['Vanilla Extract', 'Vanilla Extract']::VARCHAR(64)[2], 
-		2.0, ARRAY['Teaspoon', 'Teaspoons'],
-		'', TRUE, ''
+		ARRAY['Vanilla Extract', 'Vanilla Extract']::VARCHAR(64)[2], 
+		ARRAY['Teaspoon', 'Teaspoons'],
+		2.0, '', TRUE, ''
 	),
 	(
-		'Banana Bread', ARRAY['Pecan', 'Pecans']::VARCHAR(64)[2], 
-		2.0, ARRAY['Cup', 'Cups'],
-		'Chopped', FALSE, ''
+		ARRAY['Pecan', 'Pecans']::VARCHAR(64)[2], 
+		ARRAY['Cup', 'Cups'],
+		2.0, 'Chopped', FALSE, ''
 	),
 	(
-		'Banana Bread', ARRAY['Chocolate Chips', 'Chocolate Chips']::VARCHAR(64)[2], 
-		2.0, ARRAY['Cup', 'Cups'],
-		'', FALSE, ''
+		ARRAY['Chocolate Chips', 'Chocolate Chips']::VARCHAR(64)[2], 
+		ARRAY['Cup', 'Cups'],
+		2.0, '', FALSE, ''
 	)
-) AS "Temp"("Recipes.name", "Ingredients.name", "amount", "units", "quality", "is_required", "notes")
-JOIN "Recipes" ON "Temp"."Recipes.name" = "Recipes"."name"
-JOIN "Ingredients" ON "Temp"."Ingredients.name" = "Ingredients"."names";
+) AS "Temp"("Ingredients.names", "units", "amount", "quality", "is_required", "notes")
+JOIN "Recipes" ON "Recipes"."name" = 'Banana Bread'
+JOIN "Ingredients" ON "Temp"."Ingredients.names" = "Ingredients"."names";

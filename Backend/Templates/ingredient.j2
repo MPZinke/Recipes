@@ -13,7 +13,7 @@
 {% extends "header.j2" %}
 {% block body %}
 		<h1>
-			{{ ingredient.name() }}
+			{{ ingredient.names()[0] }}
 		</h1>
 		<table>
 			{% for recipe_name in recipe_names %}

@@ -72,7 +72,7 @@ def SELECT_ALL_FROM_RecipesIngredients_WHERE_Ingredients_name(cursor, Ingredient
 		SELECT *
 		FROM "RecipesIngredients"
 		JOIN "Ingredients" ON "RecipesIngredients"."Ingredients.id" = "Ingredients"."id"
-		WHERE "Ingredients"."name" = %s
+		WHERE %s = ANY("Ingredients"."names")
 		  AND "RecipesIngredients"."is_deleted" = FALSE;
 	"""
 	cursor.execute(query, (Ingredients_name,))
@@ -84,7 +84,7 @@ def SELECT_ALL_FROM_Ingredients_WHERE_name(cursor, name: str) -> dict | None:
 	query: str = """
 		SELECT *
 		FROM "Ingredients"
-		WHERE "name" = %s
+		WHERE %s = ANY("names")
 		  AND "is_deleted" = FALSE;
 	"""
 	cursor.execute(query, (name,))
@@ -98,7 +98,7 @@ def SELECT_Recipes_name_FROM_RecipesIngredients_WHERE_Ingredients_name(cursor, I
 		FROM "RecipesIngredients"
 		JOIN "Ingredients" ON "RecipesIngredients"."Ingredients.id" = "Ingredients"."id"
 		JOIN "Recipes" ON "RecipesIngredients"."Recipes.id" = "Recipes"."id"
-		WHERE "Ingredients"."name" = %s
+		WHERE %s = ANY("Ingredients"."names")
 		  AND "RecipesIngredients"."is_deleted" = FALSE;
 	"""
 	cursor.execute(query, (Ingredients_name,))

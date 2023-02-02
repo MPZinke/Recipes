@@ -62,7 +62,10 @@ class RecipeIngredient(Ingredient):
 		return self._amount
 
 
-	def unit(self, amount: Decimal) -> int:
+	def unit(self, amount: Decimal|None=None) -> int:
+		if(amount is None):
+			amount = self._amount
+
 		return self._units[amount.as_integer_ratio()[0] > 1]
 
 
@@ -82,5 +85,39 @@ class RecipeIngredient(Ingredient):
 		return self._notes
 
 
-	def name(self) -> str:
-		return self._name
+	# ——————————————————————————————————————————————————— SPECIAL  ——————————————————————————————————————————————————— #
+
+	def __mul__(self, amount: int|float|Decimal) -> RecipeIngredient:
+		if(isinstance(amount, float)):
+			amount = Decimal(amount)
+
+		amount *= self._amount
+
+		return RecipeIngredient(id=self._id, is_deleted=self._is_deleted, brand=self._brand, names=self._names,
+		  description=self._description, amount=amount, units=self._units, quality=self._quality,
+		  is_required=self._is_required, notes=self._notes, Ingredients_id=self._Ingredients_id)
+
+
+	def __rmul__(self, amount: int|float|Decimal) -> RecipeIngredient:
+		if(isinstance(amount, float)):
+			amount = Decimal(amount)
+
+		return self * amount
+
+
+	def __imul__(self, amount: int|float) -> None:
+		if(isinstance(amount, float)):
+			amount = Decimal(amount)
+
+		self._amount *= amount
+
+		return self
+
+
+	# ————————————————————————————————————————————— CONTEXTED INGREDIENT ————————————————————————————————————————————— #
+
+	def name(self, amount: Decimal|None=None) -> int:
+		if(amount is None):
+			amount = self._amount
+
+		return self._names[amount.as_integer_ratio()[0] > 1]

@@ -24,40 +24,40 @@ INSERT INTO "Recipes" ("name", "rating", "serving_size", "total_time", "prep_tim
 );
 
 
-INSERT INTO "Ingredients" ("name") VALUES
-('Flat Rice Noodles');
-INSERT INTO "Ingredients" ("name") VALUES
-('Oil');
-INSERT INTO "Ingredients" ("name") VALUES
-('Garlic Clove');
-INSERT INTO "Ingredients" ("name") VALUES
-('Chicken Breast');
-INSERT INTO "Ingredients" ("name") VALUES
-('Egg');
-INSERT INTO "Ingredients" ("name") VALUES
-('Bean Sprouts');
-INSERT INTO "Ingredients" ("name") VALUES
-('Red Bell Pepper');
-INSERT INTO "Ingredients" ("name") VALUES
-('Green Onion');
-INSERT INTO "Ingredients" ("name") VALUES
-('Roasted Peanuts');
-INSERT INTO "Ingredients" ("name") VALUES
-('Lime');
-INSERT INTO "Ingredients" ("name") VALUES
-('Cilantro');
-INSERT INTO "Ingredients" ("name") VALUES
-('Fish Sauce');
-INSERT INTO "Ingredients" ("name") VALUES
-('Low-Sodium Soy Sauce');
-INSERT INTO "Ingredients" ("name") VALUES
-('Light Brown Sugar');
-INSERT INTO "Ingredients" ("name") VALUES
-('Rice Vinegar');
-INSERT INTO "Ingredients" ("name") VALUES
-('Sriracha Hot Sauce');
-INSERT INTO "Ingredients" ("name") VALUES
-('Creamy Peanut Butter');
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Flat Rice Noodles', 'Flat Rice Noodles']);
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Oil', 'Oil']);
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Garlic Clove', 'Garlic Cloves']);
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Chicken Breast', 'Chicken Breasts']);
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Egg', 'Eggs']);
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Bean Sprout', 'Bean Sprouts']);
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Red Bell Pepper', 'Red Bell Pepper']);
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Green Onion', 'Green Onion']);
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Roasted Peanuts', 'Roasted Peanuts']);
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Lime', 'Limes']);
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Cilantro', 'Cilantro']);
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Fish Sauce', 'Fish Sauce']);
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Low-Sodium Soy Sauce', 'Low-Sodium Soy Sauce']);
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Light Brown Sugar', 'Light Brown Sugar']);
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Rice Vinegar', 'Rice Vinegar']);
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Sriracha Hot Sauce', 'Sriracha Hot Sauce']);
+INSERT INTO "Ingredients" ("names") VALUES
+(ARRAY['Creamy Peanut Butter', 'Creamy Peanut Butter']);
 
 
 INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")
@@ -67,24 +67,92 @@ FROM
 (
 	VALUES
 	-- For Noodles
-	('Pad Thai', 'Flat Rice Noodles', 8.0, ARRAY['Ounce', 'Ounces'], 'Softened', TRUE, ''),
-	('Pad Thai', 'Oil', 3.0, ARRAY['Tablespoon', 'Tablespoons'], '', TRUE, ''),
-	('Pad Thai', 'Garlic Cloves', 3.0, ARRAY['', ''], 'Minced', TRUE, ''),
-	('Pad Thai', 'Chicken Breast', 8.0, ARRAY['', ''], '', TRUE, 'Or shrimp or extra-firm tofu. Cut into small pieces'),
-	('Pad Thai', 'Eggs', 2.0, ARRAY['', ''], '', TRUE, 'Scrambled'),
-	('Pad Thai', 'Bean Sprouts', 1.0, ARRAY['Cup', 'Cups'], 'Fresh', TRUE, ''),
-	('Pad Thai', 'Red Bell Pepper', 1.0, ARRAY['', ''], 'Thinly sliced', TRUE, ''),
-	('Pad Thai', 'Green Onions', 3.0, ARRAY['', ''], 'Chopped', TRUE, ''),
-	('Pad Thai', 'Roasted Peanuts', 1.5, ARRAY['Cup', 'Cups'], 'Dry', TRUE, ''),
-	('Pad Thai', 'Limes', 2.0, ARRAY['', ''], '', TRUE, 'Cut into wedges'),
-	('Pad Thai', 'Cilantro', 1.5, ARRAY['Cup', 'Cups'], 'Fresh, chopped', TRUE, ''),
+	(
+		ARRAY['Flat Rice Noodles', 'Flat Rice Noodles']::VARCHAR(64)[2],
+		ARRAY['Ounce', 'Ounces'],
+		8.0, 'Softened', TRUE, ''
+	),
+	(
+		ARRAY['Oil', 'Oil']::VARCHAR(64)[2],
+		ARRAY['Tablespoon', 'Tablespoons'],
+		3.0, '', TRUE, ''
+	),
+	(
+		ARRAY['Garlic Clove', 'Garlic Cloves']::VARCHAR(64)[2],
+		ARRAY['', ''],
+		3.0, 'Minced', TRUE, ''
+	),
+	(
+		ARRAY['Chicken Breast', 'Chicken Breasts']::VARCHAR(64)[2],
+		ARRAY['', ''],
+		8.0, '', TRUE, 'Or shrimp or extra-firm tofu. Cut into small pieces'
+	),
+	(
+		ARRAY['Egg', 'Eggs']::VARCHAR(64)[2],
+		ARRAY['', ''],
+		2.0, '', TRUE, 'Scrambled'
+	),
+	(
+		ARRAY['Bean Sprout', 'Bean Sprouts']::VARCHAR(64)[2],
+		ARRAY['Cup', 'Cups'],
+		1.0, 'Fresh', TRUE, ''
+	),
+	(
+		ARRAY['Red Bell Pepper', 'Red Bell Pepper']::VARCHAR(64)[2],
+		ARRAY['', ''],
+		1.0, 'Thinly sliced', TRUE, ''
+	),
+	(
+		ARRAY['Green Onion', 'Green Onions']::VARCHAR(64)[2],
+		ARRAY['', ''],
+		3.0, 'Chopped', TRUE, ''
+	),
+	(
+		ARRAY['Roasted Peanuts', 'Roasted Peanuts']::VARCHAR(64)[2],
+		ARRAY['Cup', 'Cups'],
+		1.5, 'Dry', TRUE, ''
+	),
+	(
+		ARRAY['Lime', 'Limes']::VARCHAR(64)[2],
+		ARRAY['', ''],
+		2.0, '', TRUE, 'Cut into wedges'
+	),
+	(
+		ARRAY['Cilantro', 'Cilantro']::VARCHAR(64)[2],
+		ARRAY['Cup', 'Cups'],
+		1.5, 'Fresh, chopped', TRUE, ''
+	),
 	-- For Sauce
-	('Pad Thai', 'Fish Sauce', 3.0, ARRAY['Tablespoon', 'Tablespoons'], '', TRUE, ''),
-	('Pad Thai', 'Low-Sodium Soy Sauce', 1.0, ARRAY['Tablespoon', 'Tablespoons'], '', TRUE, ''),
-	('Pad Thai', 'Light Brown Sugar', 5.0, ARRAY['Tablespoon', 'Tablespoons'], '', TRUE, ''),
-	('Pad Thai', 'Rice Vinegar', 2.0, ARRAY['Tablespoon', 'Tablespoons'], '', TRUE, 'Or Tamarind Paste'),
-	('Pad Thai', 'Sriracha', 1.0, ARRAY['Tablespoon', 'Tablespoons'], '', TRUE, 'Or more to taste'),
-	('Pad Thai', 'Creamy Peanut Butter', 2.0, ARRAY['Tablespoon', 'Tablespoons'], '', FALSE, '')
-) AS "Temp"("Recipes.name", "Ingredients.name", "amount", "units", "quality", "is_required", "notes")
-JOIN "Recipes" ON "Temp"."Recipes.name" = "Recipes"."name"
-JOIN "Ingredients" ON "Temp"."Ingredients.name" = "Ingredients"."name";
+	(
+		ARRAY['Fish Sauce', 'Fish Sauce']::VARCHAR(64)[2],
+		ARRAY['Tablespoon', 'Tablespoons'],
+		3.0, '', TRUE, ''
+	),
+	(
+		ARRAY['Low-Sodium Soy Sauce', 'Low-Sodium Soy Sauce']::VARCHAR(64)[2],
+		ARRAY['Tablespoon', 'Tablespoons'],
+		1.0, '', TRUE, ''
+	),
+	(
+		ARRAY['Light Brown Sugar', 'Light Brown Sugar']::VARCHAR(64)[2],
+		ARRAY['Tablespoon', 'Tablespoons'],
+		5.0, '', TRUE, ''
+	),
+	(
+		ARRAY['Rice Vinegar', 'Rice Vinegar']::VARCHAR(64)[2],
+		ARRAY['Tablespoon', 'Tablespoons'],
+		2.0, '', TRUE, 'Or Tamarind Paste'
+	),
+	(
+		ARRAY['Sriracha', 'Sriracha']::VARCHAR(64)[2],
+		ARRAY['Tablespoon', 'Tablespoons'],
+		1.0, '', TRUE, 'Or more to taste'
+	),
+	(
+		ARRAY['Creamy Peanut Butter', 'Creamy Peanut Butter']::VARCHAR(64)[2],
+		ARRAY['Tablespoon', 'Tablespoons'],
+		2.0, '', FALSE, ''
+	)
+) AS "Temp"("Ingredients.names", "units", "amount", "quality", "is_required", "notes")
+JOIN "Recipes" ON "Recipes"."name" = 'Pad Thai'
+JOIN "Ingredients" ON "Temp"."Ingredients.names" = "Ingredients"."names";
