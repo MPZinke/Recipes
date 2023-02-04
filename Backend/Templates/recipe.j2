@@ -10,12 +10,40 @@
 ----------------------------------------------------------------------------------------------------------------------->
 
 
-{% macro list_steps(listed_steps) %}
-	{% for step in listed_steps %}
+{% macro list_instructions(instructions) %}
+	{% for instruction in instructions %}
 		<div>
-			<input type="checkbox" onclick="strikethrough_text(this);" />
+			<input type="checkbox" onclick="switch_text(this);" class="instructions" />
 			<span>
-				{{ step | replace_timer() }}
+				{{ instruction | replace_timer() }}
+			</span>
+		</div>
+	{% endfor %}
+{% endmacro %}
+
+
+{% macro list_ingredients(ingredients) %}
+	{% for ingredient in ingredients %}
+		<div>
+			<input type="checkbox" onclick="switch_text(this);" class="ingredients" />
+			<span>
+				{% if ingredient.amount() != 0.0 %}
+					{{ ingredient.amount() | format_decimal() }}
+				{% endif %}
+				{{ ingredient.unit(ingredient.amount()) }}
+				{{ ingredient.quality() }}
+				<a href="/ingredient/{{ ingredient.name() }}">{{ ingredient.name() }}</a>
+				{% if ingredient.notes() != "" %}
+					—
+					<i>
+						{{ ingredient.notes() }}
+					</i>
+				{% endif %}
+				{% if ingredient.is_required() == False %}
+					<b>
+						OPTIONAL
+					</b>
+				{% endif %}
 			</span>
 		</div>
 	{% endfor %}
@@ -76,61 +104,87 @@
 	<p>
 		{{ recipe.notes() }}
 	</p>
+
 	<h2>
 		Ingredients
 	</h2>
-	<table>
-		{% for ingredient in recipe.ingredients() %}
-			<tr>
-				<td>
-					{% if ingredient.amount() != 0.0 %}
-						{{ ingredient.amount() | format_decimal() }}
-					{% endif %}
-					{{ ingredient.unit(ingredient.amount()) }}
-					{{ ingredient.quality() }}
-					<a href="/ingredient/{{ ingredient.name() }}">{{ ingredient.name() }}</a>
-					{% if ingredient.notes() != "" %}
-						—
-						<i>
-							{{ ingredient.notes() }}
-						</i>
-					{% endif %}
-					{% if ingredient.is_required() == False %}
-						<b>
-						OPTIONAL
-						</b>
-					{% endif %}
-				</td>
-			</tr>
-		{% endfor %}
-	</table>
+	{{ list_ingredients(recipe.ingredients()) }}
+	<button id="check_button" style="margin-top:8px; margin-right:4px" onclick="check_all('ingredients');">
+		Check All
+	</button>
+	<button id="uncheck_button" style="margin-top:8px" onclick="uncheck_all('ingredients');">
+		Uncheck All
+	</button>
+
 	<h2>
 		Instructions
 	</h2>
 	{% with instructions = recipe.instructions() %}
 		{% if instructions.__class__.__name__ == "list" %}
-			{{ list_steps(instructions) }}
+			{{ list_instructions(instructions) }}
 		{% elif instructions.__class__.__name__ == "dict" %}
 			{% for section, steps in instructions.items() %}
 				<h3>
 					{{ section }}
 				</h3>
-				{{ list_steps(steps) }}
+				{{ list_instructions(steps) }}
 			{% endfor %}
 		{% endif %}
+		<button id="check_button" style="margin-top:8px; margin-right:4px" onclick="check_all('instructions');">
+			Check All
+		</button>
+		<button id="uncheck_button" style="margin-top:8px;" onclick="uncheck_all('instructions');">
+			Uncheck All
+		</button>
 	{% endwith %}
 
 	<script>
-		function strikethrough_text(element)
+		function switch_text(checkbox)
 		{
-			const instruction_div = element.parentElement;
+			const instruction_div = checkbox.parentElement;
 			if(instruction_div.style.color != "var(--disabled-text-color)")
 			{
-				instruction_div.style.color = "var(--disabled-text-color)";
+				disable_text(checkbox);
 			}
 			else
 			{
-				instruction_div.style.color = "var(--text-color)";
+				enable_text(checkbox);
+			}
+		}
+
+
+		function disable_text(checkbox)
+		{
+			const instruction_div = checkbox.parentElement;
+			instruction_div.style.color = "var(--disabled-text-color)";
+			checkbox.checked = true;
+		}
+
+
+		function enable_text(checkbox)
+		{
+			const instruction_div = checkbox.parentElement;
+			instruction_div.style.color = "var(--text-color)";
+			checkbox.checked = false;
+		}
+
+
+		function check_all(class_name)
+		{
+			const checkboxes = document.getElementsByClassName(class_name);
+			for(let x = 0; x < checkboxes.length; x++)
+			{
+				disable_text(checkboxes[x]);
+			}
+		}
+
+
+		function uncheck_all(class_name)
+		{
+			const checkboxes = document.getElementsByClassName(class_name);
+			for(let x = 0; x < checkboxes.length; x++)
+			{
+				enable_text(checkboxes[x]);
 			}
 		}
 	</script>
