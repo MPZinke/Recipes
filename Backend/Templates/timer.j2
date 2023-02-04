@@ -39,6 +39,11 @@
 	<button id="start_button" onclick="start();">
 		Start
 	</button>
+	<audio controls hidden>
+		<source src="{{ url_for('static', filename='DigitalAlarmClock.wav') }}" type="audio/wav">
+		## <source src="horse.mp3" type="audio/mpeg">
+		Your browser does not support the audio element.
+	</audio>
 </div>
 
 
@@ -49,6 +54,9 @@
 	const PAUSE_BUTTON = document.getElementById("pause_button");
 	const RESUME_BUTTON = document.getElementById("resume_button");
 	const START_BUTTON = document.getElementById("start_button");
+
+	const ALARM_AUDIO = new Audio("{{ url_for('static', filename='DigitalAlarmClock.wav') }}");
+	ALARM_AUDIO.loop = true;
 
 	// "end_time": Controls whether the timer is set & running
 	// "is_running": Controls whether a timer is currently counting down
@@ -98,7 +106,9 @@
 
 	function display_alarm()
 	{
-
+		show_start_button();
+		display_remaining_duration(0);
+		display_completed_time(get_session_var("end_time"));
 	}
 
 
@@ -226,13 +236,37 @@
 	}
 
 
+	function play_alarm_audio()
+	{
+		if (typeof ALARM_AUDIO.loop == 'boolean')
+		{
+			ALARM_AUDIO.loop = true;
+			console.log("looping");
+		}
+		else
+		{
+			ALARM_AUDIO.addEventListener('ended', 
+				function()
+				{
+					this.currentTime = 0;
+					this.play();
+					console.log("restarting");
+				},
+				false
+			);
+		}
+		ALARM_AUDIO.play();
+	}
+
+
 	// —————————————————————————————————————————————————— ACTIONS  —————————————————————————————————————————————————— //
 
 	function alarm()
 	{
 		stop_timer();
-		display_completed_timer();
-		alert("Time is up");  // TODO: ALARM
+		display_alarm();
+		play_alarm_audio();
+		// ALARM_AUDIO.pause();
 	}
 
 

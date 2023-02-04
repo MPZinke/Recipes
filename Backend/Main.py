@@ -28,7 +28,7 @@ from HTMLRenderingHelpers import format_decimal, replace_timer
 
 
 ROOT_DIR = str(Path(__file__).absolute().parent)
-app = Flask("Recipes", template_folder=os.path.join(ROOT_DIR, "Templates"))
+app = Flask("Recipes", template_folder=os.path.join(ROOT_DIR, "Templates"), static_folder=os.path.join(ROOT_DIR, "Static"))
 
 
 # FROM: https://abstractkitchen.com/blog/how-to-create-custom-jinja-filters-in-flask/
