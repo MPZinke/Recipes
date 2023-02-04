@@ -29,25 +29,44 @@ INSERT INTO "Recipes" ("name", "rating", "serving_size", "total_time", "prep_tim
 
 
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Salted Butter', 'Salted Butter']);
+(ARRAY['Salted Butter', 'Salted Butter'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Sugar', 'Sugar']);
+(ARRAY['Sugar', 'Sugar'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Light Brown Sugar', 'Light Brown Sugar']);
+(ARRAY['Light Brown Sugar', 'Light Brown Sugar'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Vanilla Extract', 'Vanilla Extract']);
+(ARRAY['Vanilla Extract', 'Vanilla Extract'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Egg', 'Eggs']);
+(ARRAY['Egg', 'Eggs'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['All-Purose Flour', 'All-Purose Flour']);
+(ARRAY['All-Purose Flour', 'All-Purose Flour'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Baking Soda', 'Baking Soda']);
+(ARRAY['Baking Soda', 'Baking Soda'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Baking Powder', 'Baking Powder']);
+(ARRAY['Baking Powder', 'Baking Powder'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Salt', 'Salt']);
+(ARRAY['Salt', 'Salt'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Chocolate Chips', 'Chocolate Chips']);
+(ARRAY['Chocolate Chips', 'Chocolate Chips'])
+ON CONFLICT ("names", "brand") DO NOTHING;
 
 
 INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")
@@ -108,4 +127,4 @@ FROM
 	)
 ) AS "Temp"("Ingredients.names", "units", "amount", "quality", "is_required", "notes")
 JOIN "Recipes" ON "Recipes"."name" = 'Chocolate Chip Cookies'
-JOIN "Ingredients" ON "Temp"."Ingredients.names" = "Ingredients"."names";
+LEFT JOIN "Ingredients" ON "Temp"."Ingredients.names" = "Ingredients"."names";

@@ -43,27 +43,49 @@ INSERT INTO "Recipes" ("name", "rating", "serving_size", "total_time", "prep_tim
 
 
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Skinless Salmon Fillet', 'Skinless Salmon Fillets']);
+(ARRAY['Skinless Salmon Fillet', 'Skinless Salmon Fillets'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Salt', 'Salt']);
+(ARRAY['Salt', 'Salt'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Ground Pepper', 'Ground Pepper']);
+(ARRAY['Ground Pepper', 'Ground Pepper'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Olive Oil', 'Olive Oil']);
+(ARRAY['Olive Oil', 'Olive Oil'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Garlic', 'Garlic']);
+(ARRAY['Garlic', 'Garlic'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Low-Sodium Chicken Broth', 'Low-Sodium Chicken Broth']);
+(ARRAY['Low-Sodium Chicken Broth', 'Low-Sodium Chicken Broth'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Lemon Juice', 'Lemon Juice']);
+(ARRAY['Lemon Juice', 'Lemon Juice'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Unsalted Butter', 'Unsalted Butter']);
+(ARRAY['Unsalted Butter', 'Unsalted Butter'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Honey', 'Honey']);
+(ARRAY['Honey', 'Honey'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Parsley', 'Parsley']);
+(ARRAY['Parsley', 'Parsley'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Lemon Slices', 'Lemon Slices']);
+(ARRAY['Lemon Slice', 'Lemon Slices'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 
 
 INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")
@@ -72,7 +94,7 @@ FROM
 (
 	VALUES
 	(
-		ARRAY['Skinless Salmon Fillets', 'Skinless Salmon Fillets']::VARCHAR(64)[2],
+		ARRAY['Skinless Salmon Fillet', 'Skinless Salmon Fillets']::VARCHAR(64)[2],
 		ARRAY['6oz, 1" thick', '6oz, 1" thick'],
 		4.0, '', TRUE, ''
 	),
@@ -122,15 +144,15 @@ FROM
 		0.5, '', TRUE, ''
 	),
 	(
-		ARRAY['Fresh Parsley', 'Fresh Parsley']::VARCHAR(64)[2],
+		ARRAY['Parsley', 'Parsley']::VARCHAR(64)[2],
 		ARRAY['Tablespoon', 'Tablespoons'],
-		2.0, '', TRUE, ''
+		2.0, 'Fresh', TRUE, ''
 	),
 	(
-		ARRAY['Lemon Slicies', 'Lemon Slicies']::VARCHAR(64)[2],
+		ARRAY['Lemon Slice', 'Lemon Slices']::VARCHAR(64)[2],
 		ARRAY['', ''],
 		0.0, '', FALSE, 'for garnish'
 	)
 ) AS "Temp"("Ingredients.names", "units", "amount", "quality", "is_required", "notes")
 JOIN "Recipes" ON "Recipes"."name" = 'Salmon with Lemon Butter'
-JOIN "Ingredients" ON "Temp"."Ingredients.names" = "Ingredients"."names";
+LEFT JOIN "Ingredients" ON "Temp"."Ingredients.names" = "Ingredients"."names";

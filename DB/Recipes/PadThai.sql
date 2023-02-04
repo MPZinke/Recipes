@@ -25,39 +25,73 @@ INSERT INTO "Recipes" ("name", "rating", "serving_size", "total_time", "prep_tim
 
 
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Flat Rice Noodles', 'Flat Rice Noodles']);
+(ARRAY['Flat Rice Noodles', 'Flat Rice Noodles'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Oil', 'Oil']);
+(ARRAY['Oil', 'Oil'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Garlic Clove', 'Garlic Cloves']);
+(ARRAY['Garlic Clove', 'Garlic Cloves'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Chicken Breast', 'Chicken Breasts']);
+(ARRAY['Chicken Breast', 'Chicken Breasts'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Egg', 'Eggs']);
+(ARRAY['Egg', 'Eggs'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Bean Sprout', 'Bean Sprouts']);
+(ARRAY['Bean Sprout', 'Bean Sprouts'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Red Bell Pepper', 'Red Bell Pepper']);
+(ARRAY['Red Bell Pepper', 'Red Bell Peppers'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Green Onion', 'Green Onion']);
+(ARRAY['Green Onion', 'Green Onions'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Roasted Peanuts', 'Roasted Peanuts']);
+(ARRAY['Roasted Peanuts', 'Roasted Peanuts'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Lime', 'Limes']);
+(ARRAY['Lime', 'Limes'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Cilantro', 'Cilantro']);
+(ARRAY['Cilantro', 'Cilantro'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Fish Sauce', 'Fish Sauce']);
+(ARRAY['Fish Sauce', 'Fish Sauce'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Low-Sodium Soy Sauce', 'Low-Sodium Soy Sauce']);
+(ARRAY['Low-Sodium Soy Sauce', 'Low-Sodium Soy Sauce'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Light Brown Sugar', 'Light Brown Sugar']);
+(ARRAY['Light Brown Sugar', 'Light Brown Sugar'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Rice Vinegar', 'Rice Vinegar']);
+(ARRAY['Rice Vinegar', 'Rice Vinegar'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Sriracha Hot Sauce', 'Sriracha Hot Sauce']);
+(ARRAY['Sriracha Sauce', 'Sriracha Sauce'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Creamy Peanut Butter', 'Creamy Peanut Butter']);
+(ARRAY['Creamy Peanut Butter', 'Creamy Peanut Butter'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 
 
 INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")
@@ -98,7 +132,7 @@ FROM
 		1.0, 'Fresh', TRUE, ''
 	),
 	(
-		ARRAY['Red Bell Pepper', 'Red Bell Pepper']::VARCHAR(64)[2],
+		ARRAY['Red Bell Pepper', 'Red Bell Peppers']::VARCHAR(64)[2],
 		ARRAY['', ''],
 		1.0, 'Thinly sliced', TRUE, ''
 	),
@@ -144,7 +178,7 @@ FROM
 		2.0, '', TRUE, 'Or Tamarind Paste'
 	),
 	(
-		ARRAY['Sriracha', 'Sriracha']::VARCHAR(64)[2],
+		ARRAY['Sriracha Sauce', 'Sriracha Sauce']::VARCHAR(64)[2],
 		ARRAY['Tablespoon', 'Tablespoons'],
 		1.0, '', TRUE, 'Or more to taste'
 	),
@@ -155,4 +189,4 @@ FROM
 	)
 ) AS "Temp"("Ingredients.names", "units", "amount", "quality", "is_required", "notes")
 JOIN "Recipes" ON "Recipes"."name" = 'Pad Thai'
-JOIN "Ingredients" ON "Temp"."Ingredients.names" = "Ingredients"."names";
+LEFT JOIN "Ingredients" ON "Temp"."Ingredients.names" = "Ingredients"."names";

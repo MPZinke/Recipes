@@ -22,17 +22,28 @@ INSERT INTO "Recipes" ("name", "rating", "serving_size", "total_time", "instruct
 
 
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Russet Potato', 'Russet Potatoes']);
+(ARRAY['Russet Potato', 'Russet Potatoes'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Salt', 'Salt']);
+(ARRAY['Salt', 'Salt'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Black Pepper', 'Black Pepper']);
+(ARRAY['Black Pepper', 'Black Pepper'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Chives', 'Chives']);
+(ARRAY['Chives', 'Chives'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Salted Butter', 'Salted Butter']);
+(ARRAY['Salted Butter', 'Salted Butter'])
+ON CONFLICT ("names", "brand") DO NOTHING;
+
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Sour Cream', 'Sour Cream']);
+(ARRAY['Sour Cream', 'Sour Cream'])
+ON CONFLICT ("names", "brand") DO NOTHING;
 
 
 INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")
@@ -73,4 +84,4 @@ FROM
 	)
 ) AS "Temp"("Ingredients.names", "units", "amount", "quality", "is_required", "notes")
 JOIN "Recipes" ON "Recipes"."name" = 'Jacket Potatoes'
-JOIN "Ingredients" ON "Temp"."Ingredients.names" = "Ingredients"."names";
+LEFT JOIN "Ingredients" ON "Temp"."Ingredients.names" = "Ingredients"."names";
