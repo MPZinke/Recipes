@@ -46,7 +46,7 @@
 
 {% macro list_ingredient(ingredient) %}
 	{% if ingredient.amount() != 0.0 %}
-		{{ ingredient.amount() | format_decimal() }}
+		{{ ingredient.amount() | format_decimal_fractionally() }}
 	{% endif %}
 
 	{{ ingredient.unit(ingredient.amount()) }}
@@ -69,7 +69,7 @@
 
 
 {% macro list_instruction(instruction) %}
-	{{ instruction }}
+	{{ instruction | replace_timer }}
 {% endmacro %}
 
 
@@ -94,8 +94,8 @@
 			</td>
 			<td style="border-left: 1px solid #cdd0d4; padding-left: 8px; padding-right: 8px;">
 				Servings:
-				<input type="number" id="servings_input" style="width:63px" min="1" value="{{ recipe.serving_size() }}"
-				  onchange="update_servings(this);"
+				<input type="number" id="servings_input" style="width:63px" min="1"
+				  value="{{ recipe.serving_size() | format_decimal() }}" onchange="update_servings(this);"
 				/>
 			</td>
 			<td style="border-left: 1px solid #cdd0d4; padding-left: 8px; padding-right: 8px;">
@@ -149,13 +149,11 @@
 		function update_servings(element)
 		{
 			const urlParams = new URLSearchParams(window.location.search);
-			const [current_numerator, current_denominator] = (urlParams.get("multiplier") || "1/1").split("/");
-			const current_servings = {{ recipe.serving_size() }};
+			const current_multiplier = urlParams.get("multiplier") || "1.0";
+			const current_servings = {{ recipe.serving_size() | format_decimal() }};
 			const new_servings = element.value;
 
-			const new_numerator = current_numerator * new_servings;
-			const new_denominator = current_denominator * current_servings;
-			const new_multiplier = `${new_numerator}/${new_denominator}`;
+			const new_multiplier = current_multiplier * new_servings / current_servings;
 			window.location.href = `${window.location.href.split('?')[0]}?multiplier=${new_multiplier}`;
 		}
 

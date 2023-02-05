@@ -5,7 +5,11 @@ from decimal import Decimal
 import re
 
 
-def format_decimal(value: Decimal) -> str:
+def format_decimal(value: Decimal, precission: str=".00") -> str:
+	return value.quantize(Decimal(precission))
+
+
+def format_decimal_fractionally(value: Decimal) -> str:
 	if(isinstance(value, int)):
 		return str(value)
 

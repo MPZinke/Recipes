@@ -26,7 +26,7 @@ import re
 from DB import Queries
 from Recipe import Recipe
 from Ingredient import Ingredient
-from HTMLRenderingHelpers import format_decimal, replace_timer
+from HTMLRenderingHelpers import format_decimal, format_decimal_fractionally, replace_timer
 
 
 ROOT_DIR = str(Path(__file__).absolute().parent)
@@ -34,8 +34,9 @@ app = Flask("Recipes", template_folder=os.path.join(ROOT_DIR, "Templates"), stat
 
 
 # FROM: https://abstractkitchen.com/blog/how-to-create-custom-jinja-filters-in-flask/
-app.jinja_env.filters["replace_timer"]=replace_timer
-app.jinja_env.filters["format_decimal"]=format_decimal
+app.jinja_env.filters["format_decimal"] = format_decimal
+app.jinja_env.filters["format_decimal_fractionally"] = format_decimal_fractionally
+app.jinja_env.filters["replace_timer"] = replace_timer
 
 
 @app.route("/")
@@ -53,14 +54,11 @@ def GET_recipes():
 
 @app.route("/recipe/<string:recipe_name>", methods=["GET"])
 def GET_recipe(recipe_name: str):
-	multiplier_text: str = request.args.get("multiplier", "1/1")
-	if(re.fullmatch(r"[0-9]+/[0-9]+", multiplier_text) is None):
-		raise Exception("Recipe multiplier must be of format '[0-9]+/[0-9]+'")
+	multiplier_text: str = request.args.get("multiplier", "1.0")
+	if(re.fullmatch(r"[0-9]+(\.[0-9]+)?", multiplier_text) is None):
+		raise Exception(r"Recipe multiplier must be of format '[0-9]+(\.[0-9]+)?'")
 
-	numerator, denominator = [int(value) for value in multiplier_text.split("/")]
-	if((multiplier := Fraction(numerator, denominator)).as_integer_ratio() != (numerator, denominator)):
-		return redirect(f"""/recipe/{recipe_name}?multiplier={"/".join(map(str, multiplier.as_integer_ratio()))}""")
-
+	multiplier = Decimal(multiplier_text)
 	recipe: Recipe = Recipe.from_name(recipe_name) * multiplier
 	return render_template("recipe.j2", recipe=recipe)
 
