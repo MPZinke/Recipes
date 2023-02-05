@@ -10,43 +10,66 @@
 ----------------------------------------------------------------------------------------------------------------------->
 
 
-{% macro list_instructions(instructions) %}
-	{% for instruction in instructions %}
+{% macro checkbox_list(list, span_macro, prefix="") %}
+	{% if list.__class__.__name__ == "dict" %}
 		<div>
-			<input type="checkbox" onclick="switch_text(this);" class="instructions" />
-			<span>
-				{{ instruction | replace_timer() }}
-			</span>
+			{% for section, section_list in list.items() %}
+				{% with section = prefix+"::"+section if(prefix) else section %}
+					<h3>
+						{{ section }}
+					</h3>
+					{{ checkbox_list(section_list, span_macro, section) }}
+				{% endwith %}
+			{% endfor %}
 		</div>
-	{% endfor %}
+
+	{% elif list.__class__.__name__ == "list" %}
+		{% if list | length > 1 %}
+			<input id="{{ prefix | urlencode }}-{{ span_macro.name }}-checkbox" type="checkbox"
+			  onclick="switch_all(this, '{{ prefix | urlencode }}-{{ span_macro.name }}');"
+			/>
+		{% endif %}
+		{% for item in list %}
+			<div>
+				<input type="checkbox" onclick="switch_text(this);"
+				  class="{{ prefix | urlencode }}-{{ span_macro.name }}"
+				/>
+				<span>
+					{{ span_macro(item) }}
+				</span>
+			</div>
+		{% endfor %}
+	{% endif %}
+
 {% endmacro %}
 
 
-{% macro list_ingredients(ingredients) %}
-	{% for ingredient in ingredients %}
-		<div>
-			<input type="checkbox" onclick="switch_text(this);" class="ingredients" />
-			<span>
-				{% if ingredient.amount() != 0.0 %}
-					{{ ingredient.amount() | format_decimal() }}
-				{% endif %}
-				{{ ingredient.unit(ingredient.amount()) }}
-				{{ ingredient.quality() }}
-				<a href="/ingredient/{{ ingredient.name() }}">{{ ingredient.name() }}</a>
-				{% if ingredient.notes() != "" %}
-					—
-					<i>
-						{{ ingredient.notes() }}
-					</i>
-				{% endif %}
-				{% if ingredient.is_required() == False %}
-					<b>
-						OPTIONAL
-					</b>
-				{% endif %}
-			</span>
-		</div>
-	{% endfor %}
+{% macro list_ingredient(ingredient) %}
+	{% if ingredient.amount() != 0.0 %}
+		{{ ingredient.amount() | format_decimal() }}
+	{% endif %}
+
+	{{ ingredient.unit(ingredient.amount()) }}
+	{{ ingredient.quality() }}
+	<a href="/ingredient/{{ ingredient.name() }}">{{ ingredient.name() }}</a>
+
+	{% if ingredient.notes() != "" %}
+		—
+		<i>
+			{{ ingredient.notes() }}
+		</i>
+	{% endif %}
+
+	{% if ingredient.is_required() == False %}
+		<b>
+			OPTIONAL
+		</b>
+	{% endif %}
+{% endmacro %}
+
+
+{% macro list_instruction(instruction) %}
+	{{ instruction }}
 {% endmacro %}
 
 
@@ -108,35 +131,12 @@
 	<h2>
 		Ingredients
 	</h2>
-	{{ list_ingredients(recipe.ingredients()) }}
-	<button id="check_button" style="margin-top:8px; margin-right:4px" onclick="check_all('ingredients');">
-		Check All
-	</button>
-	<button id="uncheck_button" style="margin-top:8px" onclick="uncheck_all('ingredients');">
-		Uncheck All
-	</button>
+	{{ checkbox_list(recipe.ingredients(), list_ingredient) }}
 
 	<h2>
 		Instructions
 	</h2>
-	{% with instructions = recipe.instructions() %}
-		{% if instructions.__class__.__name__ == "list" %}
-			{{ list_instructions(instructions) }}
-		{% elif instructions.__class__.__name__ == "dict" %}
-			{% for section, steps in instructions.items() %}
-				<h3>
-					{{ section }}
-				</h3>
-				{{ list_instructions(steps) }}
-			{% endfor %}
-		{% endif %}
-		<button id="check_button" style="margin-top:8px; margin-right:4px" onclick="check_all('instructions');">
-			Check All
-		</button>
-		<button id="uncheck_button" style="margin-top:8px;" onclick="uncheck_all('instructions');">
-			Uncheck All
-		</button>
-	{% endwith %}
+	{{ checkbox_list(recipe.instructions(), list_instruction) }}
 
 	<br><br>
 	<button onclick="history.back()">
@@ -146,6 +146,14 @@
 	<script>
 		function switch_text(checkbox)
 		{
+			const section_checkbox_class = checkbox.classList[0];
+			const all_sections_checkboxes = Array.from(document.getElementsByClassName(section_checkbox_class));
+			if(all_sections_checkboxes.length > 1)
+			{
+				const sections_master_checkbox = document.getElementById(`${section_checkbox_class}-checkbox`);
+				sections_master_checkbox.checked = all_sections_checkboxes.every((checkbox) => checkbox.checked);
+			}
+			
 			const instruction_div = checkbox.parentElement;
 			if(instruction_div.style.color != "var(--disabled-text-color)")
 			{
@@ -174,23 +182,22 @@
 		}
 
 
-		function check_all(class_name)
+		function switch_all(element, class_name)
 		{
-			const checkboxes = document.getElementsByClassName(class_name);
-			for(let x = 0; x < checkboxes.length; x++)
-			{
-				disable_text(checkboxes[x]);
-			}
-		}
-
-
-		function uncheck_all(class_name)
-		{
-			const checkboxes = document.getElementsByClassName(class_name);
-			for(let x = 0; x < checkboxes.length; x++)
-			{
-				enable_text(checkboxes[x]);
-			}
+			const checkboxes = Array.from(document.getElementsByClassName(class_name));
+			checkboxes.forEach(
+				checkbox =>
+				{
+					if(element.checked)
+					{
+						disable_text(checkbox);
+					}
+					else
+					{
+						enable_text(checkbox);
+					}
+				}
+			);
 		}
 	</script>
 {% endblock %}
