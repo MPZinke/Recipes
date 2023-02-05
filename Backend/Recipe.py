@@ -131,6 +131,8 @@ class Recipe(object):
 		if(isinstance(amount, float)):
 			amount = Decimal(amount)
 
+		self._serving_size *= amount
+
 		for ingredient in self._ingredients:
 			ingredient *= amount
 

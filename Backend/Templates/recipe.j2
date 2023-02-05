@@ -70,8 +70,8 @@
 				{% endfor %}
 			</td>
 			<td style="border-left: 1px solid #cdd0d4; padding-left: 8px; padding-right: 8px;">
-				Serving Size:
-				{{ recipe.serving_size() }}
+				Servings:
+				<input type="number" id="servings_input" style="width:63px" min="1" value="{{ recipe.serving_size() }}">
 			</td>
 			<td style="border-left: 1px solid #cdd0d4; padding-left: 8px; padding-right: 8px;">
 				<!-- This is here to add a right closing border -->
