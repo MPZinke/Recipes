@@ -14,7 +14,8 @@ __author__ = "MPZinke"
 ########################################################################################################################
 
 
-from flask import Flask, render_template
+from decimal import Decimal
+from flask import Flask, render_template, request
 from jinja2 import Environment
 import os
 from pathlib import Path
@@ -44,8 +45,9 @@ def GET_recipes():
 
 @app.route("/recipe/<string:recipe_name>", methods=["GET"])
 def GET_recipe(recipe_name: str):
+	multiplier: float = Decimal(request.args.get("multiplier", 1.0))
 	recipe: Recipe = Recipe.from_name(recipe_name)
-	recipe *= 1.0
+	recipe *= multiplier
 	return render_template("recipe.j2", recipe=recipe)
 
 
