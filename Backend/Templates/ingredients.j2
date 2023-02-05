@@ -1,0 +1,26 @@
+
+<!----------------------------------------------------------------------------------------------------------------------
+-                                                                                                                      -
+-    Created by: MPZinke on 2023.01.22                                                                                 -
+-                                                                                                                      -
+-    DESCRIPTION:                                                                                                      -
+-    BUGS:                                                                                                             -
+-    FUTURE:                                                                                                           -
+-                                                                                                                      -
+----------------------------------------------------------------------------------------------------------------------->
+
+
+{% extends "header.j2" %}
+{% block body %}
+	<table>
+		{% for ingredient in ingredients %}
+			<tr>
+				<td>
+					<a href="/ingredient/{{ ingredient.names()[0] }}">
+						{{ ingredient.names()[0] }}
+					</a>
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
+{% endblock %}

@@ -37,6 +37,13 @@ app.jinja_env.filters["replace_timer"]=replace_timer
 app.jinja_env.filters["format_decimal"]=format_decimal
 
 
+@app.route("/")
+def GET_():
+	# FROM: https://stackoverflow.com/a/36011663
+	# return "<a href='alarm-clock://' target='_blank'>Timer</a>"
+	return "<a href='clock-timer://'>Timer</a>"
+
+
 @app.route("/recipes", methods=["GET"])
 def GET_recipes():
 	recipes: list[Recipe] = Recipe.all()
@@ -49,6 +56,12 @@ def GET_recipe(recipe_name: str):
 	recipe: Recipe = Recipe.from_name(recipe_name)
 	recipe *= multiplier
 	return render_template("recipe.j2", recipe=recipe)
+
+
+@app.route("/ingredients", methods=["GET"])
+def GET_ingredients():
+	ingredients: list[Ingredient] = Ingredient.all()
+	return render_template("ingredients.j2", ingredients=ingredients)
 
 
 @app.route("/ingredient/<string:ingredient_name>", methods=["GET"])

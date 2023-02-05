@@ -17,6 +17,8 @@ __author__ = "MPZinke"
 from DB.Connection import connection_wrapper
 
 
+# —————————————————————————————————————————————————————— RECIPE —————————————————————————————————————————————————————— #
+
 @connection_wrapper
 def SELECT_ALL_FROM_Recipes(cursor) -> list[dict]:
 	query: str = """
@@ -52,6 +54,8 @@ def SELECT_ALL_FROM_Recipes_WHERE_name(cursor, name: str) -> dict | None:
 	return next(cursor, None)
 
 
+# ————————————————————————————————————————————————— RECIPEINGREDIENT ————————————————————————————————————————————————— #
+
 @connection_wrapper
 def SELECT_ALL_FROM_RecipesIngredients_WHERE_Recipes_id(cursor, Recipe_id: int) -> list[dict]:
 	query: str = """
@@ -79,6 +83,19 @@ def SELECT_ALL_FROM_RecipesIngredients_WHERE_Ingredients_name(cursor, Ingredient
 	return next(cursor, None)
 
 
+# ———————————————————————————————————————————————————— INGREDIENT ———————————————————————————————————————————————————— #
+
+@connection_wrapper
+def SELECT_ALL_FROM_Ingredients(cursor) -> dict | None:
+	query: str = """
+		SELECT *
+		FROM "Ingredients"
+		WHERE "is_deleted" = FALSE;
+	"""
+	cursor.execute(query)
+	return [ingredient for ingredient in cursor]
+
+
 @connection_wrapper
 def SELECT_ALL_FROM_Ingredients_WHERE_name(cursor, name: str) -> dict | None:
 	query: str = """
@@ -89,17 +106,3 @@ def SELECT_ALL_FROM_Ingredients_WHERE_name(cursor, name: str) -> dict | None:
 	"""
 	cursor.execute(query, (name,))
 	return next(cursor, None)
-
-
-@connection_wrapper
-def SELECT_Recipes_name_FROM_RecipesIngredients_WHERE_Ingredients_name(cursor, Ingredients_name: str) -> list[dict]:
-	query: str = """
-		SELECT "Recipes"."name"
-		FROM "RecipesIngredients"
-		JOIN "Ingredients" ON "RecipesIngredients"."Ingredients.id" = "Ingredients"."id"
-		JOIN "Recipes" ON "RecipesIngredients"."Recipes.id" = "Recipes"."id"
-		WHERE %s = ANY("Ingredients"."names")
-		  AND "RecipesIngredients"."is_deleted" = FALSE;
-	"""
-	cursor.execute(query, (Ingredients_name,))
-	return [recipe_name for recipe_name in cursor]

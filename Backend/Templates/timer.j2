@@ -10,423 +10,431 @@
 ----------------------------------------------------------------------------------------------------------------------->
 
 
-<div>
+{% extends "header.j2" %}
+{% block body %}
 	<div>
-		<h3>
-			Remaining Time
-		</h3>
-		<h1 id="time_h3">
-		</h1>
+		<div>
+			<h3>
+				Remaining Time
+			</h3>
+			<h1 id="time_h3">
+			</h1>
+		</div>
+
+		<div id="completed_div" hidden>
+			<h3>
+				Completed At
+			</h3>
+			<h4 id="completed_h4">
+			</h4>
+		</div>
+
+		<button id="reset_button" onclick="reset();">
+			Reset
+		</button>
+		<button id="pause_button" onclick="pause();">
+			Pause
+		</button>
+		<button id="resume_button" onclick="resume();">
+			Resume
+		</button>
+		<button id="start_button" onclick="start();">
+			Start
+		</button>
+		<audio controls hidden>
+			<source src="{{ url_for('static', filename='DigitalAlarmClock.wav') }}" type="audio/wav">
+			## <source src="horse.mp3" type="audio/mpeg">
+			Your browser does not support the audio element.
+		</audio>
 	</div>
 
-	<div id="completed_div" hidden>
-		<h3>
-			Completed At
-		</h3>
-		<h4 id="completed_h4">
-		</h4>
-	</div>
 
-	<button id="reset_button" onclick="reset();">
-		Reset
-	</button>
-	<button id="pause_button" onclick="pause();">
-		Pause
-	</button>
-	<button id="resume_button" onclick="resume();">
-		Resume
-	</button>
-	<button id="start_button" onclick="start();">
-		Start
-	</button>
-	<audio controls hidden>
-		<source src="{{ url_for('static', filename='DigitalAlarmClock.wav') }}" type="audio/wav">
-		## <source src="horse.mp3" type="audio/mpeg">
-		Your browser does not support the audio element.
-	</audio>
-</div>
+	<script>
+		const TIME_H3 = document.getElementById("time_h3");
+		const COMPLETED_H4 = document.getElementById("completed_h4");
+		const COMPLETED_DIV = document.getElementById("completed_div");
+		const PAUSE_BUTTON = document.getElementById("pause_button");
+		const RESUME_BUTTON = document.getElementById("resume_button");
+		const START_BUTTON = document.getElementById("start_button");
+
+		const ALARM_AUDIO = new Audio("{{ url_for('static', filename='DigitalAlarmClock.wav') }}");
+		ALARM_AUDIO.loop = true;
+
+		// "end_time": Controls whether the timer is set & running
+		// "is_running": Controls whether a timer is currently counting down
+		// "paused_remaining_duration": Controls whether the timer is paused & how much time is remaining
+		// "timer_duration": Controls whether the current timer is valid
+
+		let BLINK_THREAD = null;
+		let TIMER_THREAD = null;
 
 
-<script>
-	const TIME_H3 = document.getElementById("time_h3");
-	const COMPLETED_H4 = document.getElementById("completed_h4");
-	const COMPLETED_DIV = document.getElementById("completed_div");
-	const PAUSE_BUTTON = document.getElementById("pause_button");
-	const RESUME_BUTTON = document.getElementById("resume_button");
-	const START_BUTTON = document.getElementById("start_button");
-
-	const ALARM_AUDIO = new Audio("{{ url_for('static', filename='DigitalAlarmClock.wav') }}");
-	ALARM_AUDIO.loop = true;
-
-	// "end_time": Controls whether the timer is set & running
-	// "is_running": Controls whether a timer is currently counting down
-	// "paused_remaining_duration": Controls whether the timer is paused & how much time is remaining
-	// "timer_duration": Controls whether the current timer is valid
-
-	let BLINK_THREAD = null;
-	let TIMER_THREAD = null;
-
-
-	function parse_duration_from_url()
-	{
-		const url = window.location.href;
-		const url_parts = url.split("/");
-		const duration_part = url_parts[url_parts.length-1];
-
-		const duration_parts = duration_part.split(":");
-		const hours = parseInt(duration_parts[0]);
-		const minutes = parseInt(duration_parts[1]);
-		const seconds = parseInt(duration_parts[2]);
-
-		return hours * 3_600_000 + minutes * 60_000 + seconds * 1_000;
-	}
-
-
-	function get_session_var(key)
-	{
-		return JSON.parse(window.sessionStorage.getItem(key));
-	}
-
-
-	function set_session_var(key, value)
-	{
-		window.sessionStorage.setItem(key, value);
-	}
-
-
-	// —————————————————————————————————————————————————— DISPLAY  —————————————————————————————————————————————————— //
-	// —————————————————————————————————————————————————— DISPLAY  —————————————————————————————————————————————————— //
-	// —————————————————————————————————————————————————————————————————————————————————————————————————————————————— //
-
-	function blink(element)
-	{
-		element.style.opacity = element.style.opacity == 0.0 ? 1.0 : 0.0;
-	}
-
-
-	function display_alarm()
-	{
-		show_start_button();
-		display_remaining_duration(0);
-		display_completed_time(get_session_var("end_time"));
-	}
-
-
-	function display_completed_timer()
-	{
-		show_start_button();
-		display_remaining_duration(0);
-		display_completed_time(get_session_var("end_time"));
-	}
-
-
-	function display_paused_timer()
-	{
-		show_resume_button();
-		BLINK_THREAD = setInterval(() => { blink(TIME_H3); }, 750);
-		display_remaining_duration(get_session_var("paused_remaining_duration"));
-	}
-
-
-	function display_reset_timer()
-	{
-		show_start_button();
-		stop_blink(TIME_H3);
-		display_remaining_duration(get_session_var("timer_duration"));
-	}
-
-
-	function display_running_timer()
-	{
-		show_pause_button();
-		stop_blink(TIME_H3);
-		display_remaining_duration(get_session_var("end_time") - Date.now());
-	}
-
-
-	function hide_completed_time()
-	{
-		COMPLETED_DIV.hidden = true;
-	}
-
-	// —————————————————————————————————————————————— DISPLAY::BUTTONS —————————————————————————————————————————————— //
-
-	function show_pause_button()
-	{
-		PAUSE_BUTTON.hidden = false;
-		RESUME_BUTTON.hidden = true;
-		START_BUTTON.hidden = true;
-	}
-
-
-	function show_resume_button()
-	{
-		PAUSE_BUTTON.hidden = true;
-		RESUME_BUTTON.hidden = false;
-		START_BUTTON.hidden = true;
-	}
-
-
-	function show_start_button()
-	{
-		PAUSE_BUTTON.hidden = true;
-		RESUME_BUTTON.hidden = true;
-		START_BUTTON.hidden = false;
-	}
-
-
-	function stop_blink(element)
-	{
-		if(BLINK_THREAD != null)
+		function parse_duration_from_url()
 		{
-			clearInterval(BLINK_THREAD);
-			BLINK_THREAD = null;
+			const url = window.location.href;
+			const url_parts = url.split("/");
+			const duration_part = url_parts[url_parts.length-1];
+
+			const duration_parts = duration_part.split(":");
+			const hours = parseInt(duration_parts[0]);
+			const minutes = parseInt(duration_parts[1]);
+			const seconds = parseInt(duration_parts[2]);
+
+			return hours * 3_600_000 + minutes * 60_000 + seconds * 1_000;
 		}
 
-		element.style.opacity = 1.0;
-	}
 
-
-	// ——————————————————————————————————————————— DISPLAY::HTML  SETTING ——————————————————————————————————————————— //
-
-	function display_completed_time(time_unix_ms)
-	{
-		let date = new Date(time_unix_ms);
-		let hours = date.getHours();
-		let minutes = "0" + date.getMinutes();
-		let seconds = "0" + date.getSeconds();
-
-		// Will display time in 10:30:23 format
-		let formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-
-		COMPLETED_H4.innerHTML = formattedTime;
-		COMPLETED_DIV.hidden = false;
-	}
-
-
-	function display_remaining_duration(remaining_duration_ms)
-	{
-		const hours = Math.floor(remaining_duration_ms / 3_600_000);
-		const minutes = Math.floor((remaining_duration_ms % 3_600_000) / 60_000);
-		const seconds = Math.floor((remaining_duration_ms % 60_000) / 1_000);
-
-		let remaining_duration_string = seconds;
-
-		if(minutes || hours)
+		function get_session_var(key)
 		{
-			if(seconds < 10)
+			return JSON.parse(window.sessionStorage.getItem(key));
+		}
+
+
+		function set_session_var(key, value)
+		{
+			window.sessionStorage.setItem(key, value);
+		}
+
+
+		// ———————————————————————————————————————————————— DISPLAY  ———————————————————————————————————————————————— //
+
+		// ———————————————————————————————————————————— DISPLAY::STATES  ———————————————————————————————————————————— //
+		// —————————————————————————————————————————————————————————————————————————————————————————————————————————— //
+
+		function display_alarm()
+		{
+			hide_completed_time();
+			show_start_button();
+			display_remaining_duration(0);
+			display_completed_time(get_session_var("end_time"));
+		}
+
+
+		function display_completed_timer()
+		{
+			hide_completed_time();
+			show_start_button();
+			display_remaining_duration(0);
+			display_completed_time(get_session_var("end_time"));
+		}
+
+
+		function display_paused_timer()
+		{
+			hide_completed_time();
+			show_resume_button();
+			BLINK_THREAD = setInterval(() => { blink(TIME_H3); }, 750);
+			display_remaining_duration(get_session_var("paused_remaining_duration"));
+		}
+
+
+		function display_reset_timer()
+		{
+			hide_completed_time();
+			show_start_button();
+			stop_blink(TIME_H3);
+			display_remaining_duration(get_session_var("timer_duration"));
+		}
+
+
+		function display_running_timer()
+		{
+			hide_completed_time();
+			show_pause_button();
+			stop_blink(TIME_H3);
+			display_remaining_duration(get_session_var("end_time") - Date.now());
+		}
+
+
+		function hide_completed_time()
+		{
+			COMPLETED_DIV.hidden = true;
+		}
+
+		// —————————————————————————————————————————————— DISPLAY::BUTTONS —————————————————————————————————————————————— //
+
+		function show_pause_button()
+		{
+			PAUSE_BUTTON.hidden = false;
+			RESUME_BUTTON.hidden = true;
+			START_BUTTON.hidden = true;
+		}
+
+
+		function show_resume_button()
+		{
+			PAUSE_BUTTON.hidden = true;
+			RESUME_BUTTON.hidden = false;
+			START_BUTTON.hidden = true;
+		}
+
+
+		function show_start_button()
+		{
+			PAUSE_BUTTON.hidden = true;
+			RESUME_BUTTON.hidden = true;
+			START_BUTTON.hidden = false;
+		}
+
+		// ————————————————————————————————————————— DISPLAY::HTML  SETTING ————————————————————————————————————————— //
+
+		function blink(element)
+		{
+			element.style.opacity = element.style.opacity == 0.0 ? 1.0 : 0.0;
+		}
+
+
+		function stop_blink(element)
+		{
+			if(BLINK_THREAD != null)
 			{
-				remaining_duration_string = `0${remaining_duration_string}`;
+				clearInterval(BLINK_THREAD);
+				BLINK_THREAD = null;
 			}
 
-			remaining_duration_string = `${minutes}:${remaining_duration_string}`;
+			element.style.opacity = 1.0;
 		}
 
-		if(hours)
+
+		// ————————————————————————————————————————— DISPLAY::HTML  SETTING ————————————————————————————————————————— //
+
+		function display_completed_time(time_unix_ms)
 		{
-			if(minutes < 10)
+			let date = new Date(time_unix_ms);
+			let hours = date.getHours();
+			let minutes = "0" + date.getMinutes();
+			let seconds = "0" + date.getSeconds();
+
+			// Will display time in 10:30:23 format
+			let formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+
+			COMPLETED_H4.innerHTML = formattedTime;
+			COMPLETED_DIV.hidden = false;
+		}
+
+
+		function display_remaining_duration(remaining_duration_ms)
+		{
+			const hours = Math.floor(remaining_duration_ms / 3_600_000);
+			const minutes = Math.floor((remaining_duration_ms % 3_600_000) / 60_000);
+			const seconds = Math.floor((remaining_duration_ms % 60_000) / 1_000);
+
+			let remaining_duration_string = seconds;
+
+			if(minutes || hours)
 			{
-				remaining_duration_string = `0${remaining_duration_string}`;
+				if(seconds < 10)
+				{
+					remaining_duration_string = `0${remaining_duration_string}`;
+				}
+
+				remaining_duration_string = `${minutes}:${remaining_duration_string}`;
 			}
 
-			remaining_duration_string = `${hours}:${remaining_duration_string}`;
+			if(hours)
+			{
+				if(minutes < 10)
+				{
+					remaining_duration_string = `0${remaining_duration_string}`;
+				}
+
+				remaining_duration_string = `${hours}:${remaining_duration_string}`;
+			}
+
+			TIME_H3.innerHTML = remaining_duration_string;
 		}
 
-		TIME_H3.innerHTML = remaining_duration_string;
-	}
 
-
-	function play_alarm_audio()
-	{
-		if (typeof ALARM_AUDIO.loop == 'boolean')
+		function play_alarm_audio()
 		{
-			ALARM_AUDIO.loop = true;
-			console.log("looping");
+			if (typeof ALARM_AUDIO.loop == 'boolean')
+			{
+				ALARM_AUDIO.loop = true;
+				console.log("looping");
+			}
+			else
+			{
+				ALARM_AUDIO.addEventListener('ended', 
+					function()
+					{
+						this.currentTime = 0;
+						this.play();
+						console.log("restarting");
+					},
+					false
+				);
+			}
+			ALARM_AUDIO.play();
 		}
+
+
+		// ———————————————————————————————————————————————— ACTIONS  ———————————————————————————————————————————————— //
+
+		function alarm()
+		{
+			stop_timer();
+			display_alarm();
+			play_alarm_audio();
+			// ALARM_AUDIO.pause();
+		}
+
+
+		function countdown()
+		{
+			/*
+			SUMMARY: Called by timer thread to determine state in countdown process.
+			*/
+			if(get_session_var("end_time") < Date.now())
+			{
+				return alarm();
+			}
+
+			display_running_timer();
+		}
+
+
+		// ————————————————————————————————————————————————— TIMER  ————————————————————————————————————————————————— //
+
+		function load_timer()
+		{
+			/*
+			SUMMARY: Reinitializes the thread to countdown a timer.
+			*/
+			TIMER_THREAD = setInterval(countdown, 200);
+		}
+
+
+		function pause_timer()
+		{
+			/*
+			SUMMARY: Stops the countdown and saves the remaining time.
+			*/
+			stop_timer();
+
+			set_session_var("paused_remaining_duration", get_session_var("end_time") - Date.now());
+			window.sessionStorage.removeItem("end_time");
+		}
+
+
+		function reset_timer()
+		{
+			/*
+			SUMMARY: Stops a timer and resets the end time.
+			*/
+			stop_timer();
+
+			window.sessionStorage.removeItem("end_time");
+			window.sessionStorage.removeItem("is_running");
+			window.sessionStorage.removeItem("paused_remaining_duration");
+			set_session_var("timer_duration", parse_duration_from_url());
+		}
+
+
+		function resume_timer()
+		{
+			/*
+			SUMMARY: Resumes at timer after being paused.
+			*/
+			set_session_var("end_time", Date.now() + get_session_var("paused_remaining_duration"));
+			set_session_var("is_running", true);
+			window.sessionStorage.removeItem("paused_remaining_duration");
+
+			TIMER_THREAD = setInterval(countdown, 200);
+		}
+
+
+		function start_timer()
+		{
+			/*
+			SUMMARY: Start a timer if none exists and continues for remaining amount if a timer does exist.
+			*/
+			// Since a timer has started, we can assume it is going based off of the URL.
+			let timer_duration = parse_duration_from_url();
+			set_session_var("timer_duration", timer_duration);
+			set_session_var("end_time", Date.now() + timer_duration);
+			set_session_var("is_running", true);
+
+			TIMER_THREAD = setInterval(countdown, 200);
+		}
+
+
+		function stop_timer()
+		{
+			/*
+			SUMMARY: Stop the count down.
+			*/
+			if(TIMER_THREAD != null)
+			{
+				clearInterval(TIMER_THREAD);
+				TIMER_THREAD = null;
+			}
+
+			set_session_var("is_running", false);
+		}
+
+
+		// ———————————————————————————————————————— TIMER-DISPLAY  FUNCTIONS ———————————————————————————————————————— //
+
+		function pause()
+		{
+			pause_timer();
+			display_paused_timer();
+		}
+
+
+		function reset()
+		{
+			reset_timer();
+			display_reset_timer();
+		}
+
+
+		function resume()
+		{
+			resume_timer();
+			display_running_timer();
+		}
+
+
+		function start()
+		{
+			start_timer();
+			display_running_timer();
+		}
+
+
+		// ———————————————————————————————————————————————————— RUN  ———————————————————————————————————————————————————— //
+
+		// If the time has been changed.
+		if(get_session_var("timer_duration") != null && get_session_var("timer_duration") != parse_duration_from_url())
+		{
+			reset();
+		}
+		// A timer has completed regardless of whether it was running
+		else if(get_session_var("end_time") != null && get_session_var("end_time") <= Date.now())
+		{
+			display_completed_timer();
+		}
+		// If timer is not complete && duration is unchanged
+			// Continue timer
+		else if(get_session_var("is_running") == true && Date.now() < get_session_var("end_time"))
+		/* [IMPLICIT] && get_session_var("timer_duration") == parse_duration_from_url() */
+		{
+			load_timer();
+			display_running_timer();
+		}
+		// If a paused timer exists,
+			// Load paused timer
+		else if(get_session_var("paused_remaining_duration") != null)
+		{
+			display_paused_timer();
+		}
+		// If a timer's duration has changed or the timer is not longer running.
+			// Setup page for new timer
 		else
 		{
-			ALARM_AUDIO.addEventListener('ended', 
-				function()
-				{
-					this.currentTime = 0;
-					this.play();
-					console.log("restarting");
-				},
-				false
-			);
-		}
-		ALARM_AUDIO.play();
-	}
-
-
-	// —————————————————————————————————————————————————— ACTIONS  —————————————————————————————————————————————————— //
-
-	function alarm()
-	{
-		stop_timer();
-		display_alarm();
-		play_alarm_audio();
-		// ALARM_AUDIO.pause();
-	}
-
-
-	function countdown()
-	{
-		/*
-		SUMMARY: Called by timer thread to determine state in countdown process.
-		*/
-		if(get_session_var("end_time") < Date.now())
-		{
-			return alarm();
+			reset();  // invalidate the end_time
 		}
 
-		display_running_timer();
-	}
-
-
-	// ——————————————————————————————————————————————————— TIMER  ——————————————————————————————————————————————————— //
-
-	function load_timer()
-	{
-		/*
-		SUMMARY: Reinitializes the thread to countdown a timer.
-		*/
-		TIMER_THREAD = setInterval(countdown, 200);
-	}
-
-
-	function pause_timer()
-	{
-		/*
-		SUMMARY: Stops the countdown and saves the remaining time.
-		*/
-		stop_timer();
-
-		set_session_var("paused_remaining_duration", get_session_var("end_time") - Date.now());
-		window.sessionStorage.removeItem("end_time");
-	}
-
-
-	function reset_timer()
-	{
-		/*
-		SUMMARY: Stops a timer and resets the end time.
-		*/
-		stop_timer();
-
-		window.sessionStorage.removeItem("end_time");
-		window.sessionStorage.removeItem("is_running");
-		window.sessionStorage.removeItem("paused_remaining_duration");
-		set_session_var("timer_duration", parse_duration_from_url());
-	}
-
-
-	function resume_timer()
-	{
-		/*
-		SUMMARY: Resumes at timer after being paused.
-		*/
-		set_session_var("end_time", Date.now() + get_session_var("paused_remaining_duration"));
-		set_session_var("is_running", true);
-		window.sessionStorage.removeItem("paused_remaining_duration");
-
-		TIMER_THREAD = setInterval(countdown, 200);
-	}
-
-
-	function start_timer()
-	{
-		/*
-		SUMMARY: Start a timer if none exists and continues for remaining amount if a timer does exist.
-		*/
-		// Since a timer has started, we can assume it is going based off of the URL.
-		let timer_duration = parse_duration_from_url();
-		set_session_var("timer_duration", timer_duration);
-		set_session_var("end_time", Date.now() + timer_duration);
-		set_session_var("is_running", true);
-
-		TIMER_THREAD = setInterval(countdown, 200);
-	}
-
-
-	function stop_timer()
-	{
-		/*
-		SUMMARY: Stop the count down.
-		*/
-		if(TIMER_THREAD != null)
-		{
-			clearInterval(TIMER_THREAD);
-			TIMER_THREAD = null;
-		}
-
-		set_session_var("is_running", false);
-	}
-
-
-	// —————————————————————————————————————————— TIMER-DISPLAY  FUNCTIONS —————————————————————————————————————————— //
-
-	function pause()
-	{
-		pause_timer();
-		display_paused_timer();
-	}
-
-
-	function reset()
-	{
-		reset_timer();
-		display_reset_timer();
-	}
-
-
-	function resume()
-	{
-		resume_timer();
-		display_running_timer();
-	}
-
-
-	function start()
-	{
-		start_timer();
-		display_running_timer();
-	}
-
-
-	// ———————————————————————————————————————————————————— RUN  ———————————————————————————————————————————————————— //
-
-	// If the time has been changed.
-	if(get_session_var("timer_duration") != null && get_session_var("timer_duration") != parse_duration_from_url())
-	{
-		reset_timer();
-		display_reset_timer();
-	}
-	// A timer has completed regardless of whether it was running
-	else if(get_session_var("end_time") != null && get_session_var("end_time") <= Date.now())
-	{
-		display_completed_timer();
-	}
-	// If timer is not complete && duration is unchanged
-		// Continue timer
-	else if(get_session_var("is_running") == true && Date.now() < get_session_var("end_time"))
-	/* [IMPLICIT] && get_session_var("timer_duration") == parse_duration_from_url() */
-	{
-		load_timer();
-		display_running_timer();
-	}
-	// If a paused timer exists,
-		// Load paused timer
-	else if(get_session_var("paused_remaining_duration") != null)
-	{
-		display_paused_timer();
-	}
-	// If a timer's duration has changed or the timer is not longer running.
-		// Setup page for new timer
-	else
-	{
-		reset_timer();  // invalidate the endtime
-		display_reset_timer();
-	}
-
-</script>
+	</script>
+{% endblock %}

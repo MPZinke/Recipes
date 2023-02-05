@@ -19,6 +19,13 @@ class Ingredient:
 
 
 	@staticmethod
+	def all() -> list[Ingredient]:
+		ingredient_data: list[dict] = Queries.SELECT_ALL_FROM_Ingredients()
+		ingredient_data.sort(key=lambda ingredient: ingredient["names"][0])
+		return [Ingredient(**ingredient) for ingredient in ingredient_data]
+
+
+	@staticmethod
 	def from_name(name: str) -> Ingredient|None:
 		if(not isinstance(name, str)):
 			raise Exception(f"name must be of type 'str', not type '{type(name)}'")
