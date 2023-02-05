@@ -11,7 +11,7 @@
 ***********************************************************************************************************************/
 
 
-INSERT INTO "Recipes" ("name", "rating", "serving_size", "total_time", "instructions") VALUES
+INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "instructions") VALUES
 ('Jacket Potatoes', 4, 1, INTERVAL '4 HOURS', 
 	'[
 		"Slice a cross shape about 1/4-inch thick into each potato. This helps them release some steam, makes the interior more fluffy, and also makes them easier to slice into when they''re piping hot.",

@@ -46,7 +46,7 @@
 
 {% macro list_ingredient(ingredient) %}
 	{% if ingredient.amount() != 0.0 %}
-		{{ ingredient.amount() | format_decimal_fractionally() }}
+		{{ ingredient.amount() | format_decimal_fractionally }}
 	{% endif %}
 
 	{{ ingredient.unit(ingredient.amount()) }}
@@ -95,7 +95,7 @@
 			<td style="border-left: 1px solid #cdd0d4; padding-left: 8px; padding-right: 8px;">
 				Servings:
 				<input type="number" id="servings_input" style="width:63px" min="1"
-				  value="{{ recipe.serving_size() | format_decimal() }}" onchange="update_servings(this);"
+				  value="{{ recipe.servings() | format_decimal }}" onchange="update_servings(this);"
 				/>
 			</td>
 			<td style="border-left: 1px solid #cdd0d4; padding-left: 8px; padding-right: 8px;">
@@ -150,7 +150,7 @@
 		{
 			const urlParams = new URLSearchParams(window.location.search);
 			const current_multiplier = urlParams.get("multiplier") || "1.0";
-			const current_servings = {{ recipe.serving_size() | format_decimal() }};
+			const current_servings = {{ recipe.servings() | format_decimal }};
 			const new_servings = element.value;
 
 			const new_multiplier = current_multiplier * new_servings / current_servings;

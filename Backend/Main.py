@@ -72,8 +72,8 @@ def GET_ingredients():
 @app.route("/ingredient/<string:ingredient_name>", methods=["GET"])
 def GET_ingredient(ingredient_name: str):
 	ingredient: Ingredient = Ingredient.from_name(ingredient_name)
-	recipes: list[dict] = Queries.SELECT_Recipes_name_FROM_RecipesIngredients_WHERE_Ingredients_name(ingredient_name)
-	recipe_names: list[str] = [recipe["name"] for recipe in recipes]
+	recipe_names: list[str] = Queries.SELECT_Recipes_name_FROM_RecipesIngredients_WHERE_Ingredients_name(ingredient_name)
+	# recipe_names: list[str] = [recipe["name"] for recipe in recipes]
 	return render_template("ingredient.j2", ingredient=ingredient, recipe_names=recipe_names)
 
 

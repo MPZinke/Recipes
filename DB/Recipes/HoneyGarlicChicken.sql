@@ -14,7 +14,7 @@
 -- https://healthyfitnessmeals.com/honey-garlic-chicken/#recipe
 
 
-INSERT INTO "Recipes" ("name", "rating", "serving_size", "total_time", "instructions") VALUES
+INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "instructions") VALUES
 ('Honey Garlic Chicken', 3, 3, INTERVAL '4 HOURS', 
 	'[
 		"Prepare 2 bowls, one with beaten egg, and the second with cornstarch mixed with a pinch of salt and pepper.",

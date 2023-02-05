@@ -30,7 +30,7 @@ Recipe = TypeVar("Recipe");
 
 class Recipe(object):
 	def __init__(self, *, id: int, is_deleted: bool, name: str, instructions: dict|list, notes: str, rating: int,
-	  serving_size: int, prep_time: timedelta, cook_time: timedelta, total_time: timedelta,
+	  servings: int, prep_time: timedelta, cook_time: timedelta, total_time: timedelta,
 	  ingredients: list[RecipeIngredient]):
 		self._id: int = id
 		self._is_deleted: bool = is_deleted
@@ -38,7 +38,7 @@ class Recipe(object):
 		self._instructions: dict|list = instructions
 		self._notes: str = notes
 		self._rating: int = rating
-		self._serving_size: int = serving_size
+		self._servings: int = servings
 		self._prep_time: timedelta = prep_time
 		self._cook_time: timedelta = cook_time
 		self._total_time: timedelta = total_time
@@ -90,8 +90,8 @@ class Recipe(object):
 		return self._rating
 
 
-	def serving_size(self) -> int:
-		return self._serving_size
+	def servings(self) -> int:
+		return self._servings
 
 
 	def prep_time(self) -> timedelta:
@@ -116,14 +116,14 @@ class Recipe(object):
 		if(isinstance(amount, float)):
 			amount = Decimal(amount)
 
-		serving_size = self._serving_size * amount
+		servings = self._servings * amount
 		if(isinstance(amount, Fraction)):
 			amount = Decimal(float(amount))
-			serving_size = Decimal(float(serving_size))
+			servings = Decimal(float(servings))
 
 		ingredients: list[RecipeIngredient] = [ingredient * amount for ingredient in self._ingredients]
 		return Recipe(id=self._id, is_deleted=self._is_deleted, name=self._name, instructions=self._instructions,
-		  notes=self._notes, rating=self._rating, serving_size=serving_size, prep_time=self._prep_time,
+		  notes=self._notes, rating=self._rating, servings=servings, prep_time=self._prep_time,
 		  cook_time=self._cook_time, total_time=self._total_time, ingredients=ingredients)
 
 
@@ -135,12 +135,12 @@ class Recipe(object):
 		if(isinstance(amount, float)):
 			amount = Decimal(amount)
 
-		print(self._serving_size)
-		self._serving_size *= amount
-		print(self._serving_size)
+		print(self._servings)
+		self._servings *= amount
+		print(self._servings)
 		if(isinstance(amount, Fraction)):
 			amount = Decimal(float(amount))
-			self._serving_size = Decimal(float(self._serving_size))
+			self._servings = Decimal(float(self._servings))
 
 		for ingredient in self._ingredients:
 			ingredient *= amount

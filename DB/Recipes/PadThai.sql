@@ -11,7 +11,7 @@
 ***********************************************************************************************************************/
 
 
-INSERT INTO "Recipes" ("name", "rating", "serving_size", "total_time", "prep_time", "cook_time", "instructions") VALUES
+INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "prep_time", "cook_time", "instructions") VALUES
 ('Pad Thai', 5, 4, INTERVAL '30 MINUTES', INTERVAL '15 MINUTES', INTERVAL '15 MINUTES',  
 	'[
 		"Make sauce by combining sauce ingredients in a bowl. Set aside.",

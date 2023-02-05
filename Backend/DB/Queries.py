@@ -83,6 +83,22 @@ def SELECT_ALL_FROM_RecipesIngredients_WHERE_Ingredients_name(cursor, Ingredient
 	return next(cursor, None)
 
 
+@connection_wrapper
+def SELECT_Recipes_name_FROM_RecipesIngredients_WHERE_Ingredients_name(cursor, Ingredients_name: str) -> list[dict]:
+	query: str = """
+		SELECT "Recipes"."name"
+		FROM "RecipesIngredients"
+		JOIN "Ingredients" ON "RecipesIngredients"."Ingredients.id" = "Ingredients"."id"
+		JOIN "Recipes" ON "RecipesIngredients"."Recipes.id" = "Recipes"."id"
+		WHERE %s = ANY("Ingredients"."names")
+		  AND "RecipesIngredients"."is_deleted" = FALSE
+		GROUP BY "Recipes"."name"
+		ORDER BY "Recipes"."name" ASC;
+	"""
+	cursor.execute(query, (Ingredients_name,))
+	return [recipe["name"] for recipe in cursor]
+
+
 # ———————————————————————————————————————————————————— INGREDIENT ———————————————————————————————————————————————————— #
 
 @connection_wrapper

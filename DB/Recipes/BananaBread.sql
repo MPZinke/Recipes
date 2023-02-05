@@ -11,7 +11,7 @@
 ***********************************************************************************************************************/
 
 
-INSERT INTO "Recipes" ("name", "rating", "serving_size", "total_time", "cook_time", "prep_time", "instructions") VALUES
+INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "cook_time", "prep_time", "instructions") VALUES
 ('Banana Bread', 5, 3, INTERVAL '1 HOURS 20 MINUTES', INTERVAL '50 MINUTES', INTERVAL '30 MINUTES',
 	'[
 		"Combine and stir dry ingredients.",
