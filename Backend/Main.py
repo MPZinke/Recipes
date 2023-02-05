@@ -15,7 +15,8 @@ __author__ = "MPZinke"
 
 
 from decimal import Decimal
-from flask import Flask, render_template, request
+from flask import Flask, redirect, render_template, request, url_for
+from fractions import Fraction
 from jinja2 import Environment
 import os
 from pathlib import Path
@@ -52,9 +53,15 @@ def GET_recipes():
 
 @app.route("/recipe/<string:recipe_name>", methods=["GET"])
 def GET_recipe(recipe_name: str):
-	multiplier: float = Decimal(request.args.get("multiplier", 1.0))
-	recipe: Recipe = Recipe.from_name(recipe_name)
-	recipe *= multiplier
+	multiplier_text: str = request.args.get("multiplier", "1/1")
+	if(re.fullmatch(r"[0-9]+/[0-9]+", multiplier_text) is None):
+		raise Exception("Recipe multiplier must be of format '[0-9]+/[0-9]+'")
+
+	numerator, denominator = [int(value) for value in multiplier_text.split("/")]
+	if((multiplier := Fraction(numerator, denominator)).as_integer_ratio() != (numerator, denominator)):
+		return redirect(f"""/recipe/{recipe_name}?multiplier={"/".join(map(str, multiplier.as_integer_ratio()))}""")
+
+	recipe: Recipe = Recipe.from_name(recipe_name) * multiplier
 	return render_template("recipe.j2", recipe=recipe)
 
 

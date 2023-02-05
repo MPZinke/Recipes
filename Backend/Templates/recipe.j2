@@ -94,7 +94,9 @@
 			</td>
 			<td style="border-left: 1px solid #cdd0d4; padding-left: 8px; padding-right: 8px;">
 				Servings:
-				<input type="number" id="servings_input" style="width:63px" min="1" value="{{ recipe.serving_size() }}">
+				<input type="number" id="servings_input" style="width:63px" min="1" value="{{ recipe.serving_size() }}"
+				  onchange="update_servings(this);"
+				/>
 			</td>
 			<td style="border-left: 1px solid #cdd0d4; padding-left: 8px; padding-right: 8px;">
 				<!-- This is here to add a right closing border -->
@@ -144,6 +146,19 @@
 	</button>
 
 	<script>
+		function update_servings(element)
+		{
+			const urlParams = new URLSearchParams(window.location.search);
+			const [current_numerator, current_denominator] = (urlParams.get("multiplier") || "1/1").split("/");
+			const current_servings = {{ recipe.serving_size() }};
+			const new_servings = element.value;
+
+			const new_numerator = current_numerator * new_servings;
+			const new_denominator = current_denominator * current_servings;
+			const new_multiplier = `${new_numerator}/${new_denominator}`;
+			window.location.href = `${window.location.href.split('?')[0]}?multiplier=${new_multiplier}`;
+		}
+
 		function switch_text(checkbox)
 		{
 			const section_checkbox_class = checkbox.classList[0];

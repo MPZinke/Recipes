@@ -10,10 +10,10 @@ def format_decimal(value: Decimal) -> str:
 		return str(value)
 
 	integer_value = int(value)
-	decimal_value = value % Decimal(1.0)
+	decimal_value = (value % Decimal("1.0")).quantize(Decimal(".00"))
 
-	fractions = {Decimal(0.5): "½", Decimal(0.3333333): "⅓", Decimal(0.6666667): "⅔", Decimal(0.25): "¼",
-	  Decimal(0.75): "¾", Decimal(0.125): "⅛", Decimal(0.375): "⅜", Decimal(0.0): ""}
+	fractions = {Decimal("0.5"): "½", Decimal("0.33"): "⅓", Decimal("0.67"): "⅔", Decimal("0.25"): "¼",
+	  Decimal("0.75"): "¾", Decimal("0.125"): "⅛", Decimal("0.375"): "⅜", Decimal("0.0"): ""}
 	if(decimal_value in fractions):
 		integer_value_str = str(integer_value) if(integer_value) else ""
 		return f"{integer_value_str}{fractions[decimal_value]}"

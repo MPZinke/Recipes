@@ -16,6 +16,8 @@ class RecipeIngredient(Ingredient):
 	  units: list[str], quality: str, is_required: bool, notes: str, Ingredients_id: int):
 		Ingredient.__init__(self, id=Ingredients_id, is_deleted=is_deleted, brand=brand, names=names,
 		  description=description)
+		self._Ingredients_id: int = Ingredients_id
+
 		self._id: int = id
 		self._amount: Decimal = amount
 		self._units: list[str] = units

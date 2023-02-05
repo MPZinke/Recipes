@@ -16,6 +16,8 @@ __author__ = "MPZinke"
 
 from datetime import timedelta
 from decimal import Decimal
+from fractions import Fraction
+from math import prod
 from typing import TypeVar
 
 
@@ -110,28 +112,35 @@ class Recipe(object):
 
 	# ——————————————————————————————————————————————————— SPECIAL  ——————————————————————————————————————————————————— #
 
-	def __mul__(self, amount: int|float) -> Recipe:  # __mul__(left, right)
+	def __mul__(self, amount: int|float|Decimal|Fraction) -> Recipe:  # __mul__(left, right)
 		if(isinstance(amount, float)):
 			amount = Decimal(amount)
+
+		serving_size = self._serving_size * amount
+		if(isinstance(amount, Fraction)):
+			amount = Decimal(float(amount))
+			serving_size = Decimal(float(serving_size))
 
 		ingredients: list[RecipeIngredient] = [ingredient * amount for ingredient in self._ingredients]
 		return Recipe(id=self._id, is_deleted=self._is_deleted, name=self._name, instructions=self._instructions,
-		  notes=self._notes, rating=self._rating, serving_size=self._serving_size, prep_time=self._prep_time,
+		  notes=self._notes, rating=self._rating, serving_size=serving_size, prep_time=self._prep_time,
 		  cook_time=self._cook_time, total_time=self._total_time, ingredients=ingredients)
 
 
-	def __rmul__(self, amount: int|float) -> Recipe:  # __mul__(right, left)
-		if(isinstance(amount, float)):
-			amount = Decimal(amount)
-
+	def __rmul__(self, amount: int|float|Decimal|Fraction) -> Recipe:  # __mul__(right, left)
 		return self * amount
 
 
-	def __imul__(self, amount: int|float) -> None:
+	def __imul__(self, amount: int|float|Decimal|Fraction) -> None:
 		if(isinstance(amount, float)):
 			amount = Decimal(amount)
 
+		print(self._serving_size)
 		self._serving_size *= amount
+		print(self._serving_size)
+		if(isinstance(amount, Fraction)):
+			amount = Decimal(float(amount))
+			self._serving_size = Decimal(float(self._serving_size))
 
 		for ingredient in self._ingredients:
 			ingredient *= amount
