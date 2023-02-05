@@ -87,7 +87,6 @@ INSERT INTO "Ingredients" ("names") VALUES
 ON CONFLICT ("names", "brand") DO NOTHING;
 
 
-
 INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")
 SELECT "Recipes"."id", "Ingredients"."id", "Temp"."amount", "Temp"."units", "Temp"."quality", "Temp"."is_required", "Temp"."notes"
 FROM
