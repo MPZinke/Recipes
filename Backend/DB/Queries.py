@@ -113,6 +113,18 @@ def SELECT_ALL_FROM_Ingredients(cursor) -> dict | None:
 
 
 @connection_wrapper
+def SELECT_ALL_FROM_Ingredients_WHERE_id(cursor, id: int) -> dict | None:
+	query: str = """
+		SELECT *
+		FROM "Ingredients"
+		WHERE "id" = %s
+		  AND "is_deleted" = FALSE;
+	"""
+	cursor.execute(query, (id,))
+	return next(cursor, None)
+
+
+@connection_wrapper
 def SELECT_ALL_FROM_Ingredients_WHERE_name(cursor, name: str) -> dict | None:
 	query: str = """
 		SELECT *

@@ -167,7 +167,7 @@
 				sections_master_checkbox.checked = all_sections_checkboxes.every((checkbox) => checkbox.checked);
 			}
 			
-			const instruction_div = checkbox.parentElement;
+			const instruction_div = checkbox.parentNode;
 			if(instruction_div.style.color != "var(--disabled-text-color)")
 			{
 				disable_text(checkbox);
@@ -181,7 +181,7 @@
 
 		function disable_text(checkbox)
 		{
-			const instruction_div = checkbox.parentElement;
+			const instruction_div = checkbox.parentNode;
 			instruction_div.style.color = "var(--disabled-text-color)";
 			checkbox.checked = true;
 		}
@@ -189,7 +189,7 @@
 
 		function enable_text(checkbox)
 		{
-			const instruction_div = checkbox.parentElement;
+			const instruction_div = checkbox.parentNode;
 			instruction_div.style.color = "var(--text-color)";
 			checkbox.checked = false;
 		}

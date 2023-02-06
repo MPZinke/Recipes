@@ -26,6 +26,18 @@ class Ingredient:
 
 
 	@staticmethod
+	def from_id(id: int) -> Ingredient|None:
+		if(not isinstance(id, int)):
+			raise Exception(f"id must be of type 'int', not type '{type(id)}'")
+
+		ingredient_data: dict|None = Queries.SELECT_ALL_FROM_Ingredients_WHERE_id(id)
+		if(ingredient_data is None):
+			return None
+
+		return Ingredient(**ingredient_data)
+
+
+	@staticmethod
 	def from_name(name: str) -> Ingredient|None:
 		if(not isinstance(name, str)):
 			raise Exception(f"name must be of type 'str', not type '{type(name)}'")

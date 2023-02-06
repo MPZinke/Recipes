@@ -1,0 +1,75 @@
+<div class="boxed">
+	<table>
+		<tr>
+			<td colspan="2">
+				{% include "New/RecipeIngredient/Ingredient/Select.j2" %}
+				<br/>
+				— OR —
+				<br/>
+				{% include "New/RecipeIngredient/Ingredient/Button.j2" %}
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Amount
+			</td>
+			<td>
+				<input name="ingredient_amount-input-"
+				  id="ingredient_amount-input-" type="text"
+				/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Units
+			</td>
+			<td>
+				(Singular)
+				<input name="ingredient_units_singular-input-"
+				  id="ingredient_units_singular-input-" type="text"
+				/>
+				(Plural)
+				<input name="ingredient_units_plural-input-"
+				  id="ingredient_units_plural-input-" type="text"
+				/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Quality
+			</td>
+			<td>
+				<input name="ingredient_quality-input-"
+				  id="ingredient_quality-input-" type="text"
+				/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Is Required
+			</td>
+			<td>
+				<input name="ingredient_is_required-input-"
+				  id="ingredient_is_required-input-" type="text"
+				/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Notes
+			</td>
+			<td>
+				<textarea name="ingredient_notes-textarea-"
+				  id="ingredient_notes-textarea-" type="text"
+				></textarea>
+			</td>
+		</tr>
+	</table>
+	<button type="button" onclick="delete_ingredient(this.parentNode)">
+		Remove
+	</button>
+</div>

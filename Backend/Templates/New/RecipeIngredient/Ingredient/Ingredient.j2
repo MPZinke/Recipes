@@ -1,0 +1,43 @@
+{% include "New/RecipeIngredient/Ingredient/Select.j2" %}
+<table class="boxed">
+	<thead>
+		<th>
+			<td colspan="2">
+				<h4>
+					New Ingredient
+				</h4>
+			</td>
+		</th>
+	</thead>
+	<tr>
+		<td colspan="2">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Ingredient Names
+		</td>
+		<td>
+			(Singular)
+			<input type="text" value="{{ ingredient.names()[0] }}" disabled/>
+			(Plural)
+			<input type="text" value="{{ ingredient.names()[1] }}" disabled/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Ingredient Brand
+		</td>
+		<td>
+			<input type="text" value="{{ ingredient.brand() }}" disabled/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Description
+		</td>
+		<td>
+			<textarea disabled>{{ ingredient.description() }}</textarea>
+		</td>
+	</tr>
+</table>

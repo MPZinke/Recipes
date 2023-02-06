@@ -45,6 +45,8 @@ def GET_():
 	# return "<a href='alarm-clock://' target='_blank'>Timer</a>"
 	return "<a href='clock-timer://'>Timer</a>"
 
+# ————————————————————————————————————————————————————— RECIPES  ————————————————————————————————————————————————————— #
+# ———————————————————————————————————————————————————————————————————————————————————————————————————————————————————— #
 
 @app.route("/recipes", methods=["GET"])
 def GET_recipes():
@@ -63,14 +65,47 @@ def GET_recipe(recipe_name: str):
 	return render_template("Recipe/Recipe.j2", recipe=recipe)
 
 
+# ——————————————————————————————————————————————————— RECIPES::NEW ——————————————————————————————————————————————————— #
+
 @app.route("/new", methods=["GET", "POST"])
-def GET_new():
+def GET_POST_new():
 	if(request.method == "GET"):
 		ingredients: list[Ingredient] = Ingredient.all()
 		return render_template("New/New.j2", ingredients=ingredients)
 	else:
 		return ""
 
+
+@app.route("/new/recipe_ingredient", methods=["GET"])
+def GET_new_recipe_ingredient():
+	return render_template("New/RecipeIngredient/New.j2")
+
+
+@app.route("/new/recipe_ingredient/ingredient", methods=["GET"])
+def GET_new_recipe_ingredient_ingredient():
+	return render_template("New/RecipeIngredient/Ingredient/New.j2")
+
+
+@app.route("/new/recipe_ingredient/ingredient/<int:ingredient_id>", methods=["GET"])
+def GET_new_recipe_ingredient_ingredient_id(ingredient_id: int):
+	ingredients: list[Ingredient] = Ingredient.all()
+	ingredient: Ingredient = next((ingredient for ingredient in ingredients if(ingredient.id() == ingredient_id)), next)
+	return render_template("New/RecipeIngredient/Ingredient/Ingredient.j2", ingredient=ingredient,
+	  ingredients=ingredients, selected_id=ingredient_id)
+
+
+@app.route("/new/recipe_ingredient/ingredient/button", methods=["GET"])
+def GET_new_recipe_ingredient_ingredient_button():
+	return render_template("New/RecipeIngredient/Ingredient/Button.j2")
+
+
+@app.route("/new/recipe_ingredient/ingredient/select", methods=["GET"])
+def GET_new_recipe_ingredient_ingredient_select():
+	ingredients: list[Ingredient] = Ingredient.all()
+	return render_template("New/RecipeIngredient/Ingredient/Select.j2", ingredients=ingredients)
+
+
+# ——————————————————————————————————————————————————— INGREDIENTS  ——————————————————————————————————————————————————— #
 
 @app.route("/ingredients", methods=["GET"])
 def GET_ingredients():
