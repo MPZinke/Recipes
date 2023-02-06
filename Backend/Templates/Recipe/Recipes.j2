@@ -10,21 +10,20 @@
 ----------------------------------------------------------------------------------------------------------------------->
 
 
-{% extends "header.j2" %}
+{% extends "Header.j2" %}
 {% block body %}
-		<h1>
-			{{ ingredient.names()[0] }}
-		</h1>
-		<table>
-			{% for recipe_name in recipe_names %}
-				<tr>
-					<td>
-						<a href="/recipe/{{ recipe_name }}">
-							{{ recipe_name }}
-						</a>
-					</td>
-				</tr>
-			{% endfor %}
-		</table>
-	</body>
+	<title>
+		Recipes
+	</title>
+	<table>
+		{% for recipe in recipes %}
+			<tr>
+				<td>
+					<a href="/recipe/{{ recipe.name() }}">
+						{{ recipe.name() }}
+					</a>
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
 {% endblock %}

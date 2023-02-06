@@ -1,0 +1,94 @@
+
+<!----------------------------------------------------------------------------------------------------------------------
+-                                                                                                                      -
+-    Created by: MPZinke on 2023.02.05                                                                                 -
+-                                                                                                                      -
+-    DESCRIPTION:                                                                                                      -
+-    BUGS:                                                                                                             -
+-    FUTURE:                                                                                                           -
+-                                                                                                                      -
+----------------------------------------------------------------------------------------------------------------------->
+
+
+{% extends "Header.j2" %}
+{% block body %}
+	<title>
+		New Recipe
+	</title>
+	<h3>
+		Recipe
+	</h3>
+	<table>
+		<tr>
+			<td>
+				Recipe Name
+			</td>
+			<td>
+				<input name="name-input" id="name-input" type="text"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Instructions
+			</td>
+			<td>
+				<input name="instructions-input" id="instructions-input" type="text"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Notes
+			</td>
+			<td>
+				<input name="notes-input" id="notes-input" type="text"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Rating
+			</td>
+			<td>
+				<input name="rating-input" id="rating-input" type="text"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Servings
+			</td>
+			<td>
+				<input name="servings-input" id="servings-input" type="text"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Total Time
+			</td>
+			<td>
+				<input name="total_time-input" id="total_time-input" type="text"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Prep Time
+			</td>
+			<td>
+				<input name="prep_time-input" id="prep_time-input" type="text"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Cook Time
+			</td>
+			<td>
+				<input name="cook_time-input" id="cook_time-input" type="text"/>
+			</td>
+		</tr>
+	</table>
+
+	<h3>
+		Recipe Ingredient
+	</h3>
+	{% with count=1 %}
+		{% include "New/NewRecipeIngredient.j2" %}
+	{% endwith %}
+{% endblock %}

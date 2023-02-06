@@ -33,7 +33,7 @@ INSERT INTO "Ingredients" ("names") VALUES
 ON CONFLICT ("names", "brand") DO NOTHING;
 
 INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Garlic Clove', 'Garlic Cloves'])
+(ARRAY['Garlic', 'Garlic'])
 ON CONFLICT ("names", "brand") DO NOTHING;
 
 INSERT INTO "Ingredients" ("names") VALUES
@@ -112,8 +112,8 @@ FROM
 		3.0, '', TRUE, ''
 	),
 	(
-		ARRAY['Garlic Clove', 'Garlic Cloves']::VARCHAR(64)[2],
-		ARRAY['', ''],
+		ARRAY['Garlic', 'Garlic']::VARCHAR(64)[2],
+		ARRAY['Clove', 'Cloves'],
 		3.0, 'Minced', TRUE, ''
 	),
 	(

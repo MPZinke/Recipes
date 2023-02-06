@@ -73,7 +73,7 @@
 {% endmacro %}
 
 
-{% extends "header.j2" %}
+{% extends "Header.j2" %}
 {% block body %}
 	<title>
 		{{ recipe.name() }}
@@ -94,7 +94,7 @@
 			</td>
 			<td style="border-left: 1px solid #cdd0d4; padding-left: 8px; padding-right: 8px;">
 				Servings:
-				<input type="number" id="servings_input" style="width:63px" min="1"
+				<input type="number" id="servings-input" style="width:63px" min="1"
 				  value="{{ recipe.servings() | format_decimal }}" onchange="update_servings(this);"
 				/>
 			</td>

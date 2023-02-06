@@ -49,7 +49,7 @@ def GET_():
 @app.route("/recipes", methods=["GET"])
 def GET_recipes():
 	recipes: list[Recipe] = Recipe.all()
-	return render_template("recipes.j2", recipes=recipes)
+	return render_template("Recipe/Recipes.j2", recipes=recipes)
 
 
 @app.route("/recipe/<string:recipe_name>", methods=["GET"])
@@ -60,13 +60,22 @@ def GET_recipe(recipe_name: str):
 
 	multiplier = Decimal(multiplier_text)
 	recipe: Recipe = Recipe.from_name(recipe_name) * multiplier
-	return render_template("recipe.j2", recipe=recipe)
+	return render_template("Recipe/Recipe.j2", recipe=recipe)
+
+
+@app.route("/new", methods=["GET", "POST"])
+def GET_new():
+	if(request.method == "GET"):
+		ingredients: list[Ingredient] = Ingredient.all()
+		return render_template("New/New.j2", ingredients=ingredients)
+	else:
+		return ""
 
 
 @app.route("/ingredients", methods=["GET"])
 def GET_ingredients():
 	ingredients: list[Ingredient] = Ingredient.all()
-	return render_template("ingredients.j2", ingredients=ingredients)
+	return render_template("Ingredient/Ingredients.j2", ingredients=ingredients)
 
 
 @app.route("/ingredient/<string:ingredient_name>", methods=["GET"])
@@ -74,7 +83,7 @@ def GET_ingredient(ingredient_name: str):
 	ingredient: Ingredient = Ingredient.from_name(ingredient_name)
 	recipe_names: list[str] = Queries.SELECT_Recipes_name_FROM_RecipesIngredients_WHERE_Ingredients_name(ingredient_name)
 	# recipe_names: list[str] = [recipe["name"] for recipe in recipes]
-	return render_template("ingredient.j2", ingredient=ingredient, recipe_names=recipe_names)
+	return render_template("Ingredient/Ingredient.j2", ingredient=ingredient, recipe_names=recipe_names)
 
 
 @app.route("/timer/<string:duration>", methods=["GET"])
@@ -82,7 +91,7 @@ def GET_timer(duration: str):
 	if(re.fullmatch(r"[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}", duration) is None):
 		raise Exception(f"Duration of '{duration}' is not of correct format 'HH:MM:SS'")
 
-	return render_template("timer.j2")
+	return render_template("Timer.j2")
 
 
 def main():
