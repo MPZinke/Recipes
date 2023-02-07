@@ -124,12 +124,11 @@
 		function add_ingredient_html(select)
 		{
 			const recipe_ingredients_div = document.getElementById("recipe_ingredients-div");
-
-			const button_html = get_button_html();
+			const ingredient_td = select.closest(".recipe_ingredient_ingredient-td");
 
 			var xmlhttp = new XMLHttpRequest();
 			xmlhttp.open("GET", `/new/recipe_ingredient/ingredient/${select.value}`, false);
-			xmlhttp.send();
+			xmlhttp.send(null);
 
 			if(xmlhttp.status == 400)
 			{
@@ -140,20 +139,19 @@
 				return alert('add_ingredient_html::something else other than 200 was returned');
 			}
 
-			select.parentNode.innerHTML = `${xmlhttp.responseText}<br/>— OR —<br/>${button_html}`;
+			ingredient_td.innerHTML = xmlhttp.responseText;
 		}
 
 
 		function add_new_ingredient_html(button)
 		{
 			const recipe_ingredients_div = document.getElementById("recipe_ingredients-div");
-			const count = recipe_ingredients_div.children.length;
-
-			const select_html = get_select_html();
+			const ingredient_td = button.closest(".recipe_ingredient_ingredient-td");
 
 			var xmlhttp = new XMLHttpRequest();
 			xmlhttp.open("GET", `/new/recipe_ingredient/ingredient`, false);
 			xmlhttp.send(null);
+
 			if(xmlhttp.status == 400)
 			{
 				return alert('There was an error 400');
@@ -162,7 +160,8 @@
 			{
 				return alert('add_new_ingredient_html::2something else other than 200 was returned');
 			}
-			button.parentNode.innerHTML = `${xmlhttp.responseText}<br/>— OR —<br/>${select_html}`;
+
+			ingredient_td.innerHTML = xmlhttp.responseText;
 		}
 
 
@@ -180,50 +179,6 @@
 			{
 				for(let x = 0; x < recipe_ingredients.length; x++){}
 			}
-		}
-
-
-		function determine_ingredient_td(element)
-		{
-			return document.querySelector("p").closest(".near.ancestor");
-		}
-
-
-		function get_button_html()
-		{
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open("GET", `/new/recipe_ingredient/ingredient/button`, false);
-			xmlhttp.send(null);
-
-			if(xmlhttp.status == 400)
-			{
-				return alert('There was an error 400');
-			}
-			else if(xmlhttp.status != 200)
-			{
-				return alert('get_button_html::1something else other than 200 was returned');
-			}
-
-			return xmlhttp.responseText;
-		}
-
-
-		function get_select_html()
-		{
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open("GET", `/new/recipe_ingredient/ingredient/select`, false);
-			xmlhttp.send(null);
-
-			if(xmlhttp.status == 400)
-			{
-				return alert('There was an error 400');
-			}
-			else if(xmlhttp.status != 200)
-			{
-				return alert('get_select_html::1something else other than 200 was returned');
-			}
-
-			return xmlhttp.responseText;
 		}
 	</script>
 {% endblock %}

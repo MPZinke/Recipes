@@ -78,12 +78,14 @@ def GET_POST_new():
 
 @app.route("/new/recipe_ingredient", methods=["GET"])
 def GET_new_recipe_ingredient():
-	return render_template("New/RecipeIngredient/New.j2")
+	ingredients: list[Ingredient] = Ingredient.all()
+	return render_template("New/RecipeIngredient/New.j2", ingredients=ingredients)
 
 
 @app.route("/new/recipe_ingredient/ingredient", methods=["GET"])
 def GET_new_recipe_ingredient_ingredient():
-	return render_template("New/RecipeIngredient/Ingredient/New.j2")
+	ingredients: list[Ingredient] = Ingredient.all()
+	return render_template("New/RecipeIngredient/Ingredient/New.j2", ingredients=ingredients)
 
 
 @app.route("/new/recipe_ingredient/ingredient/<int:ingredient_id>", methods=["GET"])

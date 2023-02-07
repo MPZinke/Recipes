@@ -1,11 +1,8 @@
-{% include "New/RecipeIngredient/Ingredient/Select.j2" %}
 <table class="boxed">
 	<thead>
 		<th>
 			<td colspan="2">
-				<h4>
-					New Ingredient
-				</h4>
+				{% include "New/RecipeIngredient/Ingredient/Select.j2" %}
 			</td>
 		</th>
 	</thead>
@@ -38,6 +35,13 @@
 		</td>
 		<td>
 			<textarea disabled>{{ ingredient.description() }}</textarea>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			— OR —
+			<br/>
+			{% include "New/RecipeIngredient/Ingredient/Button.j2" %}
 		</td>
 	</tr>
 </table>
