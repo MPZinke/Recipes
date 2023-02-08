@@ -1,16 +1,82 @@
-<div class="boxed">
+<div
+  class="boxed recipe_ingredient-div"
+>
 	<table>
 		<tr>
-			<td colspan="2" class="recipe_ingredient_ingredient-td">
-				{% include "New/RecipeIngredient/Ingredient/Select.j2" %}
-				<br/>
-				— OR —
-				<br/>
-				{% include "New/RecipeIngredient/Ingredient/Button.j2" %}
+			<td>
+				Name
+			</td>
+			<td>
+				<input
+				  name="ingredient_name_singular-input-"
+				  id="ingredient_name_singular-input-"
+				  class="ingredient_name-input ingredient_singular_name-input"
+				  type="text"
+				  placeholder="Singular"
+				  list="ingredient_name_singular-datalist-"
+				  onchange="update_ingredient(this);"
+				  oninput="update_ingredient(this);"
+				/>
+				<datalist
+				  id="ingredient_name_singular-datalist-"
+				  class="ingredient_name_singular-datalist"
+				>
+					{% for ingredient in ingredients %}
+						<option
+						  ingredient-id="{{ ingredient.id() }}"
+						  value="{{ ingredient.names()[0] }}"
+						>
+							{{ ingredient.brand() }}
+						</option>
+					{% endfor %}
+				</datalist>
+				<input
+				  name="ingredient_name_plural-input-"
+				  id="ingredient_name_plural-input-"
+				  class="ingredient_name-input ingredient_plural_name-input"
+				  type="text"
+				  placeholder="Plural"
+				  list="ingredient_name_plural-datalist-"
+				  onchange="update_ingredient(this);"
+				  oninput="update_ingredient(this);"
+				/>
+				<datalist
+				  id="ingredient_name_plural-datalist-"
+				  class="ingredient_name_plural-datalist"
+				>
+					{% for ingredient in ingredients %}
+						<option
+						  ingredient-id="{{ ingredient.id() }}"
+						  value="{{ ingredient.names()[1] }}"
+						>
+							{{ ingredient.brand() }}
+						</option>
+					{% endfor %}
+				</datalist>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2">
+			<td>
+				Ingredient Brand
+			</td>
+			<td>
+				<input
+				  name="ingredient_brand-input-"
+				  id="ingredient_brand-input-"
+				  type="text"
+				  class="ingredient_brand-input"
+				/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Description
+			</td>
+			<td>
+				<textarea
+				  name="ingredient_Description-textarea-"
+				  id="ingredient_Description-textarea-"
+				></textarea>
 			</td>
 		</tr>
 		<tr>
@@ -18,8 +84,10 @@
 				Amount
 			</td>
 			<td>
-				<input name="ingredient_amount-input-"
-				  id="ingredient_amount-input-" type="text"
+				<input
+				  name="ingredient_amount-input-"
+				  id="ingredient_amount-input-"
+				  type="text"
 				/>
 			</td>
 		</tr>
@@ -28,13 +96,17 @@
 				Units
 			</td>
 			<td>
-				(Singular)
-				<input name="ingredient_units_singular-input-"
-				  id="ingredient_units_singular-input-" type="text"
+				<input 
+				  name="ingredient_units_singular-input-"
+				  id="ingredient_units_singular-input-" 
+				  type="text"
+				  placeholder="Singular" 
 				/>
-				(Plural)
-				<input name="ingredient_units_plural-input-"
-				  id="ingredient_units_plural-input-" type="text"
+				<input
+				  name="ingredient_units_plural-input-" 
+				  id="ingredient_units_plural-input-"
+				  type="text"
+				  placeholder="Plural" 
 				/>
 			</td>
 		</tr>
@@ -43,8 +115,10 @@
 				Quality
 			</td>
 			<td>
-				<input name="ingredient_quality-input-"
-				  id="ingredient_quality-input-" type="text"
+				<input
+				  name="ingredient_quality-input-"
+				  id="ingredient_quality-input-"
+				  type="text"
 				/>
 			</td>
 		</tr>
@@ -53,9 +127,21 @@
 				Is Required
 			</td>
 			<td>
-				<input name="ingredient_is_required-input-"
-				  id="ingredient_is_required-input-" type="text"
-				/>
+				<select
+				  name="ingredient_is_required-input-"
+				  id="ingredient_is_required-input-"
+				  type="text"
+				>
+					<option value="-1" selected disabled>
+						— SELECT WHETHER INGREDIENT IS REQUIRED FOR THE RECIPE —
+					</option>
+					<option value="1">
+						True
+					</option>
+					<option value="0">
+						False
+					</option>
+				</select>
 			</td>
 		</tr>
 		<tr>
@@ -63,13 +149,18 @@
 				Notes
 			</td>
 			<td>
-				<textarea name="ingredient_notes-textarea-"
-				  id="ingredient_notes-textarea-" type="text"
+				<textarea
+				  name="ingredient_notes-textarea-"
+				  id="ingredient_notes-textarea-"
+				  type="text"
 				></textarea>
 			</td>
 		</tr>
 	</table>
-	<button type="button" onclick="delete_ingredient(this.parentNode)">
+	<button
+	  type="button"
+	  onclick="delete_ingredient(this.parentNode)"
+	>
 		Remove
 	</button>
 </div>

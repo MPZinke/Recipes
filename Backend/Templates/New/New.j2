@@ -25,7 +25,11 @@
 					Recipe Name
 				</td>
 				<td>
-					<input name="name-input" id="name-input" type="text"/>
+					<input
+					  name="name-input"
+					  id="name-input"
+					  type="text"
+					/>
 				</td>
 			</tr>
 			<tr>
@@ -33,7 +37,11 @@
 					Instructions
 				</td>
 				<td>
-					<input name="instructions-input" id="instructions-input" type="text"/>
+					<input
+					  name="instructions-input"
+					  id="instructions-input"
+					  type="text"
+					/>
 				</td>
 			</tr>
 			<tr>
@@ -41,7 +49,11 @@
 					Notes
 				</td>
 				<td>
-					<input name="notes-input" id="notes-input" type="text"/>
+					<input
+					  name="notes-input"
+					  id="notes-input"
+					  type="text"
+					/>
 				</td>
 			</tr>
 			<tr>
@@ -49,7 +61,11 @@
 					Rating
 				</td>
 				<td>
-					<input name="rating-input" id="rating-input" type="text"/>
+					<input
+					  name="rating-input"
+					  id="rating-input"
+					  type="text"
+					/>
 				</td>
 			</tr>
 			<tr>
@@ -57,7 +73,11 @@
 					Servings
 				</td>
 				<td>
-					<input name="servings-input" id="servings-input" type="text"/>
+					<input
+					  name="servings-input"
+					  id="servings-input"
+					  type="text"
+					/>
 				</td>
 			</tr>
 			<tr>
@@ -65,7 +85,11 @@
 					Total Time
 				</td>
 				<td>
-					<input name="total_time-input" id="total_time-input" type="text"/>
+					<input
+					  name="total_time-input"
+					  id="total_time-input"
+					  type="text"
+					/>
 				</td>
 			</tr>
 			<tr>
@@ -73,7 +97,11 @@
 					Prep Time
 				</td>
 				<td>
-					<input name="prep_time-input" id="prep_time-input" type="text"/>
+					<input
+					  name="prep_time-input"
+					  id="prep_time-input"
+					  type="text"
+					/>
 				</td>
 			</tr>
 			<tr>
@@ -81,7 +109,11 @@
 					Cook Time
 				</td>
 				<td>
-					<input name="cook_time-input" id="cook_time-input" type="text"/>
+					<input
+					  name="cook_time-input"
+					  id="cook_time-input"
+					  type="text"
+					/>
 				</td>
 			</tr>
 		</table>
@@ -89,13 +121,18 @@
 		<h3>
 			Recipe Ingredients
 		</h3>
-		<div id="recipe_ingredients-div">
+		<div
+		  id="recipe_ingredients-div"
+		>
 			{% with count=1 %}
 				{% include "New/RecipeIngredient/New.j2" %}
 			{% endwith %}
 		</div>
 
-		<button type="button" onclick="add_new_recipe_ingredient_html();">
+		<button
+		  type="button"
+		  onclick="add_new_recipe_ingredient_html();"
+		>
 			+ Add An Ingredient
 		</button>
 	</form>
@@ -121,47 +158,54 @@
 		}
 
 
-		function add_ingredient_html(select)
+		function update_ingredient(input)
 		{
-			const recipe_ingredients_div = document.getElementById("recipe_ingredients-div");
-			const ingredient_td = select.closest(".recipe_ingredient_ingredient-td");
+			const recipe_ingredient_div = input.closest(".recipe_ingredient-div");
 
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open("GET", `/new/recipe_ingredient/ingredient/${select.value}`, false);
-			xmlhttp.send(null);
+			const singular_name = recipe_ingredient_div.querySelector(".ingredient_singular_name-input").value;
+			const singular_datalist = recipe_ingredient_div.querySelector(".ingredient_name_singular-datalist");
 
-			if(xmlhttp.status == 400)
+			const plural_name = recipe_ingredient_div.querySelector(".ingredient_plural_name-input").value;
+			const plural_datalist = recipe_ingredient_div.querySelector(".ingredient_name_plural-datalist");
+
+			const brand_name = recipe_ingredient_div.querySelector(".ingredient_brand-input").value;
+
+			let valid_datalist_ingredients = [];
+			for(var x = 0; x < INGREDIENTS.length; x++)
 			{
-				return alert('There was an error 400');
-			}
-			else if(xmlhttp.status != 200)
-			{
-				return alert('add_ingredient_html::something else other than 200 was returned');
-			}
-
-			ingredient_td.innerHTML = xmlhttp.responseText;
-		}
-
-
-		function add_new_ingredient_html(button)
-		{
-			const recipe_ingredients_div = document.getElementById("recipe_ingredients-div");
-			const ingredient_td = button.closest(".recipe_ingredient_ingredient-td");
-
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open("GET", `/new/recipe_ingredient/ingredient`, false);
-			xmlhttp.send(null);
-
-			if(xmlhttp.status == 400)
-			{
-				return alert('There was an error 400');
-			}
-			else if(xmlhttp.status != 200)
-			{
-				return alert('add_new_ingredient_html::2something else other than 200 was returned');
+				let ingredient = INGREDIENTS[x];
+				if(singular_name == ingredient.names[0].substring(0, singular_name.length)
+				  && plural_name == ingredient.names[1].substring(0, plural_name.length)
+				  && brand_name == ingredient.brand.substring(0, brand_name.length)
+				)
+				{
+					valid_datalist_ingredients.push(ingredient);
+				}
 			}
 
-			ingredient_td.innerHTML = xmlhttp.responseText;
+			let singular_datalist_innerHTML = "";
+			let plural_datalist_innerHTML = "";
+			for(var x = 0; x < valid_datalist_ingredients.length; x++)
+			{
+				let ingredient = valid_datalist_ingredients[x];
+
+				singular_datalist_innerHTML += `<option
+						  ingredient-id="${ingredient.id}"
+						  value="${ingredient.names[0]}"
+						>
+							${ingredient.brand}
+						</option>`;
+
+				plural_datalist_innerHTML += `<option
+						  ingredient-id="${ingredient.id}"
+						  value="${ingredient.names[1]}"
+						>
+							${ingredient.brand}
+						</option>`;
+			}
+
+			singular_datalist.innerHTML = singular_datalist_innerHTML;
+			plural_datalist.innerHTML = plural_datalist_innerHTML;
 		}
 
 
@@ -180,5 +224,27 @@
 				for(let x = 0; x < recipe_ingredients.length; x++){}
 			}
 		}
+
+
+		function get_ingredients()
+		{
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("GET", `/api/ingredients`, false);
+			xmlhttp.send(null);
+
+			if(xmlhttp.status == 400)
+			{
+				return alert('There was an error 400');
+			}
+			else if(xmlhttp.status != 200)
+			{
+				return alert('add_new_ingredient_html::2something else other than 200 was returned');
+			}
+
+			return JSON.parse(xmlhttp.responseText);
+		}
+
+
+		const INGREDIENTS = JSON.parse(`{{ ingredients | str }}`);
 	</script>
 {% endblock %}

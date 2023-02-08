@@ -1,5 +1,6 @@
 
 
+import json
 from typing import TypeVar
 
 
@@ -47,6 +48,24 @@ class Ingredient:
 			return None
 
 		return Ingredient(**ingredient_data)
+
+
+	def __iter__(self) -> dict:
+		yield from {
+			"id": self._id,
+			"is_deleted": self._is_deleted,
+			"brand": self._brand,
+			"names": self._names,
+			"description": self._description,
+		}.items()
+
+
+	def __repr__(self) -> str:
+		return str(self)
+
+
+	def __str__(self) -> str:
+		return json.dumps(dict(self), indent=4)
 
 
 	def id(self) -> str:

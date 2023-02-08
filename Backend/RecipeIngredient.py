@@ -1,6 +1,7 @@
 
 
 from decimal import Decimal
+import json
 from typing import TypeVar
 
 
@@ -50,6 +51,30 @@ class RecipeIngredient(Ingredient):
 		[ingredient.update({"Ingredients_id": ingredient.pop("Ingredients.id")}) for ingredient in ingredient_data] 
 		[ingredient.pop("Recipes.id") for ingredient in ingredient_data] 
 		return [RecipeIngredient(**ingredient) for ingredient in ingredient_data]
+
+
+	def __iter__(self) -> dict:
+		yield from {
+			"id": self._id,
+			"Ingredients_id": self._Ingredients_id,
+			"amount": self._amount,
+			"units": self._units,
+			"quality": self._quality,
+			"is_required": self._is_required,
+			"notes": self._notes,
+			"is_deleted": self._is_deleted,
+			"brand": self._brand,
+			"names": self._names,
+			"description": self._description,
+		}.items()
+
+
+	def __repr__(self) -> str:
+		return str(self)
+
+
+	def __str__(self) -> str:
+		return json.dumps(dict(self), indent=4)
 
 
 	def id(self) -> int:

@@ -17,6 +17,7 @@ __author__ = "MPZinke"
 from datetime import timedelta
 from decimal import Decimal
 from fractions import Fraction
+import json
 from math import prod
 from typing import TypeVar
 
@@ -64,6 +65,30 @@ class Recipe(object):
 		recipe_data["ingredients"] = RecipeIngredient.from_Recipe_id(recipe_data["id"])
 
 		return Recipe(**recipe_data)
+
+
+	def __iter__(self) -> dict:
+		yield from {
+			"id": self._id,
+			"is_deleted": self._is_deleted,
+			"name": self._name,
+			"instructions": self._instructions,
+			"notes": self._notes,
+			"rating": self._rating,
+			"servings": self._servings,
+			"prep_time": self._prep_time,
+			"cook_time": self._cook_time,
+			"total_time": self._total_time,
+			"ingredients": map(dict, self._ingredients),
+		}.items()
+
+
+	def __repr__(self) -> str:
+		return str(self)
+
+
+	def __str__(self) -> str:
+		return json.dumps(dict(self), indent=4)
 
 
 	def id(self) -> int:

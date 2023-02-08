@@ -36,6 +36,9 @@ app = Flask("Recipes", template_folder=os.path.join(ROOT_DIR, "Templates"), stat
 # FROM: https://abstractkitchen.com/blog/how-to-create-custom-jinja-filters-in-flask/
 app.jinja_env.filters["format_decimal"] = format_decimal
 app.jinja_env.filters["format_decimal_fractionally"] = format_decimal_fractionally
+app.jinja_env.filters["map_str"] = lambda x: map(str, x)
+app.jinja_env.filters["map"] = map
+app.jinja_env.filters["str"] = str
 app.jinja_env.filters["replace_timer"] = replace_timer
 
 
@@ -44,6 +47,19 @@ def GET_():
 	# FROM: https://stackoverflow.com/a/36011663
 	# return "<a href='alarm-clock://' target='_blank'>Timer</a>"
 	return "<a href='clock-timer://'>Timer</a>"
+
+
+@app.route("/testing/datalist")
+def GET_testing_datatlist():
+	return """
+	<form>
+		<input list="my_list"/>
+		<datalist id="my_list">
+			<option value="12345">One</option>
+			<option value="67890"></option>
+		</datalist>
+	</form>
+"""
 
 # ————————————————————————————————————————————————————— RECIPES  ————————————————————————————————————————————————————— #
 # ———————————————————————————————————————————————————————————————————————————————————————————————————————————————————— #
@@ -129,6 +145,12 @@ def GET_timer(duration: str):
 		raise Exception(f"Duration of '{duration}' is not of correct format 'HH:MM:SS'")
 
 	return render_template("Timer.j2")
+
+
+@app.route("/api/ingredients")
+def GET_api_ingredients():
+	ingredients: list[Ingredient] = Ingredient.all()
+	return str(ingredients)
 
 
 def main():
