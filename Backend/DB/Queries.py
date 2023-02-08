@@ -14,11 +14,32 @@ __author__ = "MPZinke"
 ########################################################################################################################
 
 
+from typing import Any
+
+
 from DB.Connection import connection_wrapper
+
+
+def remove_columns(*columns: list) -> callable:
+	def decorator(function: callable) -> callable:
+		def wrapper(*args: list, **kwargs: dict) -> Any:
+			values = function(*args, **kwargs)
+			for column in columns:
+				if(isinstance(values, list)):
+					for value in values:
+						value.pop(column, None)
+
+				if(isinstance(values, dict)):
+					values.pop(column, None)
+			return values
+
+		return wrapper
+	return decorator
 
 
 # —————————————————————————————————————————————————————— RECIPE —————————————————————————————————————————————————————— #
 
+@remove_columns("is_deleted")
 @connection_wrapper
 def SELECT_ALL_FROM_Recipes(cursor) -> list[dict]:
 	query: str = """
@@ -30,8 +51,9 @@ def SELECT_ALL_FROM_Recipes(cursor) -> list[dict]:
 	return [recipe for recipe in cursor]
 
 
+@remove_columns("is_deleted")
 @connection_wrapper
-def SELECT_ALL_FROM_Recipes_WHERE_id(cursor, id: int) -> dict | None:
+def SELECT_ALL_FROM_Recipes_WHERE_id(cursor, id: int) -> dict|None:
 	query: str = """
 		SELECT *
 		FROM "Recipes"
@@ -42,8 +64,9 @@ def SELECT_ALL_FROM_Recipes_WHERE_id(cursor, id: int) -> dict | None:
 	return next(cursor, None)
 
 
+@remove_columns("is_deleted")
 @connection_wrapper
-def SELECT_ALL_FROM_Recipes_WHERE_name(cursor, name: str) -> dict | None:
+def SELECT_ALL_FROM_Recipes_WHERE_name(cursor, name: str) -> dict|None:
 	query: str = """
 		SELECT *
 		FROM "Recipes"
@@ -56,8 +79,9 @@ def SELECT_ALL_FROM_Recipes_WHERE_name(cursor, name: str) -> dict | None:
 
 # ————————————————————————————————————————————————— RECIPEINGREDIENT ————————————————————————————————————————————————— #
 
+@remove_columns("is_deleted")
 @connection_wrapper
-def SELECT_ALL_FROM_RecipesIngredients_WHERE_Recipes_id(cursor, Recipe_id: int) -> list[dict]:
+def SELECT_ALL_FROM_RecipesIngredients_WHERE_Recipes_id(cursor, Recipes_id: int) -> list[dict]:
 	query: str = """
 		SELECT *
 		FROM "RecipesIngredients"
@@ -66,12 +90,13 @@ def SELECT_ALL_FROM_RecipesIngredients_WHERE_Recipes_id(cursor, Recipe_id: int) 
 		  AND "RecipesIngredients"."is_deleted" = FALSE
 		ORDER BY "RecipesIngredients"."is_required" DESC;
 	"""
-	cursor.execute(query, (Recipe_id,))
+	cursor.execute(query, (Recipes_id,))
 	return [recipe_ingredient for recipe_ingredient in cursor]
 
 
+@remove_columns("is_deleted")
 @connection_wrapper
-def SELECT_ALL_FROM_RecipesIngredients_WHERE_Ingredients_name(cursor, Ingredients_name: str) -> dict | None:
+def SELECT_ALL_FROM_RecipesIngredients_WHERE_Ingredients_name(cursor, Ingredients_name: str) -> dict|None:
 	query: str = """
 		SELECT *
 		FROM "RecipesIngredients"
@@ -98,11 +123,28 @@ def SELECT_Recipes_name_FROM_RecipesIngredients_WHERE_Ingredients_name(cursor, I
 	cursor.execute(query, (Ingredients_name,))
 	return [recipe["name"] for recipe in cursor]
 
+# —————————————————————————————————————————————————— RECIPE HISTORY —————————————————————————————————————————————————— #
+
+@remove_columns("is_deleted")
+@connection_wrapper
+def SELECT_ALL_FROM_RecipesHistory_WHERE_Recipes_id(cursor, Recipes_id) -> list[dict]:
+	query: str = """
+		SELECT *
+		FROM "RecipesHistory"
+		WHERE "Recipes.id" = %s
+		  AND "RecipesHistory"."is_deleted" = FALSE
+		ORDER BY "time" ASC;
+	"""
+	cursor.execute(query, (Recipes_id,))
+	return [history for history in cursor]
+
+
 
 # ———————————————————————————————————————————————————— INGREDIENT ———————————————————————————————————————————————————— #
 
+@remove_columns("is_deleted")
 @connection_wrapper
-def SELECT_ALL_FROM_Ingredients(cursor) -> dict | None:
+def SELECT_ALL_FROM_Ingredients(cursor) -> dict|None:
 	query: str = """
 		SELECT *
 		FROM "Ingredients"
@@ -112,8 +154,9 @@ def SELECT_ALL_FROM_Ingredients(cursor) -> dict | None:
 	return [ingredient for ingredient in cursor]
 
 
+@remove_columns("is_deleted")
 @connection_wrapper
-def SELECT_ALL_FROM_Ingredients_WHERE_id(cursor, id: int) -> dict | None:
+def SELECT_ALL_FROM_Ingredients_WHERE_id(cursor, id: int) -> dict|None:
 	query: str = """
 		SELECT *
 		FROM "Ingredients"
@@ -124,8 +167,9 @@ def SELECT_ALL_FROM_Ingredients_WHERE_id(cursor, id: int) -> dict | None:
 	return next(cursor, None)
 
 
+@remove_columns("is_deleted")
 @connection_wrapper
-def SELECT_ALL_FROM_Ingredients_WHERE_name(cursor, name: str) -> dict | None:
+def SELECT_ALL_FROM_Ingredients_WHERE_name(cursor, name: str) -> dict|None:
 	query: str = """
 		SELECT *
 		FROM "Ingredients"

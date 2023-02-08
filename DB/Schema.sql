@@ -43,3 +43,14 @@ CREATE TABLE "RecipesIngredients"
 	"Ingredients.id" INT NOT NULL,
 	FOREIGN KEY ("Ingredients.id") REFERENCES "Ingredients"("id")
 );
+
+
+DROP TABLE IF EXISTS "RecipesHistory" CASCADE;
+CREATE TABLE "RecipesHistory"
+(
+	"id" SERIAL NOT NULL PRIMARY KEY,
+	"is_deleted" BOOLEAN DEFAULT FALSE,
+	"Recipes.id" INT NOT NULL,
+	FOREIGN KEY ("Recipes.id") REFERENCES "Recipes"("id"),
+	"time" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

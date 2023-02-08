@@ -13,10 +13,9 @@ RecipeIngredient = TypeVar("Recipe");
 
 
 class RecipeIngredient(Ingredient):
-	def __init__(self, *, id: int, is_deleted: bool, brand: str, names: str, description: str, amount: Decimal,
-	  units: list[str], quality: str, is_required: bool, notes: str, Ingredients_id: int):
-		Ingredient.__init__(self, id=Ingredients_id, is_deleted=is_deleted, brand=brand, names=names,
-		  description=description)
+	def __init__(self, *, id: int, brand: str, names: str, description: str, amount: Decimal, units: list[str],
+	  quality: str, is_required: bool, notes: str, Ingredients_id: int):
+		Ingredient.__init__(self, id=Ingredients_id, brand=brand, names=names, description=description)
 		self._Ingredients_id: int = Ingredients_id
 
 		self._id: int = id
@@ -62,7 +61,6 @@ class RecipeIngredient(Ingredient):
 			"quality": self._quality,
 			"is_required": self._is_required,
 			"notes": self._notes,
-			"is_deleted": self._is_deleted,
 			"brand": self._brand,
 			"names": self._names,
 			"description": self._description,
@@ -120,9 +118,9 @@ class RecipeIngredient(Ingredient):
 
 		amount *= self._amount
 
-		return RecipeIngredient(id=self._id, is_deleted=self._is_deleted, brand=self._brand, names=self._names,
-		  description=self._description, amount=amount, units=self._units, quality=self._quality,
-		  is_required=self._is_required, notes=self._notes, Ingredients_id=self._Ingredients_id)
+		return RecipeIngredient(id=self._id, brand=self._brand, names=self._names, description=self._description,
+		  amount=amount, units=self._units, quality=self._quality, is_required=self._is_required, notes=self._notes,
+		  Ingredients_id=self._Ingredients_id)
 
 
 	def __rmul__(self, amount: int|float|Decimal) -> RecipeIngredient:

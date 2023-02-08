@@ -11,9 +11,8 @@ Ingredient = TypeVar("Ingredient");
 
 
 class Ingredient:
-	def __init__(self, *, id: int, is_deleted: bool, brand: str, names: list[str], description: str):
+	def __init__(self, *, id: int, brand: str, names: list[str], description: str):
 		self._id: int = id
-		self._is_deleted: bool = is_deleted
 		self._brand: str = brand
 		self._names: list[str] = names
 		self._description: str = description
@@ -53,7 +52,6 @@ class Ingredient:
 	def __iter__(self) -> dict:
 		yield from {
 			"id": self._id,
-			"is_deleted": self._is_deleted,
 			"brand": self._brand,
 			"names": self._names,
 			"description": self._description,

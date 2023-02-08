@@ -14,7 +14,7 @@ __author__ = "MPZinke"
 ########################################################################################################################
 
 
-from datetime import timedelta
+from datetime import datetime, timedelta
 from decimal import Decimal
 from fractions import Fraction
 import json
@@ -30,11 +30,10 @@ Recipe = TypeVar("Recipe");
 
 
 class Recipe(object):
-	def __init__(self, *, id: int, is_deleted: bool, name: str, instructions: dict|list, notes: str, rating: int,
+	def __init__(self, *, id: int, name: str, instructions: dict|list, notes: str, rating: int,
 	  servings: int, prep_time: timedelta, cook_time: timedelta, total_time: timedelta,
-	  ingredients: list[RecipeIngredient]):
+	  history: list[datetime], ingredients: list[RecipeIngredient]):
 		self._id: int = id
-		self._is_deleted: bool = is_deleted
 		self._name: str = name
 		self._instructions: dict|list = instructions
 		self._notes: str = notes
@@ -43,13 +42,17 @@ class Recipe(object):
 		self._prep_time: timedelta = prep_time
 		self._cook_time: timedelta = cook_time
 		self._total_time: timedelta = total_time
+		self._history: list[datetime] = history
 		self._ingredients: list[RecipeIngredient] = ingredients
 
 
 	@staticmethod
 	def all() -> list[Recipe]:
 		recipe_data: list[dict] = Queries.SELECT_ALL_FROM_Recipes()
-		[recipe.update({"ingredients": RecipeIngredient.from_Recipe_id(recipe["id"])}) for recipe in recipe_data]
+		for recipe in recipe_data:
+			recipe["ingredients"] = RecipeIngredient.from_Recipe_id(recipe["id"])
+			recipe["history"] = Queries.SELECT_ALL_FROM_RecipesHistory_WHERE_Recipes_id(recipe["id"])
+
 		return [Recipe(**recipe) for recipe in recipe_data]
 
 
@@ -62,6 +65,7 @@ class Recipe(object):
 		if(recipe_data is None):
 			return None
 
+		recipe_data["history"] = Queries.SELECT_ALL_FROM_RecipesHistory_WHERE_Recipes_id(recipe_data["id"])
 		recipe_data["ingredients"] = RecipeIngredient.from_Recipe_id(recipe_data["id"])
 
 		return Recipe(**recipe_data)
@@ -70,7 +74,6 @@ class Recipe(object):
 	def __iter__(self) -> dict:
 		yield from {
 			"id": self._id,
-			"is_deleted": self._is_deleted,
 			"name": self._name,
 			"instructions": self._instructions,
 			"notes": self._notes,
@@ -79,7 +82,8 @@ class Recipe(object):
 			"prep_time": self._prep_time,
 			"cook_time": self._cook_time,
 			"total_time": self._total_time,
-			"ingredients": map(dict, self._ingredients),
+			"history": map(str, self._history),
+			"ingredients": map(dict, self._ingredients)
 		}.items()
 
 
@@ -147,9 +151,9 @@ class Recipe(object):
 			servings = Decimal(float(servings))
 
 		ingredients: list[RecipeIngredient] = [ingredient * amount for ingredient in self._ingredients]
-		return Recipe(id=self._id, is_deleted=self._is_deleted, name=self._name, instructions=self._instructions,
-		  notes=self._notes, rating=self._rating, servings=servings, prep_time=self._prep_time,
-		  cook_time=self._cook_time, total_time=self._total_time, ingredients=ingredients)
+		return Recipe(id=self._id, name=self._name, instructions=self._instructions, notes=self._notes,
+		  rating=self._rating, servings=servings, prep_time=self._prep_time, cook_time=self._cook_time,
+		  total_time=self._total_time, history=self._history, ingredients=ingredients)
 
 
 	def __rmul__(self, amount: int|float|Decimal|Fraction) -> Recipe:  # __mul__(right, left)
