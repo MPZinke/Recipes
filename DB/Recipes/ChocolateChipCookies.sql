@@ -28,45 +28,27 @@ INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "prep_time", 
 );
 
 
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Salted Butter', 'Salted Butter'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Sugar', 'Sugar'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Light Brown Sugar', 'Light Brown Sugar'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Vanilla Extract', 'Vanilla Extract'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Egg', 'Eggs'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['All-Purose Flour', 'All-Purose Flour'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Baking Soda', 'Baking Soda'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Baking Powder', 'Baking Powder'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Salt', 'Salt'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Chocolate Chips', 'Chocolate Chips'])
-ON CONFLICT ("names", "brand") DO NOTHING;
+INSERT INTO "Ingredients" ("names")
+SELECT "Temp"."names"
+FROM
+(
+	VALUES
+	(ARRAY['Salted Butter', 'Salted Butter']::VARCHAR(64)[2]),
+	(ARRAY['Sugar', 'Sugar']::VARCHAR(64)[2]),
+	(ARRAY['Light Brown Sugar', 'Light Brown Sugar']::VARCHAR(64)[2]),
+	(ARRAY['Vanilla Extract', 'Vanilla Extract']::VARCHAR(64)[2]),
+	(ARRAY['Egg', 'Eggs']::VARCHAR(64)[2]),
+	(ARRAY['All-Purose Flour', 'All-Purose Flour']::VARCHAR(64)[2]),
+	(ARRAY['Baking Soda', 'Baking Soda']::VARCHAR(64)[2]),
+	(ARRAY['Baking Powder', 'Baking Powder']::VARCHAR(64)[2]),
+	(ARRAY['Salt', 'Salt']::VARCHAR(64)[2]),
+	(ARRAY['Chocolate Chips', 'Chocolate Chips']::VARCHAR(64)[2])
+) AS "Temp" ("names")
+WHERE "Temp"."names" NOT IN
+(
+	SELECT "names"
+	FROM "Ingredients"
+);
 
 
 INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")

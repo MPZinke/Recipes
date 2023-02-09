@@ -42,49 +42,28 @@ INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "prep_time", 
 );
 
 
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Skinless Salmon Fillet', 'Skinless Salmon Fillets'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Salt', 'Salt'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Ground Pepper', 'Ground Pepper'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Olive Oil', 'Olive Oil'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Garlic', 'Garlic'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Low-Sodium Chicken Broth', 'Low-Sodium Chicken Broth'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Lemon Juice', 'Lemon Juice'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Unsalted Butter', 'Unsalted Butter'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Honey', 'Honey'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Parsley', 'Parsley'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Lemon Slice', 'Lemon Slices'])
-ON CONFLICT ("names", "brand") DO NOTHING;
+INSERT INTO "Ingredients" ("names")
+SELECT "Temp"."names"
+FROM
+(
+	VALUES
+	(ARRAY['Skinless Salmon Fillet', 'Skinless Salmon Fillets']::VARCHAR(64)[2]),
+	(ARRAY['Salt', 'Salt']::VARCHAR(64)[2]),
+	(ARRAY['Ground Pepper', 'Ground Pepper']::VARCHAR(64)[2]),
+	(ARRAY['Olive Oil', 'Olive Oil']::VARCHAR(64)[2]),
+	(ARRAY['Garlic', 'Garlic']::VARCHAR(64)[2]),
+	(ARRAY['Low-Sodium Chicken Broth', 'Low-Sodium Chicken Broth']::VARCHAR(64)[2]),
+	(ARRAY['Lemon Juice', 'Lemon Juice']::VARCHAR(64)[2]),
+	(ARRAY['Unsalted Butter', 'Unsalted Butter']::VARCHAR(64)[2]),
+	(ARRAY['Honey', 'Honey']::VARCHAR(64)[2]),
+	(ARRAY['Parsley', 'Parsley']::VARCHAR(64)[2]),
+	(ARRAY['Lemon Slice', 'Lemon Slices']::VARCHAR(64)[2])
+) AS "Temp" ("names")
+WHERE "Temp"."names" NOT IN
+(
+	SELECT "names"
+	FROM "Ingredients"
+);
 
 
 INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")

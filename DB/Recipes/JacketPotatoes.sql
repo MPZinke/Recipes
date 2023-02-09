@@ -21,29 +21,23 @@ INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "instructions
 );
 
 
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Russet Potato', 'Russet Potatoes'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Salt', 'Salt'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Black Pepper', 'Black Pepper'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Chives', 'Chives'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Salted Butter', 'Salted Butter'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Sour Cream', 'Sour Cream'])
-ON CONFLICT ("names", "brand") DO NOTHING;
+INSERT INTO "Ingredients" ("names")
+SELECT "Temp"."names"
+FROM
+(
+	VALUES
+	(ARRAY['Russet Potato', 'Russet Potatoes']::VARCHAR(64)[2]),
+	(ARRAY['Salt', 'Salt']::VARCHAR(64)[2]),
+	(ARRAY['Black Pepper', 'Black Pepper']::VARCHAR(64)[2]),
+	(ARRAY['Chives', 'Chives']::VARCHAR(64)[2]),
+	(ARRAY['Salted Butter', 'Salted Butter']::VARCHAR(64)[2]),
+	(ARRAY['Sour Cream', 'Sour Cream']::VARCHAR(64)[2])
+) AS "Temp" ("names")
+WHERE "Temp"."names" NOT IN
+(
+	SELECT "names"
+	FROM "Ingredients"
+);
 
 
 INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")

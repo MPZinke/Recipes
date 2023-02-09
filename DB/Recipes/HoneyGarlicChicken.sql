@@ -31,57 +31,30 @@ INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "instructions
 );
 
 
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Chicken Breast', 'Chicken Breasts'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Egg', 'Eggs'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Corn Starch', 'Corn Starch'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Salt', 'Salt'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Broccoli', 'Broccoli'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Sesame Oil', 'Sesame Oil'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Quinoa', 'Quinoa'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Honey', 'Honey'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Sriracha Sauce', 'Sriracha Sauce'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Garlic', 'Garlic'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Rice Vinegar', 'Rice Vinegar'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Green Onion', 'Green Onions'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Black White Sesame Seeds', 'Black White Sesame Seeds'])
-ON CONFLICT ("names", "brand") DO NOTHING;
+INSERT INTO "Ingredients" ("names")
+SELECT "Temp"."names"
+FROM
+(
+	VALUES
+	(ARRAY['Chicken Breast', 'Chicken Breasts']::VARCHAR(64)[2]),
+	(ARRAY['Egg', 'Eggs']::VARCHAR(64)[2]),
+	(ARRAY['Corn Starch', 'Corn Starch']::VARCHAR(64)[2]),
+	(ARRAY['Salt', 'Salt']::VARCHAR(64)[2]),
+	(ARRAY['Broccoli', 'Broccoli']::VARCHAR(64)[2]),
+	(ARRAY['Sesame Oil', 'Sesame Oil']::VARCHAR(64)[2]),
+	(ARRAY['Quinoa', 'Quinoa']::VARCHAR(64)[2]),
+	(ARRAY['Honey', 'Honey']::VARCHAR(64)[2]),
+	(ARRAY['Sriracha Sauce', 'Sriracha Sauce']::VARCHAR(64)[2]),
+	(ARRAY['Garlic', 'Garlic']::VARCHAR(64)[2]),
+	(ARRAY['Rice Vinegar', 'Rice Vinegar']::VARCHAR(64)[2]),
+	(ARRAY['Green Onion', 'Green Onions']::VARCHAR(64)[2]),
+	(ARRAY['Black White Sesame Seeds', 'Black White Sesame Seeds']::VARCHAR(64)[2])
+) AS "Temp" ("names")
+WHERE "Temp"."names" NOT IN
+(
+	SELECT "names"
+	FROM "Ingredients"
+);
 
 
 INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")
