@@ -1,0 +1,22 @@
+{% with indexing = indexing if indexing else "[]" %}
+	<div
+	  class="section-div"
+	>
+		<input
+		  type="text"
+		  onchange="update_json({{ indexing }}, this);"
+		/>
+		<button
+			type="button"
+			onclick="add_step_list(this);"
+		>
+			+ New Step
+		</button>
+		<button
+			type="button"
+			onclick="add_section(this);"
+		>
+			+ New Section
+		</button>
+	</div>
+{% endwith %}

@@ -1,0 +1,110 @@
+<h3>
+	Recipe Ingredients
+</h3>
+<div
+  id="recipe_ingredients-div"
+>
+	{% with count=1 %}
+		{% include "New/RecipeIngredient/New.j2" %}
+	{% endwith %}
+</div>
+
+<button
+  type="button"
+  onclick="add_new_recipe_ingredient_html();"
+>
+	+ Add An Ingredient
+</button>
+
+
+<script>
+	function add_new_recipe_ingredient_html()
+	{
+		const recipe_ingredients_div = document.getElementById("recipe_ingredients-div");
+
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", `/new/recipe_ingredient`, false);
+		xmlhttp.send();
+		if(xmlhttp.status == 400)
+		{
+			alert('There was an error 400');
+		}
+		else if(xmlhttp.status != 200)
+		{
+			alert('add_new_recipe_ingredient_html::something else other than 200 was returned');
+		}
+
+		recipe_ingredients_div.innerHTML += xmlhttp.responseText;
+	}
+
+
+	function delete_ingredient(ingredient_div)
+	{
+		const recipe_ingredients_div = ingredient_div.parentNode;
+		recipe_ingredients_div.removeChild(ingredient_div);
+
+		const recipe_ingredients = recipe_ingredients_div.children;
+		if(recipe_ingredients.length == 0)
+		{
+			add_new_recipe_ingredient_html();
+		}
+		else
+		{
+			for(let x = 0; x < recipe_ingredients.length; x++){}
+		}
+	}
+
+
+	function update_ingredient(input)
+	{
+		const recipe_ingredient_div = input.closest(".recipe_ingredient-div");
+
+		const singular_name = recipe_ingredient_div.querySelector(".ingredient_singular_name-input").value;
+		const singular_datalist = recipe_ingredient_div.querySelector(".ingredient_name_singular-datalist");
+
+		const plural_name = recipe_ingredient_div.querySelector(".ingredient_plural_name-input").value;
+		const plural_datalist = recipe_ingredient_div.querySelector(".ingredient_name_plural-datalist");
+
+		const brand_name = recipe_ingredient_div.querySelector(".ingredient_brand-input").value;
+
+		let valid_datalist_ingredients = [];
+		for(var x = 0; x < INGREDIENTS.length; x++)
+		{
+			let ingredient = INGREDIENTS[x];
+			if(singular_name == ingredient.names[0].substring(0, singular_name.length)
+			  && plural_name == ingredient.names[1].substring(0, plural_name.length)
+			  && brand_name == ingredient.brand.substring(0, brand_name.length)
+			)
+			{
+				valid_datalist_ingredients.push(ingredient);
+			}
+		}
+
+		let singular_datalist_innerHTML = "";
+		let plural_datalist_innerHTML = "";
+		for(var x = 0; x < valid_datalist_ingredients.length; x++)
+		{
+			let ingredient = valid_datalist_ingredients[x];
+
+			singular_datalist_innerHTML += `<option
+					  ingredient-id="${ingredient.id}"
+					  value="${ingredient.names[0]}"
+					>
+						${ingredient.brand}
+					</option>`;
+
+			plural_datalist_innerHTML += `<option
+					  ingredient-id="${ingredient.id}"
+					  value="${ingredient.names[1]}"
+					>
+						${ingredient.brand}
+					</option>`;
+		}
+
+		singular_datalist.innerHTML = singular_datalist_innerHTML;
+		plural_datalist.innerHTML = plural_datalist_innerHTML;
+	}
+
+
+	const INGREDIENTS = JSON.parse(`{{ ingredients | str }}`);
+</script>

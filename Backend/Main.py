@@ -85,7 +85,7 @@ def GET_recipe(recipe_name: str):
 def GET_POST_new():
 	if(request.method == "GET"):
 		ingredients: list[Ingredient] = Ingredient.all()
-		return render_template("New/New.j2", ingredients=ingredients)
+		return render_template("New/Index.j2", ingredients=ingredients)
 	else:
 		return ""
 
@@ -96,29 +96,14 @@ def GET_new_recipe_ingredient():
 	return render_template("New/RecipeIngredient/New.j2", ingredients=ingredients)
 
 
-@app.route("/new/recipe_ingredient/ingredient", methods=["GET"])
-def GET_new_recipe_ingredient_ingredient():
-	ingredients: list[Ingredient] = Ingredient.all()
-	return render_template("New/RecipeIngredient/Ingredient/New.j2", ingredients=ingredients)
+@app.route("/new/instruction/step", methods=["GET"])
+def GET_new_instruction_step():
+	return render_template("New/instruction/Step.j2")
 
 
-@app.route("/new/recipe_ingredient/ingredient/<int:ingredient_id>", methods=["GET"])
-def GET_new_recipe_ingredient_ingredient_id(ingredient_id: int):
-	ingredients: list[Ingredient] = Ingredient.all()
-	ingredient: Ingredient = next((ingredient for ingredient in ingredients if(ingredient.id() == ingredient_id)), next)
-	return render_template("New/RecipeIngredient/Ingredient/Ingredient.j2", ingredient=ingredient,
-	  ingredients=ingredients, selected_id=ingredient_id)
-
-
-@app.route("/new/recipe_ingredient/ingredient/button", methods=["GET"])
-def GET_new_recipe_ingredient_ingredient_button():
-	return render_template("New/RecipeIngredient/Ingredient/Button.j2")
-
-
-@app.route("/new/recipe_ingredient/ingredient/select", methods=["GET"])
-def GET_new_recipe_ingredient_ingredient_select():
-	ingredients: list[Ingredient] = Ingredient.all()
-	return render_template("New/RecipeIngredient/Ingredient/Select.j2", ingredients=ingredients)
+@app.route("/new/instruction/step-list", methods=["GET"])
+def GET_new_instruction_step_list():
+	return render_template("New/instruction/StepList.j2")
 
 
 # ——————————————————————————————————————————————————— INGREDIENTS  ——————————————————————————————————————————————————— #

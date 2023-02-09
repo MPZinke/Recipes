@@ -1,0 +1,58 @@
+<h3>
+	Recipe Instructions
+</h3>
+<div
+  id="recipe_instructions-div"
+>
+	<button
+		type="button"
+		onclick="add_step_list(this);"
+	>
+		+ Add Step
+	</button>
+	<button
+		type="button"
+		onclick="add_section(this);"
+	>
+		+ Add Section
+	</button>
+</div>
+
+<script>
+	// —————————————————————————————————————————————— ISNTRUCTION  —————————————————————————————————————————————— //
+
+	function add_step_list(button)
+	{
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", `/new/instruction/step-list`, false);
+		xmlhttp.send();
+		if(xmlhttp.status == 400)
+		{
+			alert('There was an error 400');
+		}
+		else if(xmlhttp.status != 200)
+		{
+			alert('add_new_recipe_ingredient_html::something else other than 200 was returned');
+		}
+
+		button.parentNode.innerHTML = xmlhttp.responseText;
+	}
+
+
+	function add_step(button)
+	{
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", `/new/instruction/step`, false);
+		xmlhttp.send();
+		if(xmlhttp.status == 400)
+		{
+			alert('There was an error 400');
+		}
+		else if(xmlhttp.status != 200)
+		{
+			alert('add_new_recipe_ingredient_html::something else other than 200 was returned');
+		}
+
+		button.parentNode.innerHTML = xmlhttp.responseText;
+	}
+</script>
