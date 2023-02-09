@@ -20,32 +20,53 @@
 			<h3>
 				Remaining Time
 			</h3>
-			<h1 id="time_h3">
+			<h1
+			  id="time_h3"
+			>
 			</h1>
 		</div>
 
-		<div id="completed_div" hidden>
+		<div
+		  id="completed_div" hidden
+		>
 			<h3>
 				Completed At
 			</h3>
-			<h4 id="completed_h4">
+			<h4
+			  id="completed_h4"
+			>
 			</h4>
 		</div>
 
-		<button id="reset_button" onclick="reset();">
+		<button
+		  id="reset_button"
+		  onclick="reset();"
+		>
 			Reset
 		</button>
-		<button id="pause_button" onclick="pause();">
+		<button
+		  id="pause_button"
+		  onclick="pause();"
+		>
 			Pause
 		</button>
-		<button id="resume_button" onclick="resume();">
+		<button
+		  id="resume_button"
+		  onclick="resume();"
+		>
 			Resume
 		</button>
-		<button id="start_button" onclick="start();">
+		<button
+		  id="start_button"
+		  onclick="start();"
+		>
 			Start
 		</button>
 		<audio controls hidden>
-			<source src="{{ url_for('static', filename='DigitalAlarmClock.wav') }}" type="audio/wav">
+			<source
+			  src="{{ url_for('static', filename='DigitalAlarmClock.wav') }}"
+			  type="audio/wav"
+			>
 			## <source src="horse.mp3" type="audio/mpeg">
 			Your browser does not support the audio element.
 		</audio>

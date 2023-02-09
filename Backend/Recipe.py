@@ -51,7 +51,7 @@ class Recipe(object):
 		recipe_data: list[dict] = Queries.SELECT_ALL_FROM_Recipes()
 		for recipe in recipe_data:
 			recipe["ingredients"] = RecipeIngredient.from_Recipe_id(recipe["id"])
-			recipe["history"] = Queries.SELECT_ALL_FROM_RecipesHistory_WHERE_Recipes_id(recipe["id"])
+			recipe["history"] = Queries.SELECT_time_FROM_RecipesHistory_WHERE_Recipes_id(recipe["id"])
 
 		return [Recipe(**recipe) for recipe in recipe_data]
 
@@ -65,7 +65,7 @@ class Recipe(object):
 		if(recipe_data is None):
 			return None
 
-		recipe_data["history"] = Queries.SELECT_ALL_FROM_RecipesHistory_WHERE_Recipes_id(recipe_data["id"])
+		recipe_data["history"] = Queries.SELECT_time_FROM_RecipesHistory_WHERE_Recipes_id(recipe_data["id"])
 		recipe_data["ingredients"] = RecipeIngredient.from_Recipe_id(recipe_data["id"])
 
 		return Recipe(**recipe_data)
@@ -101,6 +101,13 @@ class Recipe(object):
 
 	def is_deleted(self) -> bool:
 		return self._is_deleted
+
+
+	def last_made_on(self) -> datetime|None:
+		if(len(self._history) == 0):
+			return None
+
+		return self._history[-1]
 
 
 	def name(self) -> str:

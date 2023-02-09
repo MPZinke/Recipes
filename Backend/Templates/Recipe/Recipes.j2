@@ -19,7 +19,9 @@
 		{% for recipe in recipes %}
 			<tr>
 				<td>
-					<a href="/recipe/{{ recipe.name() }}">
+					<a
+					  href="/recipe/{{ recipe.name() }}"
+					>
 						{{ recipe.name() }}
 					</a>
 				</td>

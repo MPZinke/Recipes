@@ -36,10 +36,8 @@ app = Flask("Recipes", template_folder=os.path.join(ROOT_DIR, "Templates"), stat
 # FROM: https://abstractkitchen.com/blog/how-to-create-custom-jinja-filters-in-flask/
 app.jinja_env.filters["format_decimal"] = format_decimal
 app.jinja_env.filters["format_decimal_fractionally"] = format_decimal_fractionally
-app.jinja_env.filters["map_str"] = lambda x: map(str, x)
-app.jinja_env.filters["map"] = map
-app.jinja_env.filters["str"] = str
 app.jinja_env.filters["replace_timer"] = replace_timer
+app.jinja_env.filters["str"] = str
 
 
 @app.route("/")

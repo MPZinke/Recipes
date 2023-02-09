@@ -127,16 +127,16 @@ def SELECT_Recipes_name_FROM_RecipesIngredients_WHERE_Ingredients_name(cursor, I
 
 @remove_columns("is_deleted")
 @connection_wrapper
-def SELECT_ALL_FROM_RecipesHistory_WHERE_Recipes_id(cursor, Recipes_id) -> list[dict]:
+def SELECT_time_FROM_RecipesHistory_WHERE_Recipes_id(cursor, Recipes_id) -> list[dict]:
 	query: str = """
-		SELECT *
+		SELECT "time"
 		FROM "RecipesHistory"
 		WHERE "Recipes.id" = %s
 		  AND "RecipesHistory"."is_deleted" = FALSE
 		ORDER BY "time" ASC;
 	"""
 	cursor.execute(query, (Recipes_id,))
-	return [history for history in cursor]
+	return [history["time"] for history in cursor]
 
 
 

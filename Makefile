@@ -16,3 +16,4 @@ database:
 		echo "\n$${FILE}"; \
 		psql Recipes -f "$${FILE}" ; \
 	done
+	psql Recipes -f DB/Rules.sql
