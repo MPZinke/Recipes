@@ -96,14 +96,29 @@ def GET_new_recipe_ingredient():
 	return render_template("New/RecipeIngredient/New.j2", ingredients=ingredients)
 
 
+@app.route("/new/instruction/section", methods=["GET"])
+def GET_new_instruction_section():
+	return render_template("New/Instruction/Section.j2")
+
+
+@app.route("/new/instruction/section-dictionary", methods=["GET"])
+def GET_new_instruction_section_dictionary():
+	return render_template("New/Instruction/SectionDictionary.j2")
+
+
 @app.route("/new/instruction/step", methods=["GET"])
 def GET_new_instruction_step():
-	return render_template("New/instruction/Step.j2")
+	return render_template("New/Instruction/Step.j2")
+
+
+@app.route("/new/instruction/step/<string:section>", methods=["GET"])
+def GET_new_instruction_step_section(section: str):
+	return render_template("New/Instruction/Step.j2", section=section)
 
 
 @app.route("/new/instruction/step-list", methods=["GET"])
 def GET_new_instruction_step_list():
-	return render_template("New/instruction/StepList.j2")
+	return render_template("New/Instruction/StepList.j2")
 
 
 # ——————————————————————————————————————————————————— INGREDIENTS  ——————————————————————————————————————————————————— #

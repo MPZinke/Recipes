@@ -4,24 +4,78 @@
 <div
   id="recipe_instructions-div"
 >
-	<button
-		type="button"
-		onclick="add_step_list(this);"
+	<div
+	  class="content"
 	>
-		+ Add Step
-	</button>
-	<button
-		type="button"
-		onclick="add_section(this);"
-	>
-		+ Add Section
-	</button>
+		<button
+			type="button"
+			onclick="add_step_list(this.parentNode, true);"
+		>
+			+ Add Step List
+		</button>
+		<button
+			type="button"
+			onclick="add_section_dictionary(this.parentNode, true);"
+		>
+			+ Add Section
+		</button>
+	</div>
 </div>
 
 <script>
 	// —————————————————————————————————————————————— ISNTRUCTION  —————————————————————————————————————————————— //
 
-	function add_step_list(button)
+	function add_section_dictionary(button, replace=false)
+	{
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", `/new/instruction/section-dictionary`, false);
+		xmlhttp.send();
+		if(xmlhttp.status == 400)
+		{
+			alert('There was an error 400');
+		}
+		else if(xmlhttp.status != 200)
+		{
+			alert('add_new_recipe_ingredient_html::something else other than 200 was returned');
+		}
+
+		if(replace)
+		{
+			button.parentNode.querySelector(".content").innerHTML = xmlhttp.responseText;
+		}
+		else
+		{
+			button.parentNode.querySelector(".content").innerHTML += xmlhttp.responseText;
+		}
+	}
+
+
+	function add_section(button, replace=false)
+	{
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", `/new/instruction/section`, false);
+		xmlhttp.send();
+		if(xmlhttp.status == 400)
+		{
+			alert('There was an error 400');
+		}
+		else if(xmlhttp.status != 200)
+		{
+			alert('add_new_recipe_ingredient_html::something else other than 200 was returned');
+		}
+
+		if(replace)
+		{
+			button.parentNode.querySelector(".content").innerHTML = xmlhttp.responseText;
+		}
+		else
+		{
+			button.parentNode.querySelector(".content").innerHTML += xmlhttp.responseText;
+		}
+	}
+
+
+	function add_step_list(button, replace=false)
 	{
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", `/new/instruction/step-list`, false);
@@ -35,11 +89,18 @@
 			alert('add_new_recipe_ingredient_html::something else other than 200 was returned');
 		}
 
-		button.parentNode.innerHTML = xmlhttp.responseText;
+		if(replace)
+		{
+			button.parentNode.querySelector(".content").innerHTML = xmlhttp.responseText;
+		}
+		else
+		{
+			button.parentNode.querySelector(".content").innerHTML += xmlhttp.responseText;
+		}
 	}
 
 
-	function add_step(button)
+	function add_step(button, replace=false)
 	{
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", `/new/instruction/step`, false);
@@ -53,6 +114,13 @@
 			alert('add_new_recipe_ingredient_html::something else other than 200 was returned');
 		}
 
-		button.parentNode.innerHTML = xmlhttp.responseText;
+		if(replace)
+		{
+			button.parentNode.querySelector(".content").innerHTML = xmlhttp.responseText;
+		}
+		else
+		{
+			button.parentNode.querySelector(".content").innerHTML += xmlhttp.responseText;
+		}
 	}
 </script>

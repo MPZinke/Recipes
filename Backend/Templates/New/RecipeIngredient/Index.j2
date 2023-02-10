@@ -1,23 +1,57 @@
-<h3>
-	Recipe Ingredients
-</h3>
-<div
-  id="recipe_ingredients-div"
->
-	{% with count=1 %}
+<div>
+	<h3>
+		Recipe Ingredients
+	</h3>
+	<div
+	  id="recipe_ingredients-div"
+	>
 		{% include "New/RecipeIngredient/New.j2" %}
-	{% endwith %}
+	</div>
+
+	<button
+	  type="button"
+	  onclick="add_new_recipe_ingredient_html();"
+	>
+		+ Add An Ingredient
+	</button>
 </div>
 
-<button
-  type="button"
-  onclick="add_new_recipe_ingredient_html();"
->
-	+ Add An Ingredient
-</button>
-
-
 <script>
+	// ——————————————————————————————————————————————————— SUBMIT ——————————————————————————————————————————————————— //
+
+	function json_builder()
+	{
+		const recipe_ingredients_div = document.getElementById("recipe_ingredients-div");
+		const recipe_ingredient_divs = recipe_ingredients_div.getElementsByClassName("recipe_ingredient-div");
+
+		const recipe_ingredients = [];
+		for(let x = 0; x < recipe_ingredient_divs.length; x++)
+		{
+			const recipe_ingredient = {
+				names: [
+					recipe_ingredient_divs[x].getElementsByClassName("ingredient_singular_name-input")[0],
+					recipe_ingredient_divs[x].getElementsByClassName("ingredient_plural_name-input")[0]
+				],
+				brand: recipe_ingredient_divs[x].getElementsByClassName("ingredient_brand-input")[0],
+				description: recipe_ingredient_divs[x].getElementsByClassName("ingredient_description-textarea")[0],
+				amount: recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_amount-input")[0],
+				units: [
+					recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_units_singular-input")[0],
+					recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_units_plural-input")[0],
+				],
+				quality: recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_quality-input")[0],
+				is_required: recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_is_required-select")[0],
+				notes: recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_notes-textarea")[0]
+			}
+			recipe_ingredients.push(recipe_ingredient);
+		}
+
+		return recipe_ingredients;
+	}
+
+
+	// —————————————————————————————————————————————————— DISPLAY  —————————————————————————————————————————————————— //
+
 	function add_new_recipe_ingredient_html()
 	{
 		const recipe_ingredients_div = document.getElementById("recipe_ingredients-div");

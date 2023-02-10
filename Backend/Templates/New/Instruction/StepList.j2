@@ -1,17 +1,27 @@
 <div
-  class="step-list-div"
+  class="step-list-div boxed"
   type=""
 >
-	{% include("New/Instruction/Step.j2") %}
+	<h4>
+		Steps
+		{% if section %}
+			{{ section }}
+		{% endif %}
+	</h4>
+	<div
+	  class="content"
+	>
+	</div>
+
 	<button
 		type="button"
 		onclick="add_step(this);"
 	>
-		+ Add Another Step
+		+ Add Step
 	</button>
 	<button
 		type="button"
-		onclick="add_section(this);"
+		onclick="add_section_dictionary(this);"
 	>
 		+ New Section
 	</button>

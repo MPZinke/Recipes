@@ -1,0 +1,18 @@
+{% with indexing = indexing if indexing else "[]" %}
+	<div
+	  class="section-dictionary-div boxed"
+	>
+		<div
+		  class="content"
+		>
+			{% include("New/Instruction/Section.j2") %}
+		</div>
+
+		<button
+			type="button"
+			onclick="add_section(this);"
+		>
+			+ New Section
+		</button>
+	</div>
+{% endwith %}
