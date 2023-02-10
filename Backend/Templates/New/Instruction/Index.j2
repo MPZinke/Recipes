@@ -11,9 +11,10 @@
 			type="button"
 			onclick="add_step_list(this.parentNode, true);"
 		>
-			+ Add Step List
+			+ Add List
 		</button>
 		<button
+		 id="test"
 			type="button"
 			onclick="add_section_dictionary(this.parentNode, true);"
 		>
@@ -41,12 +42,16 @@
 
 		if(replace)
 		{
-			button.parentNode.querySelector(".content").innerHTML = xmlhttp.responseText;
+			const parent = button.parentNode.querySelector(".content");
+			console.log(typeof parent)
+			for(let x = parent.children.length; x > 0; x--)
+			{
+				parent.removeChild(parent.children[x-1]);
+			}
 		}
-		else
-		{
-			button.parentNode.querySelector(".content").innerHTML += xmlhttp.responseText;
-		}
+
+		const fragment = document.createRange().createContextualFragment(xmlhttp.responseText)
+		button.parentNode.querySelector(".content").appendChild(fragment);
 	}
 
 
@@ -66,12 +71,16 @@
 
 		if(replace)
 		{
-			button.parentNode.querySelector(".content").innerHTML = xmlhttp.responseText;
+			const parent = button.parentNode.querySelector(".content");
+			console.log(typeof parent)
+			for(let x = parent.children.length; x > 0; x--)
+			{
+				parent.removeChild(parent.children[x-1]);
+			}
 		}
-		else
-		{
-			button.parentNode.querySelector(".content").innerHTML += xmlhttp.responseText;
-		}
+
+		const fragment = document.createRange().createContextualFragment(xmlhttp.responseText)
+		button.parentNode.querySelector(".content").appendChild(fragment);
 	}
 
 
@@ -91,12 +100,16 @@
 
 		if(replace)
 		{
-			button.parentNode.querySelector(".content").innerHTML = xmlhttp.responseText;
+			const parent = button.parentNode.querySelector(".content");
+			console.log(typeof parent)
+			for(let x = parent.children.length; x > 0; x--)
+			{
+				parent.removeChild(parent.children[x-1]);
+			}
 		}
-		else
-		{
-			button.parentNode.querySelector(".content").innerHTML += xmlhttp.responseText;
-		}
+
+		const fragment = document.createRange().createContextualFragment(xmlhttp.responseText)
+		button.parentNode.querySelector(".content").appendChild(fragment);
 	}
 
 
@@ -116,11 +129,17 @@
 
 		if(replace)
 		{
-			button.parentNode.querySelector(".content").innerHTML = xmlhttp.responseText;
+			const parent = button.parentNode.querySelector(".content");
+			console.log(typeof parent)
+			for(let x = parent.children.length; x > 0; x--)
+			{
+				parent.removeChild(parent.children[x-1]);
+			}
 		}
-		else
-		{
-			button.parentNode.querySelector(".content").innerHTML += xmlhttp.responseText;
-		}
+
+		const fragment = document.createRange().createContextualFragment(xmlhttp.responseText)
+		button.parentNode.querySelector(".content").appendChild(fragment);
 	}
+
+	console.log(typeof document.getElementById("test"))
 </script>

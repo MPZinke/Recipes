@@ -11,6 +11,7 @@
 	<div
 	  class="content"
 	>
+		{% include("New/Instruction/Step.j2") %}
 	</div>
 
 	<button
@@ -18,11 +19,5 @@
 		onclick="add_step(this);"
 	>
 		+ Add Step
-	</button>
-	<button
-		type="button"
-		onclick="add_section_dictionary(this);"
-	>
-		+ New Section
 	</button>
 </div>
