@@ -14,6 +14,7 @@
 	>
 		+ Add An Ingredient
 	</button>
+	<button type="button" onclick="console.log(json_builder());">Test</button>
 </div>
 
 <script>
@@ -29,19 +30,21 @@
 		{
 			const recipe_ingredient = {
 				names: [
-					recipe_ingredient_divs[x].getElementsByClassName("ingredient_singular_name-input")[0],
-					recipe_ingredient_divs[x].getElementsByClassName("ingredient_plural_name-input")[0]
+					recipe_ingredient_divs[x].getElementsByClassName("ingredient_singular_name-input")[0].value,
+					recipe_ingredient_divs[x].getElementsByClassName("ingredient_plural_name-input")[0].value
 				],
-				brand: recipe_ingredient_divs[x].getElementsByClassName("ingredient_brand-input")[0],
-				description: recipe_ingredient_divs[x].getElementsByClassName("ingredient_description-textarea")[0],
-				amount: recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_amount-input")[0],
+				brand: recipe_ingredient_divs[x].getElementsByClassName("ingredient_brand-input")[0].value,
+				description:
+				  recipe_ingredient_divs[x].getElementsByClassName("ingredient_description-textarea")[0].value,
+				amount: recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_amount-input")[0].value,
 				units: [
-					recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_units_singular-input")[0],
-					recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_units_plural-input")[0],
+					recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_units_singular-input")[0].value,
+					recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_units_plural-input")[0].value,
 				],
-				quality: recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_quality-input")[0],
-				is_required: recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_is_required-select")[0],
-				notes: recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_notes-textarea")[0]
+				quality: recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_quality-input")[0].value,
+				is_required:
+				  recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_is_required-select")[0].value,
+				notes: recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_notes-textarea")[0].value
 			}
 			recipe_ingredients.push(recipe_ingredient);
 		}
@@ -68,7 +71,8 @@
 			alert('add_new_recipe_ingredient_html::something else other than 200 was returned');
 		}
 
-		recipe_ingredients_div.innerHTML += xmlhttp.responseText;
+		const fragment = document.createRange().createContextualFragment(xmlhttp.responseText);
+		recipe_ingredients_div.appendChild(fragment);
 	}
 
 
@@ -89,6 +93,50 @@
 	}
 
 
+	// ————————————————————————————————————————————————— DATA  LIST ————————————————————————————————————————————————— //
+
+	function associate_datalists()
+	{
+		const recipe_ingredient_divs = document.getElementsByClassName("recipe_ingredient-div");
+		for(let x = 0; x < recipe_ingredient_divs.length; x++)
+		{
+			const recipe_ingredient_div = recipe_ingredient_divs[x];
+
+			const ingredient_singular_name_input = recipe_ingredient_div.querySelector(".ingredient_singular_name-input");
+			const ingredient_plural_name_input = recipe_ingredient_div.querySelector(".ingredient_plural_name-input");
+
+			const ingredient_name_singular_datalist = recipe_ingredient_div.querySelector(".ingredient_name_singular-datalist");
+			const ingredient_name_plural_datalist = recipe_ingredient_div.querySelector(".ingredient_name_plural-datalist");
+		}
+	}
+
+
+	function datalist_options(datalist_ingredients)
+	{
+		let singular_datalist_options = "";
+		let plural_datalist_options = "";
+		for(var x = 0; x < datalist_ingredients.length; x++)
+		{
+			let ingredient = datalist_ingredients[x];
+
+			singular_datalist_options += `<option
+					  ingredient-id="${ingredient.id}"
+					  value="${ingredient.names[0]}"
+					>
+						${ingredient.brand}
+					</option>`;
+
+			plural_datalist_options += `<option
+					  ingredient-id="${ingredient.id}"
+					  value="${ingredient.names[1]}"
+					>
+						${ingredient.brand}
+					</option>`;
+		}
+
+		return []
+	}
+
 	function update_ingredient(input)
 	{
 		const recipe_ingredient_div = input.closest(".recipe_ingredient-div");
@@ -101,7 +149,7 @@
 
 		const brand_name = recipe_ingredient_div.querySelector(".ingredient_brand-input").value;
 
-		let valid_datalist_ingredients = [];
+		let datalist_ingredients = [];
 		for(var x = 0; x < INGREDIENTS.length; x++)
 		{
 			let ingredient = INGREDIENTS[x];
@@ -110,33 +158,16 @@
 			  && brand_name == ingredient.brand.substring(0, brand_name.length)
 			)
 			{
-				valid_datalist_ingredients.push(ingredient);
+				datalist_ingredients.push(ingredient);
 			}
 		}
 
-		let singular_datalist_innerHTML = "";
-		let plural_datalist_innerHTML = "";
-		for(var x = 0; x < valid_datalist_ingredients.length; x++)
-		{
-			let ingredient = valid_datalist_ingredients[x];
+		const [singular_datalist_options, plural_datalist_options] = datalist_options(datalist_ingredients)
 
-			singular_datalist_innerHTML += `<option
-					  ingredient-id="${ingredient.id}"
-					  value="${ingredient.names[0]}"
-					>
-						${ingredient.brand}
-					</option>`;
-
-			plural_datalist_innerHTML += `<option
-					  ingredient-id="${ingredient.id}"
-					  value="${ingredient.names[1]}"
-					>
-						${ingredient.brand}
-					</option>`;
-		}
-
-		singular_datalist.innerHTML = singular_datalist_innerHTML;
-		plural_datalist.innerHTML = plural_datalist_innerHTML;
+		const singular_fragment = document.createRange().createContextualFragment(singular_datalist_options);
+		const plural_fragment = document.createRange().createContextualFragment(plural_datalist_options);
+		singular_datalist.replaceChildren(...singular_fragment);
+		plural_datalist.replaceChildren(...plural_fragment);
 	}
 
 

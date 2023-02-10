@@ -1,18 +1,16 @@
-{% with indexing = indexing if indexing else "[]" %}
+<div
+  class="section-dictionary-div"
+>
 	<div
-	  class="section-dictionary-div"
+	  class="content"
 	>
-		<div
-		  class="content"
-		>
-			{% include("New/Instruction/Section.j2") %}
-		</div>
-
-		<button
-			type="button"
-			onclick="add_section(this);"
-		>
-			+ Add Another Section
-		</button>
+		{% include("New/Instruction/Section.j2") %}
 	</div>
-{% endwith %}
+
+	<button
+		type="button"
+		onclick="add_section(this);"
+	>
+		+ Add Another Section
+	</button>
+</div>
