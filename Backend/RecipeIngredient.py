@@ -145,4 +145,4 @@ class RecipeIngredient(Ingredient):
 		if(amount is None):
 			amount = self._amount
 
-		return self._names[amount.as_integer_ratio()[0] > 1]
+		return self._names[self._units == ["", ""] and amount.as_integer_ratio()[0] > 1.0]

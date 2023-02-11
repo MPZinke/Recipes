@@ -25,6 +25,32 @@ def format_decimal_fractionally(value: Decimal) -> str:
 	return str(round(value, 2))
 
 
+def replace_flags(line: str) -> str:
+	"""
+	SUMMARY: Converts a timer tag in a line into a link to the timer endpoint.
+	PARAMS:  Takes the line to search through and replace.
+	DETAILS: Uses a regex to determine the timer tags. For each tag, the duration is converted to a spelled out version
+	         link to the timer endpoint.
+	RETURNS: A version of the line with tags replaced with links
+	"""
+	line = replace_ingredient(line)
+	line = replace_timer(line)
+	return replace_title(line)
+
+
+def replace_ingredient(line: str) -> str:
+	ingredient_flag_regex = r"""\$\{recipe_ingredient::(?P<index>[0-9]+)\|(?P<name>(?:[^}\\]|\\})*)\}"""
+	if(len(recipe_ingredient_indexes := re.findall(ingredient_flag_regex, line)) == 0):
+		return line
+
+	for values in recipe_ingredient_indexes:
+		index, name = values
+		link = f"""<a href="#recipe_ingredient_index-{index}">{name}</a>"""
+		line = line.replace(f"${{recipe_ingredient::{index}|{name}}}", link)
+
+	return line
+
+
 def replace_timer(line: str) -> str:
 	"""
 	SUMMARY: Converts a timer tag in a line into a link to the timer endpoint.
@@ -45,5 +71,22 @@ def replace_timer(line: str) -> str:
 
 		link = f"""<a href="/timer/{duration}" target="_blank">{duration_text}</a>"""
 		line = line.replace(f"${{timer::{duration}}}", link)
+
+	return line
+
+
+def replace_title(line: str) -> str:
+	"""
+	FROM: https://stackoverflow.com/a/7503251
+	"""
+	title_regex = text_regex = r"""(?:[^}|\\]|\\[|}])*"""
+	title_flag_regex = rf"""\${{title::(?P<title>{title_regex})\|(?P<text>{text_regex})}}"""
+	if(len(titles := re.findall(title_flag_regex, line)) == 0):
+		print("returning line")
+		return line
+
+	for title, text in titles:
+		link = f"""<span class="tooltip" title="{title}">{text}</span>"""
+		line = line.replace(f"${{title::{title}|{text}}}", link)
 
 	return line

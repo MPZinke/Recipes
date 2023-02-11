@@ -26,7 +26,7 @@ import re
 from DB import Queries
 from Recipe import Recipe
 from Ingredient import Ingredient
-from HTMLRenderingHelpers import format_decimal, format_decimal_fractionally, replace_timer
+from HTMLRenderingHelpers import format_decimal, format_decimal_fractionally, replace_flags
 
 
 ROOT_DIR = str(Path(__file__).absolute().parent)
@@ -36,7 +36,7 @@ app = Flask("Recipes", template_folder=os.path.join(ROOT_DIR, "Templates"), stat
 # FROM: https://abstractkitchen.com/blog/how-to-create-custom-jinja-filters-in-flask/
 app.jinja_env.filters["format_decimal"] = format_decimal
 app.jinja_env.filters["format_decimal_fractionally"] = format_decimal_fractionally
-app.jinja_env.filters["replace_timer"] = replace_timer
+app.jinja_env.filters["replace_flags"] = replace_flags
 app.jinja_env.filters["str"] = str
 
 
@@ -47,16 +47,17 @@ def GET_():
 	return "<a href='clock-timer://'>Timer</a>"
 
 
-@app.route("/testing/datalist")
+@app.route("/favicon.ico")
+def GET_favicon_ico():
+	return ""
+
+
+@app.route("/testing/tooltip")
 def GET_testing_datatlist():
 	return """
-	<form>
-		<input list="my_list"/>
-		<datalist id="my_list">
-			<option value="12345">One</option>
-			<option value="67890"></option>
-		</datalist>
-	</form>
+	<span title="See this when you hover">
+		Ingredient
+	</span>
 """
 
 # ————————————————————————————————————————————————————— RECIPES  ————————————————————————————————————————————————————— #
