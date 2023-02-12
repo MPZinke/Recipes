@@ -87,13 +87,6 @@ class RecipeIngredient(Ingredient):
 		return self._amount
 
 
-	def unit(self, amount: Decimal|None=None) -> int:
-		if(amount is None):
-			amount = self._amount
-
-		return self._units[amount.as_integer_ratio()[0] > 1]
-
-
 	def units(self) -> int:
 		return self._units
 
@@ -146,3 +139,10 @@ class RecipeIngredient(Ingredient):
 			amount = self._amount
 
 		return self._names[self._units == ["", ""] and amount.as_integer_ratio()[0] > 1.0]
+
+
+	def unit(self, amount: Decimal|None=None) -> int:
+		if(amount is None):
+			amount = self._amount
+
+		return self._units[amount.as_integer_ratio()[0] > 1]

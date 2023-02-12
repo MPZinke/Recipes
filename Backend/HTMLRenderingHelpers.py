@@ -65,9 +65,13 @@ def replace_quantity(line: str) -> str:
 	multiplier: Decimal = Decimal(request.args.get("multiplier", "1.0"))
 
 	for ingredient in ingredient_jsons:
-		amount, unit, quality, name = [json.loads(ingredient)[key] for key in ["amount", "unit", "quality", "name"]]
-		amount = format_decimal_fractionally(Decimal(amount) * multiplier)
-		link = f"""<span class="tooltip" title="{amount} {unit} {quality}">{name}</span>"""
+		ingredient_json: dict = json.loads(ingredient)
+		keys_and_defaults = {"amount": 0.0, "units": ["", ""], "quality": "", "name": ""}
+		amount, units, quality, name = [ingredient_json.get(key, default) for key, default in keys_and_defaults.items()]
+
+		amount_str: str = format_decimal_fractionally(Decimal(amount) * multiplier)
+		unit: str = units[(Decimal(amount) * multiplier).as_integer_ratio()[0] > 1]
+		link = f"""<span class="tooltip" title="{amount_str} {unit} {quality}">{name}</span>"""
 
 		line = _replace_data("quantity", line, link)
 

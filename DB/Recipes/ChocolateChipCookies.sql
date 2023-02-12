@@ -21,7 +21,7 @@ BEGIN
 	(RecipeName, 5, 36, INTERVAL '30 MINUTES', INTERVAL '10 MINUTES', INTERVAL '8 MINUTES',  
 		'[
 			"Preheat oven to 375 degrees Farenheit. Line a baking pan with parchment paper and set aside.",
-			"Mix flour, baking soda, salt, and baking powder in a bowl. Set aside.",
+			"Mix ${quantity::\\{\"amount\": 3.0, \"units\": [\"Cup\", \"Cups\"], \"name\": \"flour\"\\}}, ${quantity::\\{\"amount\": 1.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"name\": \"baking soda\"\\}}, ${quantity::\\{\"amount\": 1.0, \"quality\": \"Course\", \"units\": [\"Teaspoon\", \"Teaspoons\"], \"name\": \"salt\"\\}}, and ${quantity::\\{\"amount\": 0.5, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"name\": \"baking powder\"\\}} in a bowl. Set aside.",
 			"In a separate bowl, cream together butter and sugars until combined.",
 			"Beat in eggs and vanilla until fluffy.",
 			"Mix in the dry ingredients until combined.",
