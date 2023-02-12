@@ -26,7 +26,7 @@ import re
 from DB import Queries
 from Recipe import Recipe
 from Ingredient import Ingredient
-from HTMLRenderingHelpers import format_decimal, format_decimal_fractionally, replace_flags
+from HTMLRenderingHelpers import format_decimal, format_decimal_fractionally, replace_special
 
 
 ROOT_DIR = str(Path(__file__).absolute().parent)
@@ -36,7 +36,7 @@ app = Flask("Recipes", template_folder=os.path.join(ROOT_DIR, "Templates"), stat
 # FROM: https://abstractkitchen.com/blog/how-to-create-custom-jinja-filters-in-flask/
 app.jinja_env.filters["format_decimal"] = format_decimal
 app.jinja_env.filters["format_decimal_fractionally"] = format_decimal_fractionally
-app.jinja_env.filters["replace_flags"] = replace_flags
+app.jinja_env.filters["replace_special"] = replace_special
 app.jinja_env.filters["str"] = str
 
 

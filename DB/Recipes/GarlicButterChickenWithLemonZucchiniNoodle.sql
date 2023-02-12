@@ -23,7 +23,7 @@ BEGIN
 			"Prepare The Chicken Bites":
 			[
 				"Slice chicken breasts into bite-sized chunks.",
-				"Combine chicken chunks with olive oil, salt, pepper, garlic powder, ${title::1 Teaspoon|Italian Seasoning}, and Sriracha.",
+				"Combine ${quantity::\\{\"amount\": 3.0, \"unit\": \"\", \"quality\": \"Boneless\", \"name\": \"chicken chunks\"\\}} with ${quantity::\\{\"amount\": 2.0, \"unit\": \"Tablespoons\", \"quality\": \"\", \"name\": \"olive oil\"\\}}, ${quantity::\\{\"amount\": 2.0, \"unit\": \"Teaspoons\", \"quality\": \"\", \"name\": \"salt\"\\}}, ${quantity::\\{\"amount\": 2.0, \"unit\": \"Teaspoons\", \"quality\": \"\", \"name\": \"pepper\"\\}}, ${quantity::\\{\"amount\": 2.0, \"unit\": \"Teaspoons\", \"quality\": \"\", \"name\": \"garlic powder\"\\}}, ${quantity::\\{\"amount\": 1.0, \"unit\": \"Teaspoons\", \"quality\": \"\", \"name\": \"italian seasoning\"\\}}, and ${quantity::\\{\"amount\": 1.0, \"unit\": \"Tablespoons\", \"quality\": \"\", \"name\": \"sriracha\"\\}}.",
 				"Mix chicken & spices until evenly seasoned.",
 				"Marinate in the refrigerator for 30 minutes to one hour."
 			],

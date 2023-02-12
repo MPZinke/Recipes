@@ -2,6 +2,8 @@
 
 from datetime import timedelta
 from decimal import Decimal
+from flask import request
+import json
 import re
 
 
@@ -25,7 +27,22 @@ def format_decimal_fractionally(value: Decimal) -> str:
 	return str(round(value, 2))
 
 
-def replace_flags(line: str) -> str:
+def _extract_data(argument: str, line: str) -> list[str]:
+	# FROM: https://wordaligned.org/articles/string-literals-and-regular-expressions
+	data_regex = rf"""\${{{argument}::(?P<data>(?:[^{{}}\\]|\\.)*)}}"""
+	data: list[str] = re.findall(data_regex, line)
+	unescaped_data: list[str] = [re.sub(r"""\\(?P<character>.)""",r"""\g<character>""", string) for string in data]
+	return unescaped_data
+
+
+def _replace_data(argument: str, line: str, replacement: str) -> str:
+	data_regex = rf"""\${{{argument}::(?:[^{{}}\\]|\\.)*}}"""
+	replacee: str = next(iter(re.findall(data_regex, line)))
+
+	return line.replace(replacee, replacement)
+
+
+def replace_special(line: str) -> str:
 	"""
 	SUMMARY: Converts a timer tag in a line into a link to the timer endpoint.
 	PARAMS:  Takes the line to search through and replace.
@@ -33,20 +50,26 @@ def replace_flags(line: str) -> str:
 	         link to the timer endpoint.
 	RETURNS: A version of the line with tags replaced with links
 	"""
-	line = replace_ingredient(line)
+	line = replace_quantity(line)
 	line = replace_timer(line)
 	return replace_title(line)
 
 
-def replace_ingredient(line: str) -> str:
-	ingredient_flag_regex = r"""\$\{recipe_ingredient::(?P<index>[0-9]+)\|(?P<name>(?:[^}\\]|\\})*)\}"""
-	if(len(recipe_ingredient_indexes := re.findall(ingredient_flag_regex, line)) == 0):
+def replace_quantity(line: str) -> str:
+	"""
+	`{"amount": X.X, "unit": "...", "quality": "...", "name": "..."}`
+	"""
+	if(len(ingredient_jsons := _extract_data("quantity", line)) == 0):
 		return line
 
-	for values in recipe_ingredient_indexes:
-		index, name = values
-		link = f"""<a href="#recipe_ingredient_index-{index}">{name}</a>"""
-		line = line.replace(f"${{recipe_ingredient::{index}|{name}}}", link)
+	multiplier: Decimal = Decimal(request.args.get("multiplier", "1.0"))
+
+	for ingredient in ingredient_jsons:
+		amount, unit, quality, name = [json.loads(ingredient)[key] for key in ["amount", "unit", "quality", "name"]]
+		amount = format_decimal_fractionally(Decimal(amount) * multiplier)
+		link = f"""<span class="tooltip" title="{amount} {unit} {quality}">{name}</span>"""
+
+		line = _replace_data("quantity", line, link)
 
 	return line
 
@@ -59,8 +82,7 @@ def replace_timer(line: str) -> str:
 	         link to the timer endpoint.
 	RETURNS: A version of the line with tags replaced with links
 	"""
-	timer_flag_regex = r"""\$\{timer::(?P<duration>[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2})\}"""
-	if(len(durations := re.findall(timer_flag_regex, line)) == 0):
+	if(len(durations := _extract_data("timer", line)) == 0):
 		return line
 
 	for duration in durations:
@@ -70,23 +92,22 @@ def replace_timer(line: str) -> str:
 		duration_text = " ".join([f"{value} {unit}" for unit, value in time_values.items() if(value)])
 
 		link = f"""<a href="/timer/{duration}" target="_blank">{duration_text}</a>"""
-		line = line.replace(f"${{timer::{duration}}}", link)
+		line = _replace_data("timer", line, link)
 
 	return line
 
 
 def replace_title(line: str) -> str:
 	"""
+	`{"title": "...", "text": "..."}`
 	FROM: https://stackoverflow.com/a/7503251
 	"""
-	title_regex = text_regex = r"""(?:[^}|\\]|\\[|}])*"""
-	title_flag_regex = rf"""\${{title::(?P<title>{title_regex})\|(?P<text>{text_regex})}}"""
-	if(len(titles := re.findall(title_flag_regex, line)) == 0):
-		print("returning line")
+	if(len(title_jsons := _extract_data("title", line)) == 0):
 		return line
 
-	for title, text in titles:
+	for title_json in title_jsons:
+		title, text = [json.loads(title_json)[key] for key in ["title", "text"]]
 		link = f"""<span class="tooltip" title="{title}">{text}</span>"""
-		line = line.replace(f"${{title::{title}|{text}}}", link)
+		line = _replace_data("title", line, link)
 
 	return line

@@ -20,8 +20,8 @@ BEGIN
 	INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "cook_time", "prep_time", "instructions") VALUES
 	(RecipeName, 5, 3, INTERVAL '1 HOURS 20 MINUTES', INTERVAL '50 MINUTES', INTERVAL '30 MINUTES',
 		'[
-			"Combine and stir dry ingredients.",
-			"Combine and stir wet ingredients.",
+			"Combine and stir ${title::\\{\"title\": \"Sugar, Flour, Butter, Baking Soda\", \"text\": \"dry ingredients\"\\}}.",
+			"Combine and stir ${title::\\{\"title\": \"Eggs, Banana, Butter Milk, Vanilla\", \"text\": \"wet ingredients\"\\}}.",
 			"Combine mixtures. Do not over stir.",
 			"Optionally add pecans.",
 			"Bake at 350°F for approximately ${timer::00:50:00} or until the toothpick comes out clean.",
