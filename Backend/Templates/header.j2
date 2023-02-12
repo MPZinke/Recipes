@@ -40,7 +40,23 @@
 		{
 			border-bottom: 1px dotted var(--text-color);
 		}
+
+		/*
+		FROM: https://stackoverflow.com/a/27171811
+		*/
+		.tooltip:active:after {
+			background-color: var(--background-color);
+			border: 1px solid var(--text-color);
+			border-radius:  6px;
+			content: attr(title);
+			padding: 6px;
+			top: 5px;
+			right: 10%;
+		}
 	</style>
+	<head>
+		<!-- <link rel='stylesheet' href='{{ url_for("static", filename="Libraries/Bootstrap/bootstrap.min.css") }}'> -->
+	</head>
 	<header>
 		<h1>
 			<a

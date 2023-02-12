@@ -46,7 +46,7 @@ BEGIN
 				"In the same skillet over medium-high, add ${quantity::\\{\"amount\": 2.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"name\": \"butter\"\\}}, ${quantity::\\{\"amount\": 0.5, \"quality\": \"Juiced\", \"name\": \"lemon juice\"\\}}, ${quantity::\\{\"amount\": 1.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"name\": \"hot sauce\"\\}}, and ${quantity::\\{\"amount\": 0.25, \"units\": [\"Cup\", \"Cups\"], \"name\": \"chicken broth\"\\}}.",
 				"Bring to a simmer and allow to reduce for 1-2 minutes.",
 				"Stir regularly.",
-				"Stir in fresh parsley and minced garlic.",
+				"Stir in fresh ${quantity::\\{\"amount\": 1.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"name\": \"fresh parsley\"\\}} and ${quantity::\\{\"amount\": 2.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"name\": \"minced garlic\"\\}}.",
 				"Add the zucchini noodles and toss for two to three minutes.",
 				"Allow the cooking juices to reduce for one minute if the zucchini noodles render too much water."
 			],
