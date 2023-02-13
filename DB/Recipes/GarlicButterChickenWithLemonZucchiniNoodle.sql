@@ -23,8 +23,8 @@ BEGIN
 			"Prepare The Chicken Bites":
 			[
 				"Slice chicken breasts into bite-sized chunks.",
-				"Combine ${quantity::\\{\"amount\": 2.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"name\": \"olive oil\"\\}}, ${quantity::\\{\"amount\": 2.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"name\": \"salt\"\\}}, ${quantity::\\{\"amount\": 2.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"name\": \"pepper\"\\}}, ${quantity::\\{\"amount\": 2.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"name\": \"garlic powder\"\\}}, ${quantity::\\{\"amount\": 1.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"name\": \"italian seasoning\"\\}}, and ${quantity::\\{\"amount\": 1.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"name\": \"sriracha\"\\}}.",
-				"Mix ${quantity::\\{\"amount\": 3.0, \"quality\": \"Boneless\", \"name\": \"chicken chunks\"\\}} & spices until evenly seasoned.",
+				"Combine ${quantity::\\{\"amount\": 2.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"text\": \"olive oil\"\\}}, ${quantity::\\{\"amount\": 2.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"text\": \"salt\"\\}}, ${quantity::\\{\"amount\": 2.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"text\": \"pepper\"\\}}, ${quantity::\\{\"amount\": 2.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"text\": \"garlic powder\"\\}}, ${quantity::\\{\"amount\": 1.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"text\": \"italian seasoning\"\\}}, and ${quantity::\\{\"amount\": 1.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"text\": \"sriracha\"\\}}.",
+				"Mix ${quantity::\\{\"amount\": 3.0, \"quality\": \"Boneless\", \"text\": \"chicken chunks\"\\}} & spices until evenly seasoned.",
 				"Marinate in the refrigerator for ${timer::00:30:00} to ${timer::01:00:00}."
 			],
 			"Preparing The Zucchini Noodles":
@@ -37,16 +37,16 @@ BEGIN
 			"Cooking The Chicken Bites":
 			[
 				"Bring the marinated chicken bites to room temperature.",
-				"Heat ${quantity::\\{\"amount\": 2.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"name\": \"butter\"\\}}  in a large skillet over medium-low heat.",
+				"Heat ${quantity::\\{\"amount\": 2.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"text\": \"butter\"\\}}  in a large skillet over medium-low heat.",
 				"Gently stir-fry the chicken pieces, in batches if needed, on all sides until golden brown.",
 				"Remove the chicken bites from the skillet and set aside to a plate."
 			],
 			"Cooking The Zucchini Noodles":
 			[
-				"In the same skillet over medium-high, add ${quantity::\\{\"amount\": 2.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"name\": \"butter\"\\}}, ${quantity::\\{\"amount\": 0.5, \"quality\": \"Juiced\", \"name\": \"lemon juice\"\\}}, ${quantity::\\{\"amount\": 1.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"name\": \"hot sauce\"\\}}, and ${quantity::\\{\"amount\": 0.25, \"units\": [\"Cup\", \"Cups\"], \"name\": \"chicken broth\"\\}}.",
+				"In the same skillet over medium-high, add ${quantity::\\{\"amount\": 2.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"text\": \"butter\"\\}}, ${quantity::\\{\"amount\": 0.5, \"quality\": \"Juiced\", \"text\": \"lemon juice\"\\}}, ${quantity::\\{\"amount\": 1.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"text\": \"hot sauce\"\\}}, and ${quantity::\\{\"amount\": 0.25, \"units\": [\"Cup\", \"Cups\"], \"text\": \"chicken broth\"\\}}.",
 				"Bring to a simmer and allow to reduce for 1-2 minutes.",
 				"Stir regularly.",
-				"Stir in fresh ${quantity::\\{\"amount\": 1.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"name\": \"fresh parsley\"\\}} and ${quantity::\\{\"amount\": 2.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"name\": \"minced garlic\"\\}}.",
+				"Stir in fresh ${quantity::\\{\"amount\": 1.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"text\": \"fresh parsley\"\\}} and ${quantity::\\{\"amount\": 2.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"text\": \"minced garlic\"\\}}.",
 				"Add the zucchini noodles and toss for two to three minutes.",
 				"Allow the cooking juices to reduce for one minute if the zucchini noodles render too much water."
 			],

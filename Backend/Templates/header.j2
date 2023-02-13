@@ -1,61 +1,11 @@
 
 
 <html>
-	<style>
-		:root
-		{
-			--background-color: #202124;
-			--disabled-text-color: #666666;
-			--text-color: #DDDDDD;
-		}
-
-		html
-		{
-			background-color: var(--background-color);
-			color: var(--text-color);
-			font-family: Helvetica;
-		}
-
-		a
-		{
-			color: #E1C699;
-		}
-
-		input
-		{
-			background-color: var(--background-color);
-			color: var(--text-color);
-		}
-
-		.boxed
-		{
-			border: solid 2px var(--text-color);
-			border-radius: 6px;
-			margin: 6px;
-			padding: 16px;
-		}
-
-
-		.tooltip
-		{
-			border-bottom: 1px dotted var(--text-color);
-		}
-
-		/*
-		FROM: https://stackoverflow.com/a/27171811
-		*/
-		.tooltip:active:after {
-			background-color: var(--background-color);
-			border: 1px solid var(--text-color);
-			border-radius:  6px;
-			content: attr(title);
-			padding: 6px;
-			top: 5px;
-			right: 10%;
-		}
-	</style>
 	<head>
-		<!-- <link rel='stylesheet' href='{{ url_for("static", filename="Libraries/Bootstrap/bootstrap.min.css") }}'> -->
+		<link rel='stylesheet' href='{{ url_for("static", filename="Libraries/Bootstrap/bootstrap.min.css") }}'>
+		<link rel='stylesheet' href='{{ url_for("static", filename="Style.css") }}'>
+		<script type='text/javascript' src='{{ url_for("static", filename="Libraries/Google/jquery.min.js") }}'></script>
+		<script type='text/javascript' src='{{ url_for("static", filename="Libraries/Bootstrap/bootstrap.bundle.min.js") }}'></script>
 	</head>
 	<header>
 		<h1>
@@ -72,3 +22,9 @@
 		{% endblock %}
 	</body>
 </html>
+
+<script>
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip()
+	});
+</script>

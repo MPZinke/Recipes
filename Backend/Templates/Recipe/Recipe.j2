@@ -154,12 +154,20 @@
 	<h2>
 		Ingredients
 	</h2>
-	{{ checkbox_list(recipe.ingredients(), list_ingredient) }}
+	<div
+	  style="padding: 16px;"
+	>
+		{{ checkbox_list(recipe.ingredients(), list_ingredient) }}
+	</div>
 
 	<h2>
 		Instructions
 	</h2>
-	{{ checkbox_list(recipe.instructions(), list_instruction) }}
+	<div
+	  style="padding: 16px;"
+	>
+		{{ checkbox_list(recipe.instructions(), list_instruction) }}
+	</div>
 
 	<br><br>
 	<button

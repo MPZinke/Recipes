@@ -57,7 +57,7 @@ def replace_special(line: str) -> str:
 
 def replace_quantity(line: str) -> str:
 	"""
-	`{"amount": X.X, "unit": "...", "quality": "...", "name": "..."}`
+	`{"amount": X.X, "unit": "...", "quality": "...", "text": "..."}`
 	"""
 	if(len(ingredient_jsons := _extract_data("quantity", line)) == 0):
 		return line
@@ -66,12 +66,16 @@ def replace_quantity(line: str) -> str:
 
 	for ingredient in ingredient_jsons:
 		ingredient_json: dict = json.loads(ingredient)
-		keys_and_defaults = {"amount": 0.0, "units": ["", ""], "quality": "", "name": ""}
-		amount, units, quality, name = [ingredient_json.get(key, default) for key, default in keys_and_defaults.items()]
+		keys_and_defaults = {"amount": 0.0, "units": ["", ""], "quality": "", "text": ""}
+		amount, units, quality, text = [ingredient_json.get(key, default) for key, default in keys_and_defaults.items()]
 
 		amount_str: str = format_decimal_fractionally(Decimal(amount) * multiplier)
 		unit: str = units[(Decimal(amount) * multiplier).as_integer_ratio()[0] > 1]
-		link = f"""<span class="tooltip" title="{amount_str} {unit} {quality}">{name}</span>"""
+		link = f"""<span
+				  data-toggle="tooltip"
+				  class="underlined"
+				  title="{amount_str} {unit} {quality}"
+				>{text}</span>"""
 
 		line = _replace_data("quantity", line, link)
 
