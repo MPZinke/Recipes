@@ -66,7 +66,7 @@ def GET_testing_datatlist():
 @app.route("/recipes", methods=["GET"])
 def GET_recipes():
 	recipes: list[Recipe] = Recipe.all()
-	return render_template("Recipes.j2", title="Recipes", recipes=recipes)
+	return render_template("Recipes/Index.j2", title="Recipes", recipes=recipes)
 
 
 @app.route("/recipe/<string:recipe_name>", methods=["GET"])
@@ -127,14 +127,14 @@ def GET_new_instruction_step_list():
 @app.route("/ingredients", methods=["GET"])
 def GET_ingredients():
 	ingredients: list[Ingredient] = Ingredient.all()
-	return render_template("Ingredient/Ingredients.j2", title="Ingredients", ingredients=ingredients)
+	return render_template("Ingredients/Index.j2", title="Ingredients", ingredients=ingredients)
 
 
 @app.route("/ingredient/<string:ingredient_name>", methods=["GET"])
 def GET_ingredient(ingredient_name: str):
 	ingredient: Ingredient = Ingredient.from_name(ingredient_name)
 	recipe_names: list[str] = Queries.SELECT_Recipes_name_FROM_RecipesIngredients_WHERE_Ingredients_name(ingredient_name)
-	return render_template("Ingredient/Ingredient.j2", title=ingredient.names()[0], ingredient=ingredient,
+	return render_template("Ingredient/Index.j2", title=ingredient.names()[0], ingredient=ingredient,
 	  recipe_names=recipe_names)
 
 
@@ -143,7 +143,7 @@ def GET_timer(duration: str):
 	if(re.fullmatch(r"[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}", duration) is None):
 		raise Exception(f"Duration of '{duration}' is not of correct format 'HH:MM:SS'")
 
-	return render_template("Timer.j2", title="Timer")
+	return render_template("Timer/Index.j2", title="Timer")
 
 
 @app.route("/api/ingredients")
