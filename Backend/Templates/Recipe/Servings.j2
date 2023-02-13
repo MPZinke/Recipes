@@ -1,0 +1,21 @@
+<div
+  class="col-sm-3"
+>
+	Servings:
+	<input type="number" id="servings-input" style="width:63px" min="1"
+	  value="{{ recipe.servings() | format_decimal }}" onchange="update_servings(this);"
+	/>
+</div>
+
+<script>
+	function update_servings(element)
+	{
+		const urlParams = new URLSearchParams(window.location.search);
+		const current_multiplier = urlParams.get("multiplier") || "1.0";
+		const current_servings = {{ recipe.servings() | format_decimal }};
+		const new_servings = element.value;
+
+		const new_multiplier = current_multiplier * new_servings / current_servings;
+		window.location.href = `${window.location.href.split('?')[0]}?multiplier=${new_multiplier}`;
+	}
+</script>

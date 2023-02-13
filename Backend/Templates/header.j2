@@ -2,6 +2,7 @@
 
 <html>
 	<head>
+		<link rel='icon' href='{{ url_for("static", filename="Media/Images/ChickenWing.png") }}'>
 		<link rel='stylesheet' href='{{ url_for("static", filename="Libraries/Bootstrap/bootstrap.min.css") }}'>
 		<link rel='stylesheet' href='{{ url_for("static", filename="Style.css") }}'>
 		<script type='text/javascript' src='{{ url_for("static", filename="Libraries/Google/jquery.min.js") }}'></script>
@@ -16,6 +17,10 @@
 			</a>
 		</h1>
 	</header>
+
+	<title>
+		{{ title }}
+	</title>
 
 	<body>
 		{% block body %}

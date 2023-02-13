@@ -1,0 +1,40 @@
+
+{# FROM: https://stackoverflow.com/a/45024799 #}
+{% from "macros.j2" import checkbox_list %}
+{% include("macros.j2") %}
+
+
+{% macro list_ingredient(ingredient) %}
+	{% if ingredient.amount() != 0.0 %}
+		{{ ingredient.amount() | format_decimal_fractionally }}
+	{% endif %}
+
+	{{ ingredient.unit(ingredient.amount()) }}
+	{{ ingredient.quality() }}
+	<a
+	  href="/ingredient/{{ ingredient.name() }}"
+	>{{ ingredient.name() }}</a>
+
+	{% if ingredient.notes() != "" %}
+		—
+		<i>
+			{{ ingredient.notes() }}
+		</i>
+	{% endif %}
+
+	{% if ingredient.is_required() == False %}
+		<b>
+			OPTIONAL
+		</b>
+	{% endif %}
+{% endmacro %}
+
+
+<h2>
+	Ingredients
+</h2>
+<div
+  style="padding: 16px;"
+>
+	{{ checkbox_list(recipe.ingredients(), list_ingredient) }}
+</div>

@@ -1,0 +1,8 @@
+<div
+  class="col-sm-3"
+>
+	{% if recipe.prep_time().total_seconds() != 0 %}
+		Prep Time:
+		{{ recipe.prep_time() }}
+	{% endif %}
+</div>

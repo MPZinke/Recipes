@@ -1,0 +1,7 @@
+<div
+  class="col-sm-3"
+>
+	{% if recipe.last_made_on() %}
+		{{ recipe.last_made_on().strftime("%B %d %Y") }}
+	{% endif %}
+</div>

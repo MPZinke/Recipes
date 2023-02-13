@@ -1,0 +1,19 @@
+
+{# FROM: https://stackoverflow.com/a/45024799 #}
+{% from "macros.j2" import checkbox_list %}
+{% include("macros.j2") %}
+
+
+{% macro list_instruction(instruction) %}
+	{{ instruction | replace_special }}
+{% endmacro %}
+
+
+<h2>
+	Instructions
+</h2>
+<div
+  style="padding: 16px;"
+>
+	{{ checkbox_list(recipe.instructions(), list_instruction) }}
+</div>

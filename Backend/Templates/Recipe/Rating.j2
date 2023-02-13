@@ -1,0 +1,11 @@
+<div
+  class="col-sm-3"
+>
+	Rating:
+	{% for _ in range(recipe.rating()) %}
+		✭
+	{% endfor %}
+	{% for _ in range(recipe.rating(), 5)  %}
+		✩
+	{% endfor %}
+</div>

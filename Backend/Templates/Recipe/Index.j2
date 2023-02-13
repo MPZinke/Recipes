@@ -1,0 +1,62 @@
+
+<!----------------------------------------------------------------------------------------------------------------------
+-                                                                                                                      -
+-    Created by: MPZinke on 2023.01.22                                                                                 -
+-                                                                                                                      -
+-    DESCRIPTION:                                                                                                      -
+-    BUGS:                                                                                                             -
+-    FUTURE:                                                                                                           -
+-                                                                                                                      -
+----------------------------------------------------------------------------------------------------------------------->
+
+
+{% extends "Header.j2" %}
+{% block body %}
+
+	<h1>
+		{{ recipe.name() }}
+	</h1>
+
+	<div
+	  class="container"
+	  style="margin: 0px;"
+	>
+		<div
+		  class="row"
+		>
+			{% include("Recipe/Servings.j2") %}
+			{% include("Recipe/Rating.j2") %}
+			{% include("Recipe/LastMadeOn.j2") %}
+		</div>
+		<div
+		  class="row"
+		>
+			{% include("Recipe/TotalTime.j2") %}
+			{% include("Recipe/PrepTime.j2") %}
+			{% include("Recipe/CookTime.j2") %}
+		</div>
+	</div>
+
+
+	<p>
+		{{ recipe.notes() }}
+	</p>
+
+	{% include("Recipe/Ingredients.j2") %}
+	{% include("Recipe/Instructions.j2") %}
+
+
+	<br><br>
+	<button
+	  onclick="history.back()"
+	>
+		Back
+	</button>
+	<a
+	  href="#top"
+	>
+		<button>
+			Top
+		</button>
+	</a>
+{% endblock %}
