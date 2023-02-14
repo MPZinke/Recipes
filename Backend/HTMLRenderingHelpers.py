@@ -115,7 +115,10 @@ def replace_title(line: str) -> str:
 
 	for title_json in title_jsons:
 		title, text = [json.loads(title_json)[key] for key in ["title", "text"]]
-		link = f"""<span class="tooltip" title="{title}">{text}</span>"""
+		link = f"""<span
+				  data-toggle="tooltip"
+				  class="underlined"
+				  title="{title}">{text}</span>"""
 		line = _replace_data("title", line, link)
 
 	return line
