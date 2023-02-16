@@ -63,83 +63,97 @@ BEGIN
 	);
 
 
-	INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")
-	SELECT "Recipes"."id", "Ingredients"."id", "Temp"."amount", "Temp"."units", "Temp"."quality", "Temp"."is_required",
+	INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "group", "amount", "units", "quality", "is_required", "notes")
+	SELECT "Recipes"."id", "Ingredients"."id", "Temp"."group", "Temp"."amount", "Temp"."units", "Temp"."quality", "Temp"."is_required",
 	  "Temp"."notes"
 	FROM
 	(
 		VALUES
 		(
 			ARRAY['Chicken Breast', 'Chicken Breasts']::VARCHAR(64)[2],
+			'',
 			ARRAY['', ''],
 			4.0, '', TRUE, 'diced into 1-inch pieces'
 		),
 		(
 			ARRAY['Egg', 'Eggs']::VARCHAR(64)[2],
+			'',
 			ARRAY['', ''],
 			1.0, 'Large', TRUE, 'Beaten'
 		),
 		(
 			ARRAY['Corn Starch', 'Corn Starch']::VARCHAR(64)[2],
+			'',
 			ARRAY['Tablespoon', 'Tablespoons'],
 			2.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Salt', 'Salt']::VARCHAR(64)[2],
+			'',
 			ARRAY['Teaspoon', 'Teaspoons'],
 			1.25, '', TRUE, ''
 		),
 		(
 			ARRAY['Broccoli', 'Broccoli']::VARCHAR(64)[2],
+			'',
 			ARRAY['Head', 'Heads'],
 			1.0, '', TRUE, 'cut into small florets'
 		),
 		(
 			ARRAY['Sesame Oil', 'Sesame Oil']::VARCHAR(64)[2],
+			'',
 			ARRAY['Teaspoon', 'Teaspoons'],
 			2.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Quinoa', 'Quinoa']::VARCHAR(64)[2],
+			'',
 			ARRAY['Cup', 'Cups'],
 			2.0, 'Cooked', TRUE, ''
 		),
 		(
 			ARRAY['Honey', 'Honey']::VARCHAR(64)[2],
+			'Honey Garlic Sauce',
 			ARRAY['Tablespoon', 'Tablespoons'],
 			2.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Sriracha Sauce', 'Sriracha Sauce']::VARCHAR(64)[2],
+			'Honey Garlic Sauce',
 			ARRAY['Tablespoon', 'Tablespoons'],
 			3.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Garlic', 'Garlic']::VARCHAR(64)[2],
+			'Honey Garlic Sauce',
 			ARRAY['Clove', 'Cloves'],
 			2.0, 'Minced', TRUE, ''
 		),
 		(
 			ARRAY['Rice Vinegar', 'Rice Vinegar']::VARCHAR(64)[2],
+			'Honey Garlic Sauce',
 			ARRAY['Tablespoon', 'Tablespoons'],
 			1.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Sesame Oil', 'Sesame Oil']::VARCHAR(64)[2],
+			'Honey Garlic Sauce',
 			ARRAY['Teaspoon', 'Teaspoons'],
 			1.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Green Onion', 'Green Onions']::VARCHAR(64)[2],
+			'Garnish',
 			ARRAY['', ''],
 			2.0, 'Thinly sliced', TRUE, ''
 		),
 		(
 			ARRAY['Black White Sesame Seeds', 'Black White Sesame Seeds']::VARCHAR(64)[2],
+			'Garnish',
 			ARRAY['Teaspoon', 'Teaspoons'],
 			1.0, '', FALSE, ''
 		)
-	) AS "Temp"("Ingredients.names", "units", "amount", "quality", "is_required", "notes")
+	) AS "Temp"("Ingredients.names", "group", "units", "amount", "quality", "is_required", "notes")
 	JOIN "Recipes" ON "Recipes"."name" = RecipeName
 	LEFT JOIN "Ingredients" ON "Temp"."Ingredients.names" = "Ingredients"."names";
 

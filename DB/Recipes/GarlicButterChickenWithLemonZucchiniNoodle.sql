@@ -88,98 +88,115 @@ BEGIN
 	);
 
 
-	INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")
-	SELECT "Recipes"."id", "Ingredients"."id", "Temp"."amount", "Temp"."units", "Temp"."quality", "Temp"."is_required",
+	INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "group", "amount", "units", "quality", "is_required", "notes")
+	SELECT "Recipes"."id", "Ingredients"."id", "Temp"."group", "Temp"."amount", "Temp"."units", "Temp"."quality", "Temp"."is_required",
 	  "Temp"."notes"
 	FROM
 	(
 		VALUES
 		(
 			ARRAY['Chicken Breast', 'Chicken Breasts']::VARCHAR(64)[2],
+			'Chicken Bite Zucchini Noodles',
 			ARRAY['', ''],
 			3.0, 'Boneless', TRUE, ''
 		),
 		(
 			ARRAY['Zucchini', 'Zucchinis']::VARCHAR(64)[2],
+			'Chicken Bite Zucchini Noodles',
 			ARRAY['', ''],
 			4.0, 'Medium', TRUE, ''
 		),
 		(
 			ARRAY['Butter', 'Butter']::VARCHAR(64)[2],
+			'Chicken Bite Zucchini Noodles',
 			ARRAY['Tablespoon', 'Tablespoons'],
 			4.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Garlic', 'Garlic']::VARCHAR(64)[2],
+			'Chicken Bite Zucchini Noodles',
 			ARRAY['Teaspoon', 'Teaspoons'],
 			2.0, 'Minced', TRUE, ''
 		),
 		(
 			ARRAY['Sriracha Sauce', 'Sriracha Sauce']::VARCHAR(64)[2],
+			'Chicken Bite Zucchini Noodles',
 			ARRAY['Tablespoon', 'Tablespoons'],
 			1.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Chicken Broth', 'Chicken Broth']::VARCHAR(64)[2],
+			'Chicken Bite Zucchini Noodles',
 			ARRAY['Cup', 'Cups'],
 			0.25, 'Low-Sodium', TRUE, ''
 		),
 		(
 			ARRAY['Lemon', 'Lemons']::VARCHAR(64)[2],
+			'Chicken Bite Zucchini Noodles',
 			ARRAY['', ''],
 			0.5, 'Juiced', TRUE, ''
 		),
 		(
 			ARRAY['Parsley', 'Parsley']::VARCHAR(64)[2],
+			'Chicken Bite Zucchini Noodles',
 			ARRAY['Tablespoon', 'Tablespoons'],
 			1.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Thyme Leaf', 'Thyme Leaves']::VARCHAR(64)[2],
+			'Chicken Bite Zucchini Noodles',
 			ARRAY['Teaspoon', 'Teaspoons'],
 			1.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Crush Red Pepper', 'Crush Red Pepper']::VARCHAR(64)[2],
+			'Chicken Bite Zucchini Noodles',
 			ARRAY['', ''],
 			0.0, '', FALSE, ''
 		),
 		(
 			ARRAY['Lemon', 'Lemons']::VARCHAR(64)[2],
+			'Chicken Bite Zucchini Noodles',
 			ARRAY['', ''],
 			0.0, 'Sliced', TRUE, ''
 		),
 		(
 			ARRAY['Olive Oil', 'Olive Oils']::VARCHAR(64)[2],
+			'Marinade',
 			ARRAY['Tablespoon', 'Tablespoons'],
 			2.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Sriracha Sauce', 'Sriracha Sauce']::VARCHAR(64)[2],
+			'Marinade',
 			ARRAY['Tablespoon', 'Tablespoons'],
 			1.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Salt', 'Salts']::VARCHAR(64)[2],
+			'Marinade',
 			ARRAY['Teaspoon', 'Teaspoons'],
 			2.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Black Pepper', 'Black Peppers']::VARCHAR(64)[2],
+			'Marinade',
 			ARRAY['Teaspoon', 'Teaspoons'],
 			1.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Garlic Powder', 'Garlic Powder']::VARCHAR(64)[2],
+			'Marinade',
 			ARRAY['Teaspoon', 'Teaspoons'],
 			2.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Italian Seasoning', 'Italian Seasonings']::VARCHAR(64)[2],
+			'Marinade',
 			ARRAY['Teaspoon', 'Teaspoons'],
 			1.0, '', TRUE, ''
 		)
-	) AS "Temp"("Ingredients.names", "units", "amount", "quality", "is_required", "notes")
+	) AS "Temp"("Ingredients.names", "group", "units", "amount", "quality", "is_required", "notes")
 	JOIN "Recipes" ON "Recipes"."name" = RecipeName
 	LEFT JOIN "Ingredients" ON "Temp"."Ingredients.names" = "Ingredients"."names";
 

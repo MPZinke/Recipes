@@ -61,8 +61,8 @@ BEGIN
 	);
 
 
-	INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")
-	SELECT "Recipes"."id", "Ingredients"."id", "Temp"."amount", "Temp"."units", "Temp"."quality", "Temp"."is_required",
+	INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "group", "amount", "units", "quality", "is_required", "notes")
+	SELECT "Recipes"."id", "Ingredients"."id", "Temp"."group", "Temp"."amount", "Temp"."units", "Temp"."quality", "Temp"."is_required",
 	  "Temp"."notes"
 	FROM
 	(
@@ -70,91 +70,107 @@ BEGIN
 		-- For Noodles
 		(
 			ARRAY['Flat Rice Noodles', 'Flat Rice Noodles']::VARCHAR(64)[2],
+			'',
 			ARRAY['Ounce', 'Ounces'],
 			8.0, 'Softened', TRUE, ''
 		),
 		(
 			ARRAY['Oil', 'Oil']::VARCHAR(64)[2],
+			'',
 			ARRAY['Tablespoon', 'Tablespoons'],
 			3.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Garlic', 'Garlic']::VARCHAR(64)[2],
+			'',
 			ARRAY['Clove', 'Cloves'],
 			3.0, 'Minced', TRUE, ''
 		),
 		(
 			ARRAY['Chicken Breast', 'Chicken Breasts']::VARCHAR(64)[2],
+			'',
 			ARRAY['', ''],
 			8.0, '', TRUE, 'Or shrimp or extra-firm tofu. Cut into small pieces'
 		),
 		(
 			ARRAY['Egg', 'Eggs']::VARCHAR(64)[2],
+			'',
 			ARRAY['', ''],
 			2.0, '', TRUE, 'Scrambled'
 		),
 		(
 			ARRAY['Bean Sprout', 'Bean Sprouts']::VARCHAR(64)[2],
+			'',
 			ARRAY['Cup', 'Cups'],
 			1.0, 'Fresh', TRUE, ''
 		),
 		(
 			ARRAY['Red Bell Pepper', 'Red Bell Peppers']::VARCHAR(64)[2],
+			'',
 			ARRAY['', ''],
 			1.0, 'Thinly sliced', TRUE, ''
 		),
 		(
 			ARRAY['Green Onion', 'Green Onions']::VARCHAR(64)[2],
+			'',
 			ARRAY['', ''],
 			3.0, 'Chopped', TRUE, ''
 		),
 		(
 			ARRAY['Roasted Peanuts', 'Roasted Peanuts']::VARCHAR(64)[2],
+			'',
 			ARRAY['Cup', 'Cups'],
 			1.5, 'Dry', TRUE, ''
 		),
 		(
 			ARRAY['Lime', 'Limes']::VARCHAR(64)[2],
+			'',
 			ARRAY['', ''],
 			2.0, '', TRUE, 'Cut into wedges'
 		),
 		(
 			ARRAY['Cilantro', 'Cilantro']::VARCHAR(64)[2],
+			'',
 			ARRAY['Cup', 'Cups'],
 			1.5, 'Fresh, chopped', TRUE, ''
 		),
-		-- For Sauce
 		(
 			ARRAY['Fish Sauce', 'Fish Sauce']::VARCHAR(64)[2],
+			'Sauce',
 			ARRAY['Tablespoon', 'Tablespoons'],
 			3.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Low-Sodium Soy Sauce', 'Low-Sodium Soy Sauce']::VARCHAR(64)[2],
+			'Sauce',
 			ARRAY['Tablespoon', 'Tablespoons'],
 			1.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Light Brown Sugar', 'Light Brown Sugar']::VARCHAR(64)[2],
+			'Sauce',
 			ARRAY['Tablespoon', 'Tablespoons'],
 			5.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Rice Vinegar', 'Rice Vinegar']::VARCHAR(64)[2],
+			'Sauce',
 			ARRAY['Tablespoon', 'Tablespoons'],
 			2.0, '', TRUE, 'Or Tamarind Paste'
 		),
 		(
 			ARRAY['Sriracha Sauce', 'Sriracha Sauce']::VARCHAR(64)[2],
+			'Sauce',
 			ARRAY['Tablespoon', 'Tablespoons'],
 			1.0, '', TRUE, 'Or more to taste'
 		),
 		(
 			ARRAY['Creamy Peanut Butter', 'Creamy Peanut Butter']::VARCHAR(64)[2],
+			'Sauce',
 			ARRAY['Tablespoon', 'Tablespoons'],
 			2.0, '', FALSE, ''
 		)
-	) AS "Temp"("Ingredients.names", "units", "amount", "quality", "is_required", "notes")
+	) AS "Temp"("Ingredients.names", "group", "units", "amount", "quality", "is_required", "notes")
 	JOIN "Recipes" ON "Recipes"."name" = RecipeName
 	LEFT JOIN "Ingredients" ON "Temp"."Ingredients.names" = "Ingredients"."names";
 
