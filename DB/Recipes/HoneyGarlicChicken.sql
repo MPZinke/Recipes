@@ -20,8 +20,8 @@ BEGIN
 	RecipeName := 'Honey Garlic Chicken';
 
 
-	INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "instructions") VALUES
-	(RecipeName, 3, 3, INTERVAL '4 HOURS', 
+	INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "url", "instructions") VALUES
+	(RecipeName, 3, 3, INTERVAL '4 HOURS', 'https://healthyfitnessmeals.com/honey-garlic-chicken/#recipe',
 		'[
 			"Prepare 2 bowls, one with beaten ${quantity::\\{\"amount\": 1.00000000, \"quality\": \"Large\", \"text\": \"egg\"\\}}, and the second with ${quantity::\\{\"amount\": 2.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"text\": \"corn starch\"\\}} mixed with a pinch of salt and pepper.",
 			"Dip the ${quantity::\\{\"amount\": 4.0, \"units\": [\"Breast\", \"Breasts\"], \"text\": \"chicken\"\\}} into the beaten egg. Place all the pieces into the cornstarch and toss to lightly and evenly coat.",

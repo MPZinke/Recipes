@@ -17,8 +17,9 @@ BEGIN
 	RecipeName := 'Garlic Butter Chicken With Lemon Zucchini Noodle';
 
 
-	INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "instructions") VALUES
-	(RecipeName, 3, 3, INTERVAL '2 HOURS', 
+	INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "url", "instructions") VALUES
+	(RecipeName, 3, 3, INTERVAL '2 HOURS',
+		'https://www.eatwell101.com/garlic-butter-chicken-bites-with-lemon-zucchini-noodles',
 		'{
 			"Prepare The Chicken Bites":
 			[

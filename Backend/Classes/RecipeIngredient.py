@@ -6,19 +6,20 @@ from typing import TypeVar
 
 
 from DB import Queries
-from Ingredient import Ingredient
+from Classes import Ingredient
 
 
 RecipeIngredient = TypeVar("Recipe");
 
 
 class RecipeIngredient(Ingredient):
-	def __init__(self, *, id: int, brand: str, names: str, description: str, amount: Decimal, units: list[str],
-	  quality: str, is_required: bool, notes: str, Ingredients_id: int):
+	def __init__(self, *, id: int, brand: str, names: str, description: str, group: str, amount: Decimal,
+	  units: list[str], quality: str, is_required: bool, notes: str, Ingredients_id: int):
 		Ingredient.__init__(self, id=Ingredients_id, brand=brand, names=names, description=description)
 		self._Ingredients_id: int = Ingredients_id
 
 		self._id: int = id
+		self._group: str = group
 		self._amount: Decimal = amount
 		self._units: list[str] = units
 		self._quality: str = quality
@@ -31,7 +32,8 @@ class RecipeIngredient(Ingredient):
 		if(not isinstance(name, str)):
 			raise Exception(f"name must be of type 'str', not type '{type(name)}'")
 
-		recipe_ingredient_data: dict|None = Queries.SELECT_ALL_FROM_RecipesIngredients_WHERE_Ingredients_name(name)
+		recipe_ingredient_data: dict|None = Queries.SELECT_ALL_FROM_RecipesIngredients_WHERE_Ingredients_name(name,
+		  ignore=["is_deleted"])
 		if(recipe_ingredient_data is None):
 			return None
 
@@ -46,7 +48,8 @@ class RecipeIngredient(Ingredient):
 		if(not isinstance(Recipe_id, int)):
 			raise Exception(f"Recipe_id must be of type 'int', not type '{type(Recipe_id)}'")
 
-		ingredient_data: list[dict] = Queries.SELECT_ALL_FROM_RecipesIngredients_WHERE_Recipes_id(Recipe_id)
+		ingredient_data: list[dict] = Queries.SELECT_ALL_FROM_RecipesIngredients_WHERE_Recipes_id(Recipe_id,
+		  ignore=["is_deleted"])
 		[ingredient.update({"Ingredients_id": ingredient.pop("Ingredients.id")}) for ingredient in ingredient_data] 
 		[ingredient.pop("Recipes.id") for ingredient in ingredient_data] 
 		return [RecipeIngredient(**ingredient) for ingredient in ingredient_data]
@@ -56,6 +59,7 @@ class RecipeIngredient(Ingredient):
 		yield from {
 			"id": self._id,
 			"Ingredients_id": self._Ingredients_id,
+			"group": self._group,
 			"amount": self._amount,
 			"units": self._units,
 			"quality": self._quality,
@@ -112,8 +116,8 @@ class RecipeIngredient(Ingredient):
 		amount *= self._amount
 
 		return RecipeIngredient(id=self._id, brand=self._brand, names=self._names, description=self._description,
-		  amount=amount, units=self._units, quality=self._quality, is_required=self._is_required, notes=self._notes,
-		  Ingredients_id=self._Ingredients_id)
+		  group=self._group, amount=amount, units=self._units, quality=self._quality, is_required=self._is_required,
+		  notes=self._notes, Ingredients_id=self._Ingredients_id)
 
 
 	def __rmul__(self, amount: int|float|Decimal) -> RecipeIngredient:

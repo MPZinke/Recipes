@@ -17,8 +17,9 @@ BEGIN
 	RecipeName := 'Pad Thai';
 
 
-	INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "prep_time", "cook_time", "instructions") VALUES
-	(RecipeName, 5, 4, INTERVAL '30 MINUTES', INTERVAL '15 MINUTES', INTERVAL '15 MINUTES',  
+	INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "prep_time", "cook_time", "url", "instructions") VALUES
+	(RecipeName, 5, 4, INTERVAL '30 MINUTES', INTERVAL '15 MINUTES', INTERVAL '15 MINUTES',
+		'https://tastesbetterfromscratch.com/pad-thai/#recipe',
 		'[
 			"Make sauce by combining sauce ingredients in a bowl. Set aside.",
 			"Cook noodles according to package instructions, just until tender. When done, rinse under cold water.",

@@ -24,8 +24,7 @@ import re
 
 
 from DB import Queries
-from Recipe import Recipe
-from Ingredient import Ingredient
+from Classes import Ingredient, Recipe
 from HTMLRenderingHelpers import format_decimal, format_decimal_fractionally, replace_special
 
 

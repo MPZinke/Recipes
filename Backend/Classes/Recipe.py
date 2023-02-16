@@ -22,8 +22,8 @@ from math import prod
 from typing import TypeVar
 
 
+from Classes import RecipeIngredient
 from DB import Queries
-from RecipeIngredient import RecipeIngredient
 
 
 Recipe = TypeVar("Recipe");
@@ -31,7 +31,7 @@ Recipe = TypeVar("Recipe");
 
 class Recipe(object):
 	def __init__(self, *, id: int, name: str, instructions: dict|list, notes: str, rating: int,
-	  servings: int, prep_time: timedelta, cook_time: timedelta, total_time: timedelta,
+	  servings: int, prep_time: timedelta, cook_time: timedelta, total_time: timedelta, url: str,
 	  history: list[datetime], ingredients: list[RecipeIngredient]):
 		self._id: int = id
 		self._name: str = name
@@ -42,16 +42,18 @@ class Recipe(object):
 		self._prep_time: timedelta = prep_time
 		self._cook_time: timedelta = cook_time
 		self._total_time: timedelta = total_time
+		self._url: str = url
 		self._history: list[datetime] = history
 		self._ingredients: list[RecipeIngredient] = ingredients
 
 
 	@staticmethod
 	def all() -> list[Recipe]:
-		recipe_data: list[dict] = Queries.SELECT_ALL_FROM_Recipes()
+		recipe_data: list[dict] = Queries.SELECT_ALL_FROM_Recipes(ignore=["is_deleted"])
 		for recipe in recipe_data:
 			recipe["ingredients"] = RecipeIngredient.from_Recipe_id(recipe["id"])
-			recipe["history"] = Queries.SELECT_time_FROM_RecipesHistory_WHERE_Recipes_id(recipe["id"])
+			recipe["history"] = Queries.SELECT_time_FROM_RecipesHistory_WHERE_Recipes_id(recipe["id"],
+			  ignore=["is_deleted"])
 
 		return [Recipe(**recipe) for recipe in recipe_data]
 
@@ -61,11 +63,12 @@ class Recipe(object):
 		if(not isinstance(name, str)):
 			raise Exception(f"name must be of type 'str', not type '{type(name)}'")
 
-		recipe_data: dict|None = Queries.SELECT_ALL_FROM_Recipes_WHERE_name(name)
+		recipe_data: dict|None = Queries.SELECT_ALL_FROM_Recipes_WHERE_name(name, ignore=["is_deleted"])
 		if(recipe_data is None):
 			return None
 
-		recipe_data["history"] = Queries.SELECT_time_FROM_RecipesHistory_WHERE_Recipes_id(recipe_data["id"])
+		recipe_data["history"] = Queries.SELECT_time_FROM_RecipesHistory_WHERE_Recipes_id(recipe_data["id"],
+		  ignore=["is_deleted"])
 		recipe_data["ingredients"] = RecipeIngredient.from_Recipe_id(recipe_data["id"])
 
 		return Recipe(**recipe_data)
@@ -82,6 +85,7 @@ class Recipe(object):
 			"prep_time": self._prep_time,
 			"cook_time": self._cook_time,
 			"total_time": self._total_time,
+			"url": self._url,
 			"history": map(str, self._history),
 			"ingredients": map(dict, self._ingredients)
 		}.items()
@@ -160,7 +164,7 @@ class Recipe(object):
 		ingredients: list[RecipeIngredient] = [ingredient * amount for ingredient in self._ingredients]
 		return Recipe(id=self._id, name=self._name, instructions=self._instructions, notes=self._notes,
 		  rating=self._rating, servings=servings, prep_time=self._prep_time, cook_time=self._cook_time,
-		  total_time=self._total_time, history=self._history, ingredients=ingredients)
+		  total_time=self._total_time, url=self._url, history=self._history, ingredients=ingredients)
 
 
 	def __rmul__(self, amount: int|float|Decimal|Fraction) -> Recipe:  # __mul__(right, left)
@@ -171,9 +175,7 @@ class Recipe(object):
 		if(isinstance(amount, float)):
 			amount = Decimal(amount)
 
-		print(self._servings)
 		self._servings *= amount
-		print(self._servings)
 		if(isinstance(amount, Fraction)):
 			amount = Decimal(float(amount))
 			self._servings = Decimal(float(self._servings))
