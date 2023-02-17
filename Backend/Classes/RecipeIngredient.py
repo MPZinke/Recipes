@@ -87,6 +87,10 @@ class RecipeIngredient(Ingredient):
 		return self.Ingredient
 
 
+	def group(self) -> int:
+		return self._group
+
+
 	def amount(self) -> int:
 		return self._amount
 

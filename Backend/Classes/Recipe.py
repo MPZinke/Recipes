@@ -146,6 +146,14 @@ class Recipe(object):
 		return self._total_time
 
 
+	def url(self) -> timedelta:
+		return self._url
+
+
+	def history(self) -> list[datetime]:
+		return self._history
+
+
 	def ingredients(self) -> list[RecipeIngredient]:
 		return self._ingredients
 

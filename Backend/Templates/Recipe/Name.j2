@@ -1,0 +1,11 @@
+<h1>
+	{% if recipe.url() == "" %}
+		{{ recipe.name() }}
+	{% else %}
+		<a
+		  href="{{ recipe.url() }}"
+		>
+			{{ recipe.name() }}
+		</a>
+	{% endif %}
+</h1>

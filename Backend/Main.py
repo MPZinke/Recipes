@@ -17,7 +17,6 @@ __author__ = "MPZinke"
 from decimal import Decimal
 from flask import Flask, redirect, render_template, request, url_for
 from fractions import Fraction
-from jinja2 import Environment
 import os
 from pathlib import Path
 import re
@@ -29,9 +28,12 @@ from HTMLRenderingHelpers import format_decimal, format_decimal_fractionally, re
 
 
 ROOT_DIR = str(Path(__file__).absolute().parent)
-app = Flask("Recipes", template_folder=os.path.join(ROOT_DIR, "Templates"), static_folder=os.path.join(ROOT_DIR, "Static"))
+TEMPLATE_FOLDER = os.path.join(ROOT_DIR, "Templates")
+STATIC_FOLDER = os.path.join(ROOT_DIR, "Static")
+app = Flask("Recipes", template_folder=TEMPLATE_FOLDER, static_folder=STATIC_FOLDER)
 
-
+# FROM: https://stackoverflow.com/a/39858522
+app.jinja_env.add_extension('jinja2.ext.do')
 # FROM: https://abstractkitchen.com/blog/how-to-create-custom-jinja-filters-in-flask/
 app.jinja_env.filters["format_decimal"] = format_decimal
 app.jinja_env.filters["format_decimal_fractionally"] = format_decimal_fractionally

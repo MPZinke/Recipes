@@ -13,9 +13,7 @@
 {% extends "Header.j2" %}
 {% block body %}
 
-	<h1>
-		{{ recipe.name() }}
-	</h1>
+	{% include("Recipe/Name.j2") %}
 
 	<div
 	  class="container"

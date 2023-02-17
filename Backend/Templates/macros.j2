@@ -3,25 +3,34 @@
 	{% if list.__class__.__name__ == "dict" %}
 		<div>
 			{% for section, section_list in list.items() %}
-				{% with section = prefix+"::"+section if(prefix) else section %}
-					<h3>
-						{{ section }}
-					</h3>
-					{{ checkbox_list(section_list, span_macro, section) }}
-				{% endwith %}
+				<div
+				  style="padding-bottom: 12px;"
+				>
+					{% with section = prefix+"::"+section if(prefix) else section %}
+						<h4>
+							{{ section }}
+						</h4>
+						{{ checkbox_list(section_list, span_macro, section) }}
+					{% endwith %}
+				</div>
 			{% endfor %}
 		</div>
 
 	{% elif list.__class__.__name__ == "list" %}
 		{% if list | length > 1 %}
-			<input id="{{ prefix | urlencode }}-{{ span_macro.name }}-checkbox" type="checkbox"
+			<input
+			  id="{{ prefix | urlencode }}-{{ span_macro.name }}-checkbox"
+			  type="checkbox"
+			  class="form-check-input"
 			  onclick="switch_all(this, '{{ prefix | urlencode }}-{{ span_macro.name }}');"
 			/>
 		{% endif %}
 		{% for item in list %}
 			<div>
-				<input type="checkbox" onclick="switch_text(this);"
-				  class="{{ prefix | urlencode }}-{{ span_macro.name }}"
+				<input
+				  type="checkbox"
+				  class="form-check-input {{ prefix | urlencode }}-{{ span_macro.name }}"
+				  onclick="switch_text(this);"
 				/>
 				<span>
 					{{ span_macro(item) }}
@@ -36,7 +45,9 @@
 
 	function switch_text(checkbox)
 	{
-		const section_checkbox_class = checkbox.classList[0];
+		console.log(Array.from(checkbox.classList));
+		const section_checkbox_class = Array.from(checkbox.classList).find(val => val != "form-check-input");
+		console.log(section_checkbox_class)
 		const all_sections_checkboxes = Array.from(document.getElementsByClassName(section_checkbox_class));
 		if(all_sections_checkboxes.length > 1)
 		{

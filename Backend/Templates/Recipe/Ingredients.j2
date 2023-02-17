@@ -36,5 +36,13 @@
 <div
   style="padding: 16px;"
 >
-	{{ checkbox_list(recipe.ingredients(), list_ingredient) }}
+	{% with ingredients = {} %}
+		{% for ingredient in recipe.ingredients() %}
+			{% if ingredient.group() not in ingredients %}
+				{% do ingredients.update({ingredient.group(): []}) %}
+			{% endif %}
+			{% do ingredients[ingredient.group()].append(ingredient) %}
+		{% endfor %}
+		{{ checkbox_list(ingredients, list_ingredient) }}
+	{% endwith %}
 </div>
