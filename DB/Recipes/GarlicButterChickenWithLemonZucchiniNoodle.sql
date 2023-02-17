@@ -73,13 +73,13 @@ BEGIN
 		(ARRAY['Chicken Broth', 'Chicken Broth']::VARCHAR(64)[2]),
 		(ARRAY['Lemon', 'Lemons']::VARCHAR(64)[2]),
 		(ARRAY['Parsley', 'Parsley']::VARCHAR(64)[2]),
-		(ARRAY['Thyme Leaf', 'Thyme Leaves']::VARCHAR(64)[2]),
+		(ARRAY['Thyme', 'Thyme']::VARCHAR(64)[2]),
 		(ARRAY['Crush Red Pepper', 'Crush Red Pepper']::VARCHAR(64)[2]),
-		(ARRAY['Olive Oil', 'Olive Oils']::VARCHAR(64)[2]),
+		(ARRAY['Olive Oil', 'Olive Oil']::VARCHAR(64)[2]),
 		(ARRAY['Salt', 'Salts']::VARCHAR(64)[2]),
-		(ARRAY['Black Pepper', 'Black Peppers']::VARCHAR(64)[2]),
+		(ARRAY['Black Pepper', 'Black Pepper']::VARCHAR(64)[2]),
 		(ARRAY['Garlic Powder', 'Garlic Powder']::VARCHAR(64)[2]),
-		(ARRAY['Italian Seasoning', 'Italian Seasonings']::VARCHAR(64)[2])
+		(ARRAY['Italian Seasoning', 'Italian Seasoning']::VARCHAR(64)[2])
 	) AS "Temp" ("names")
 	WHERE "Temp"."names" NOT IN
 	(
@@ -119,12 +119,6 @@ BEGIN
 			2.0, 'Minced', TRUE, ''
 		),
 		(
-			ARRAY['Sriracha Sauce', 'Sriracha Sauce']::VARCHAR(64)[2],
-			'Chicken Bite Zucchini Noodles',
-			ARRAY['Tablespoon', 'Tablespoons'],
-			1.0, '', TRUE, ''
-		),
-		(
 			ARRAY['Chicken Broth', 'Chicken Broth']::VARCHAR(64)[2],
 			'Chicken Bite Zucchini Noodles',
 			ARRAY['Cup', 'Cups'],
@@ -137,31 +131,19 @@ BEGIN
 			0.5, 'Juiced', TRUE, ''
 		),
 		(
-			ARRAY['Parsley', 'Parsley']::VARCHAR(64)[2],
-			'Chicken Bite Zucchini Noodles',
-			ARRAY['Tablespoon', 'Tablespoons'],
-			1.0, '', TRUE, ''
-		),
-		(
-			ARRAY['Thyme Leaf', 'Thyme Leaves']::VARCHAR(64)[2],
-			'Chicken Bite Zucchini Noodles',
-			ARRAY['Teaspoon', 'Teaspoons'],
-			1.0, '', TRUE, ''
-		),
-		(
 			ARRAY['Crush Red Pepper', 'Crush Red Pepper']::VARCHAR(64)[2],
 			'Chicken Bite Zucchini Noodles',
 			ARRAY['', ''],
 			0.0, '', FALSE, ''
 		),
 		(
-			ARRAY['Lemon', 'Lemons']::VARCHAR(64)[2],
-			'Chicken Bite Zucchini Noodles',
-			ARRAY['', ''],
-			0.0, 'Sliced', TRUE, ''
+			ARRAY['Italian Seasoning', 'Italian Seasoning']::VARCHAR(64)[2],
+			'Marinade',
+			ARRAY['Teaspoon', 'Teaspoons'],
+			1.0, '', TRUE, ''
 		),
 		(
-			ARRAY['Olive Oil', 'Olive Oils']::VARCHAR(64)[2],
+			ARRAY['Olive Oil', 'Olive Oil']::VARCHAR(64)[2],
 			'Marinade',
 			ARRAY['Tablespoon', 'Tablespoons'],
 			2.0, '', TRUE, ''
@@ -179,7 +161,7 @@ BEGIN
 			2.0, '', TRUE, ''
 		),
 		(
-			ARRAY['Black Pepper', 'Black Peppers']::VARCHAR(64)[2],
+			ARRAY['Black Pepper', 'Black Pepper']::VARCHAR(64)[2],
 			'Marinade',
 			ARRAY['Teaspoon', 'Teaspoons'],
 			1.0, '', TRUE, ''
@@ -191,8 +173,26 @@ BEGIN
 			2.0, '', TRUE, ''
 		),
 		(
-			ARRAY['Italian Seasoning', 'Italian Seasonings']::VARCHAR(64)[2],
-			'Marinade',
+			ARRAY['Lemon', 'Lemons']::VARCHAR(64)[2],
+			'Garnish',
+			ARRAY['', ''],
+			0.0, 'Sliced', TRUE, ''
+		),
+		(
+			ARRAY['Parsley', 'Parsley']::VARCHAR(64)[2],
+			'Garnish',
+			ARRAY['Tablespoon', 'Tablespoons'],
+			1.0, '', TRUE, ''
+		),
+		(
+			ARRAY['Sriracha Sauce', 'Sriracha Sauce']::VARCHAR(64)[2],
+			'Garnish',
+			ARRAY['Tablespoon', 'Tablespoons'],
+			1.0, '', TRUE, ''
+		),
+		(
+			ARRAY['Thyme', 'Thyme']::VARCHAR(64)[2],
+			'Garnish',
 			ARRAY['Teaspoon', 'Teaspoons'],
 			1.0, '', TRUE, ''
 		)

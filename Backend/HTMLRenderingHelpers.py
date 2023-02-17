@@ -16,7 +16,7 @@ def format_decimal_fractionally(value: Decimal) -> str:
 		return str(value)
 
 	integer_value = int(value)
-	decimal_value = (value % Decimal("1.0")).quantize(Decimal(".00"))
+	decimal_value = (value % Decimal("1.0")).quantize(Decimal(".000"))
 
 	fractions = {Decimal("0.5"): "½", Decimal("0.33"): "⅓", Decimal("0.67"): "⅔", Decimal("0.25"): "¼",
 	  Decimal("0.75"): "¾", Decimal("0.125"): "⅛", Decimal("0.375"): "⅜", Decimal("0.0"): ""}

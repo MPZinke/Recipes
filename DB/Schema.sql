@@ -43,7 +43,8 @@ CREATE TABLE "RecipesIngredients"
 	"Recipes.id" INT NOT NULL,
 	FOREIGN KEY ("Recipes.id") REFERENCES "Recipes"("id"),
 	"Ingredients.id" INT NOT NULL,
-	FOREIGN KEY ("Ingredients.id") REFERENCES "Ingredients"("id")
+	FOREIGN KEY ("Ingredients.id") REFERENCES "Ingredients"("id"),
+	UNIQUE("Recipes.id", "Ingredients.id", "group")
 );
 
 

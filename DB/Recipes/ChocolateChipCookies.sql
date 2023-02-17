@@ -17,8 +17,10 @@ BEGIN
 	RecipeName := 'Chocolate Chip Cookies';
 
 
-	INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "prep_time", "cook_time", "instructions") VALUES
-	(RecipeName, 5, 36, INTERVAL '30 MINUTES', INTERVAL '10 MINUTES', INTERVAL '8 MINUTES',  
+	INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "prep_time", "cook_time", "url", "instructions")
+	VALUES
+	(RecipeName, 5, 36, INTERVAL '30 MINUTES', INTERVAL '10 MINUTES', INTERVAL '8 MINUTES',
+		'https://joyfoodsunshine.com/the-most-amazing-chocolate-chip-cookies/#recipe', 
 		'[
 			"Preheat oven to 375 degrees Farenheit. Line a baking pan with parchment paper and set aside.",
 			"Mix ${quantity::\\{\"amount\": 3.0, \"units\": [\"Cup\", \"Cups\"], \"text\": \"flour\"\\}}, ${quantity::\\{\"amount\": 1.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"text\": \"baking soda\"\\}}, ${quantity::\\{\"amount\": 1.0, \"quality\": \"Course\", \"units\": [\"Teaspoon\", \"Teaspoons\"], \"text\": \"salt\"\\}}, and ${quantity::\\{\"amount\": 0.5, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"text\": \"baking powder\"\\}} in a bowl. Set aside.",

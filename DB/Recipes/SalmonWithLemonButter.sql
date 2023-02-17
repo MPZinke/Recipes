@@ -72,72 +72,80 @@ BEGIN
 	);
 
 
-	INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")
-	SELECT "Recipes"."id", "Ingredients"."id", "Temp"."amount", "Temp"."units", "Temp"."quality", "Temp"."is_required", "Temp"."notes"
+	INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "group", "amount", "units", "quality",
+	  "is_required", "notes")
+	SELECT "Recipes"."id", "Ingredients"."id", "Temp"."group", "Temp"."amount", "Temp"."units", "Temp"."quality",
+	  "Temp"."is_required", "Temp"."notes"
 	FROM
 	(
 		VALUES
 		(
 			ARRAY['Skinless Salmon Fillet', 'Skinless Salmon Fillets']::VARCHAR(64)[2],
+			'',
 			ARRAY['6oz, 1" thick', '6oz, 1" thick'],
 			4.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Salt', 'Salt']::VARCHAR(64)[2],
+			'',
 			ARRAY['', ''],
 			0.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Ground Pepper', 'Ground Pepper']::VARCHAR(64)[2],
+			'',
 			ARRAY['', ''],
 			0.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Olive Oil', 'Olive Oil']::VARCHAR(64)[2],
+			'',
 			ARRAY['Teaspoon', 'Teaspoons'],
 			2.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Garlic', 'Garlic']::VARCHAR(64)[2],
+			'Lemon Butter Sauce',
 			ARRAY['Clove', 'Cloves'],
 			2.0, 'Minced', TRUE, ''
 		),
 		(
 			ARRAY['Low-Sodium Chicken Broth', 'Low-Sodium Chicken Broth']::VARCHAR(64)[2],
+			'Lemon Butter Sauce',
 			ARRAY['Cup', 'Cups'],
 			0.25, '', TRUE, ''
 		),
 		(
 			ARRAY['Lemon Juice', 'Lemon Juice']::VARCHAR(64)[2],
+			'Lemon Butter Sauce',
 			ARRAY['Tablespoon', 'Tablespoons'],
 			2.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Unsalted Butter', 'Unsalted Butter']::VARCHAR(64)[2],
-			ARRAY['Tablespoon', 'Tablespoons'],
-			3.0, '', TRUE, 'Chop into 1 tablespoon pieces'
-		),
-		(
-			ARRAY['Unsalted Butter', 'Unsalted Butter']::VARCHAR(64)[2],
+			'Lemon Butter Sauce',
 			ARRAY['Teaspoon', 'Teaspoons'],
-			1.0, '', TRUE, ''
+			4.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Honey', 'Honey']::VARCHAR(64)[2],
+			'Lemon Butter Sauce',
 			ARRAY['Teaspoon', 'Teaspoons'],
 			0.5, '', TRUE, ''
 		),
 		(
 			ARRAY['Parsley', 'Parsley']::VARCHAR(64)[2],
+			'',
 			ARRAY['Tablespoon', 'Tablespoons'],
 			2.0, 'Fresh', TRUE, ''
 		),
 		(
 			ARRAY['Lemon Slice', 'Lemon Slices']::VARCHAR(64)[2],
+			'',
 			ARRAY['', ''],
 			0.0, '', FALSE, 'for garnish'
 		)
-	) AS "Temp"("Ingredients.names", "units", "amount", "quality", "is_required", "notes")
+	) AS "Temp"("Ingredients.names", "group", "units", "amount", "quality", "is_required", "notes")
 	JOIN "Recipes" ON "Recipes"."name" = RecipeName
 	LEFT JOIN "Ingredients" ON "Temp"."Ingredients.names" = "Ingredients"."names";
 
