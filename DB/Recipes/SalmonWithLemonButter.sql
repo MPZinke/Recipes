@@ -63,7 +63,7 @@ BEGIN
 		(ARRAY['Unsalted Butter', 'Unsalted Butter']::VARCHAR(64)[2]),
 		(ARRAY['Honey', 'Honey']::VARCHAR(64)[2]),
 		(ARRAY['Parsley', 'Parsley']::VARCHAR(64)[2]),
-		(ARRAY['Lemon Slice', 'Lemon Slices']::VARCHAR(64)[2])
+		(ARRAY['Lemon', 'Lemons']::VARCHAR(64)[2])
 	) AS "Temp" ("names")
 	WHERE "Temp"."names" NOT IN
 	(
@@ -140,10 +140,10 @@ BEGIN
 			2.0, 'Fresh', TRUE, ''
 		),
 		(
-			ARRAY['Lemon Slice', 'Lemon Slices']::VARCHAR(64)[2],
+			ARRAY['Lemon', 'Lemons']::VARCHAR(64)[2],
 			'',
 			ARRAY['', ''],
-			0.0, '', FALSE, 'for garnish'
+			0.0, 'Sliced', FALSE, 'for garnish'
 		)
 	) AS "Temp"("Ingredients.names", "group", "units", "amount", "quality", "is_required", "notes")
 	JOIN "Recipes" ON "Recipes"."name" = RecipeName

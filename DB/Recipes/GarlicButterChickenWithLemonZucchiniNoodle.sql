@@ -76,7 +76,7 @@ BEGIN
 		(ARRAY['Thyme', 'Thyme']::VARCHAR(64)[2]),
 		(ARRAY['Crush Red Pepper', 'Crush Red Pepper']::VARCHAR(64)[2]),
 		(ARRAY['Olive Oil', 'Olive Oil']::VARCHAR(64)[2]),
-		(ARRAY['Salt', 'Salts']::VARCHAR(64)[2]),
+		(ARRAY['Salt', 'Salt']::VARCHAR(64)[2]),
 		(ARRAY['Black Pepper', 'Black Pepper']::VARCHAR(64)[2]),
 		(ARRAY['Garlic Powder', 'Garlic Powder']::VARCHAR(64)[2]),
 		(ARRAY['Italian Seasoning', 'Italian Seasoning']::VARCHAR(64)[2])
@@ -155,7 +155,7 @@ BEGIN
 			1.0, '', TRUE, ''
 		),
 		(
-			ARRAY['Salt', 'Salts']::VARCHAR(64)[2],
+			ARRAY['Salt', 'Salt']::VARCHAR(64)[2],
 			'Marinade',
 			ARRAY['Teaspoon', 'Teaspoons'],
 			2.0, '', TRUE, ''
