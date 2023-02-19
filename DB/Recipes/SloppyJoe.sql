@@ -99,7 +99,7 @@ BEGIN
 		(
 			ARRAY['Tomato Sauce', 'Tomato Sauce']::VARCHAR(64)[2],
 			ARRAY['Can', 'Cans'],
-			2.0, '15 oz', TRUE, ''
+			1.0, '15 oz', TRUE, ''
 		),
 		(
 			ARRAY['Brown Sugar', 'Brown Sugar']::VARCHAR(64)[2],
