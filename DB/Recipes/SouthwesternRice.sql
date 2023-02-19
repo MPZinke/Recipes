@@ -69,7 +69,6 @@ BEGIN
 	FROM
 	(
 		VALUES
-		-- For Noodles
 		(
 			ARRAY['Olive Oil', 'Olive Oil']::VARCHAR(64)[2],
 			ARRAY['Tablespoon', 'Tablespoons'],

@@ -67,7 +67,6 @@ BEGIN
 	FROM
 	(
 		VALUES
-		-- For Noodles
 		(
 			ARRAY['Flat Rice Noodles', 'Flat Rice Noodles']::VARCHAR(64)[2],
 			'',
