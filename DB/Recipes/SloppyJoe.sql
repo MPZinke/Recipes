@@ -114,7 +114,7 @@ BEGIN
 		(
 			ARRAY['Worcestershire Sauce', 'Worcestershire Sauce']::VARCHAR(64)[2],
 			ARRAY['Tablespoon', 'Tablespoons'],
-			1.0, 'Chopped', TRUE, ''
+			1.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Olive Oil', 'Olive Oil']::VARCHAR(64)[2],

@@ -72,7 +72,7 @@ BEGIN
 		(
 			ARRAY['Olive Oil', 'Olive Oil']::VARCHAR(64)[2],
 			ARRAY['Tablespoon', 'Tablespoons'],
-			1.0, 'Softened', TRUE, ''
+			1.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Green Pepper', 'Green Peppers']::VARCHAR(64)[2],
@@ -97,22 +97,22 @@ BEGIN
 		(
 			ARRAY['Cumin', 'Cumin']::VARCHAR(64)[2],
 			ARRAY['Teaspoon', 'Teaspoons'],
-			0.5, 'Fresh', TRUE, ''
+			0.5, '', TRUE, ''
 		),
 		(
 			ARRAY['Tumeric', 'Tumeric']::VARCHAR(64)[2],
 			ARRAY['Teaspoon', 'Teaspoons'],
-			0.125, 'Thinly sliced', TRUE, ''
+			0.125, '', TRUE, ''
 		),
 		(
 			ARRAY['Chicken Broth', 'Chicken Broth']::VARCHAR(64)[2],
 			ARRAY['Can', 'Cans'],
-			1.0, 'Chopped', TRUE, ''
+			1.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Corn', 'Corn']::VARCHAR(64)[2],
 			ARRAY['Cup', 'Cups'],
-			2.0, 'Dry', TRUE, ''
+			2.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Black Beans', 'Black Beans']::VARCHAR(64)[2],

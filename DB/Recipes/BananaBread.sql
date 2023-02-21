@@ -76,7 +76,7 @@ BEGIN
 		),
 		(
 			ARRAY['Salted Butter', 'Salted Butter']::VARCHAR(64)[2],
-			'Dry Ingredients',
+			'Wet Ingredients',
 			ARRAY['Cup', 'Cups'],
 			1.0, 'Melted', TRUE, 'Melted'
 		),
