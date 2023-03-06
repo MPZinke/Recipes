@@ -15,15 +15,15 @@ __author__ = "MPZinke"
 
 
 from decimal import Decimal
-from flask import Flask, redirect, render_template, request, url_for
-from fractions import Fraction
+from flask import Flask, render_template, request
 import os
 from pathlib import Path
 import re
 
 
-from DB import Queries
+from __init__ import add_url
 from Classes import Ingredient, Recipe
+import Endpoints
 from HTMLRenderingHelpers import format_decimal, format_decimal_fractionally, replace_special
 
 
@@ -125,19 +125,8 @@ def GET_new_instruction_step_list():
 
 # ——————————————————————————————————————————————————— INGREDIENTS  ——————————————————————————————————————————————————— #
 
-@app.route("/ingredients", methods=["GET"])
-def GET_ingredients():
-	ingredients: list[Ingredient] = Ingredient.all()
-	return render_template("Ingredients/Index.j2", title="Ingredients", ingredients=ingredients)
 
-
-@app.route("/ingredient/<string:ingredient_name>", methods=["GET"])
-def GET_ingredient(ingredient_name: str):
-	ingredient: Ingredient = Ingredient.from_name(ingredient_name)
-	recipe_names: list[str] = Queries.SELECT_Recipes_name_FROM_RecipesIngredients_WHERE_Ingredients_name(ingredient_name)
-	return render_template("Ingredient/Index.j2", title=ingredient.names()[0], ingredient=ingredient,
-	  recipe_names=recipe_names)
-
+# —————————————————————————————————————————————————————— TIMER  —————————————————————————————————————————————————————— #
 
 @app.route("/timer/<string:duration>", methods=["GET"])
 def GET_timer(duration: str):
@@ -146,6 +135,7 @@ def GET_timer(duration: str):
 
 	return render_template("Timer/Index.j2", title="Timer")
 
+# ————————————————————————————————————————————————— API::INGREDIENTS ————————————————————————————————————————————————— #
 
 @app.route("/api/ingredients")
 def GET_api_ingredients():
@@ -154,6 +144,9 @@ def GET_api_ingredients():
 
 
 def main():
+	add_url(app, "/ingredients", Endpoints.Ingredients.GET_ingredients)
+	add_url(app, "/ingredients/<string:search>", Endpoints.Ingredients.GET_ingredients_search)
+	add_url(app, "/ingredient/<string:ingredient_name>", Endpoints.Ingredients.GET_ingredient)
 	app.run(host="0.0.0.0", port=8080, debug=True)
 
 

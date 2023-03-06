@@ -26,6 +26,13 @@ class Ingredient:
 
 
 	@staticmethod
+	def search(search) -> list[Ingredient]:
+		ingredient_data: list[dict] = Queries.SELECT_ALL_FROM_Ingredients_WHERE_name_like(search, ignore=["is_deleted"])
+		ingredient_data.sort(key=lambda ingredient: ingredient["names"][0])
+		return [Ingredient(**ingredient) for ingredient in ingredient_data]
+
+
+	@staticmethod
 	def from_id(id: int) -> Ingredient|None:
 		if(not isinstance(id, int)):
 			raise Exception(f"id must be of type 'int', not type '{type(id)}'")

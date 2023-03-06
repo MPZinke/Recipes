@@ -14,12 +14,12 @@
 DO $$
 DECLARE RecipeName VARCHAR(64);
 BEGIN
-	RecipeName := 'Sloppy Joe';
+	RecipeName := 'Eggplant Parmesan';
 
 
 	INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "prep_time", "cook_time", "url", "instructions") VALUES
-	(RecipeName, 3, 4, INTERVAL '30 MINUTES', INTERVAL '10 MINUTES', INTERVAL '20 MINUTES',
-		'https://natashaskitchen.com/sloppy-joe-recipe/',
+	(RecipeName, 3, 4, INTERVAL '80 MINUTES', INTERVAL '20 MINUTES', INTERVAL '60 MINUTES',
+		'https://irritablebowelsyndrom.net/recipes/eggplant-parmesan',
 		'[
 			"Finely chop the onion.",
 			"Seed and finely dice the green pepper.",
@@ -43,18 +43,21 @@ BEGIN
 	FROM
 	(
 		VALUES
-		(ARRAY['Ground Beef', 'Ground Beef']::VARCHAR(64)[2]),
-		(ARRAY['Green Pepper', 'Green Peppers']::VARCHAR(64)[2]),
-		(ARRAY['Onion', 'Onions']::VARCHAR(64)[2]),
-		(ARRAY['Garlic', 'Garlic']::VARCHAR(64)[2]),
-		(ARRAY['Tomato Sauce', 'Tomato Sauce']::VARCHAR(64)[2]),
-		(ARRAY['Brown Sugar', 'Brown Sugar']::VARCHAR(64)[2]),
-		(ARRAY['Yellow Mustard', 'Yellow Mustard']::VARCHAR(64)[2]),
-		(ARRAY['Worcestershire Sauce', 'Worcestershire Sauce']::VARCHAR(64)[2]),
-		(ARRAY['Olive Oil', 'Olive Oil']::VARCHAR(64)[2]),
-		(ARRAY['Salt', 'Salt']::VARCHAR(64)[2]),
+		(ARRAY['Garlic Oil', 'Garlic Oil']::VARCHAR(64)[2]),
+		(ARRAY['Butter', 'Butter']::VARCHAR(64)[2]),
+		(ARRAY['Bay Leaf', 'Bay Leaves']::VARCHAR(64)[2]),
+		(ARRAY['Crushed Tomatoes', 'Crushed Tomatoes']::VARCHAR(64)[2]),
+		(ARRAY['Oregano', 'Oregano']::VARCHAR(64)[2]),
+		(ARRAY['Basil', 'Basil']::VARCHAR(64)[2]),
+		(ARRAY['Sugar', 'Sugar']::VARCHAR(64)[2]),
 		(ARRAY['Black Pepper', 'Black Pepper']::VARCHAR(64)[2]),
-		(ARRAY['Hamburger Bun', 'Hamburger Buns']::VARCHAR(64)[2])
+		(ARRAY['Salt', 'Salt']::VARCHAR(64)[2]),
+		(ARRAY['Water', 'Water']::VARCHAR(64)[2]),
+		(ARRAY['Eggplant', 'Eggplants']::VARCHAR(64)[2]),
+		(ARRAY['Vegetable Oil', 'Vegetable Oil']::VARCHAR(64)[2]),
+		(ARRAY['Corn Starch', 'Corn Starch']::VARCHAR(64)[2]),
+		(ARRAY['Provolone Cheese', 'Provolone Cheese']::VARCHAR(64)[2]),
+		(ARRAY['Parsley', 'Parsley']::VARCHAR(64)[2])
 	) AS "Temp" ("names")
 	WHERE "Temp"."names" NOT IN
 	(
@@ -70,64 +73,79 @@ BEGIN
 	(
 		VALUES
 		(
-			ARRAY['Ground Beef', 'Ground Beef']::VARCHAR(64)[2],
-			ARRAY['Pound', 'Pounds'],
-			1.0, '', TRUE, '85%-90% Lean'
+			ARRAY['Garlic Oil', 'Garlic Oil']::VARCHAR(64)[2],
+			ARRAY['Tablespoon', 'Tablespoons'],
+			2.0, '', TRUE, ''
 		),
 		(
-			ARRAY['Green Pepper', 'Green Peppers']::VARCHAR(64)[2],
+			ARRAY['Butter', 'Butter']::VARCHAR(64)[2],
+			ARRAY['Tablespoon', 'Tablespoons'],
+			2.0, '', TRUE, ''
+		),
+		(
+			ARRAY['Bay Leaf', 'Bay Leaves']::VARCHAR(64)[2],
 			ARRAY['', ''],
-			0.5, 'Finely Diced', TRUE, ''
+			2.0, '', TRUE, ''
 		),
 		(
-			ARRAY['Onion', 'Onions']::VARCHAR(64)[2],
-			ARRAY['', ''],
-			1.0, 'Small Finely Chopped', TRUE, ''
-		),
-		(
-			ARRAY['Garlic', 'Garlic']::VARCHAR(64)[2],
-			ARRAY['Clove', 'Cloves'],
-			3.0, 'Minced', TRUE, ''
-		),
-		(
-			ARRAY['Tomato Sauce', 'Tomato Sauce']::VARCHAR(64)[2],
+			ARRAY['Crushed Tomatoes', 'Crushed Tomatoes']::VARCHAR(64)[2],
 			ARRAY['Can', 'Cans'],
-			1.0, '15 oz', TRUE, ''
+			2.0, '14 oz ', TRUE, ''
 		),
 		(
-			ARRAY['Brown Sugar', 'Brown Sugar']::VARCHAR(64)[2],
+			ARRAY['Oregano', 'Oregano']::VARCHAR(64)[2],
 			ARRAY['Tablespoon', 'Tablespoons'],
-			1.0, '', TRUE, ''
+			1.0, 'Dried', TRUE, ''
 		),
 		(
-			ARRAY['Yellow Mustard', 'Yellow Mustard']::VARCHAR(64)[2],
+			ARRAY['Basil', 'Basil']::VARCHAR(64)[2],
+			ARRAY['Tablespoon', 'Tablespoons'],
+			1.0, 'Dried', TRUE, ''
+		),
+		(
+			ARRAY['Sugar', 'Sugar']::VARCHAR(64)[2],
 			ARRAY['Teaspoon', 'Teaspoons'],
-			1.0, '', TRUE, ''
-		),
-		(
-			ARRAY['Worcestershire Sauce', 'Worcestershire Sauce']::VARCHAR(64)[2],
-			ARRAY['Tablespoon', 'Tablespoons'],
-			1.0, '', TRUE, ''
-		),
-		(
-			ARRAY['Olive Oil', 'Olive Oil']::VARCHAR(64)[2],
-			ARRAY['Tablespoon', 'Tablespoons'],
-			1.0, '', TRUE, ''
-		),
-		(
-			ARRAY['Salt', 'Salt']::VARCHAR(64)[2],
-			ARRAY['Tablespoon', 'Tablespoons'],
-			0.5, '', TRUE, ''
+			3.0, '', TRUE, ''
 		),
 		(
 			ARRAY['Black Pepper', 'Black Pepper']::VARCHAR(64)[2],
-			ARRAY['Teaspoon', 'Teaspoons'],
-			0.25, '', TRUE, ''
+			ARRAY['', ''],
+			0.0, '', TRUE, 'To taste'
 		),
 		(
-			ARRAY['Hamburger Bun', 'Hamburger Buns']::VARCHAR(64)[2],
+			ARRAY['Salt', 'Salt']::VARCHAR(64)[2],
 			ARRAY['', ''],
-			4.0, '', FALSE, ''
+			0.0, '', TRUE, 'To taste'
+		),
+		(
+			ARRAY['Water', 'Water']::VARCHAR(64)[2],
+			ARRAY['Cup', 'Cups'],
+			1.0, '', TRUE, ''
+		),
+		(
+			ARRAY['Eggplant', 'Eggplants']::VARCHAR(64)[2],
+			ARRAY['', ''],
+			1.0, 'Medium', TRUE, ''
+		),
+		(
+			ARRAY['Vegetable Oil', 'Vegetable Oil']::VARCHAR(64)[2],
+			ARRAY['Cup', 'Cups'],
+			1.0, '', TRUE, 'For frying'
+		),
+		(
+			ARRAY['Corn Starch', 'Corn Starch']::VARCHAR(64)[2],
+			ARRAY['Cup', 'Cups'],
+			0.5, '', TRUE, ''
+		),
+		(
+			ARRAY['Provolone Cheese', 'Provolone Cheese']::VARCHAR(64)[2],
+			ARRAY['Slice', 'Slices'],
+			12.0, '', TRUE, ''
+		),
+		(
+			ARRAY['Parsley', 'Parsley']::VARCHAR(64)[2],
+			ARRAY['Handful', 'Handfuls'],
+			1.0, 'Chopped', TRUE, ''
 		)
 	) AS "Temp"("Ingredients.names", "units", "amount", "quality", "is_required", "notes")
 	JOIN "Recipes" ON "Recipes"."name" = RecipeName

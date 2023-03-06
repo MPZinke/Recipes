@@ -14,7 +14,7 @@ __author__ = "MPZinke"
 ########################################################################################################################
 
 
-from typing import Any
+from typing import Any, Optional
 
 
 from DB.Connection import connect
@@ -34,7 +34,7 @@ def SELECT_ALL_FROM_Recipes(cursor) -> list[dict]:
 
 
 @connect
-def SELECT_ALL_FROM_Recipes_WHERE_id(cursor, id: int) -> dict|None:
+def SELECT_ALL_FROM_Recipes_WHERE_id(cursor, id: int) -> Optional[dict]:
 	query: str = """
 		SELECT *
 		FROM "Recipes"
@@ -46,7 +46,7 @@ def SELECT_ALL_FROM_Recipes_WHERE_id(cursor, id: int) -> dict|None:
 
 
 @connect
-def SELECT_ALL_FROM_Recipes_WHERE_name(cursor, name: str) -> dict|None:
+def SELECT_ALL_FROM_Recipes_WHERE_name(cursor, name: str) -> Optional[dict]:
 	query: str = """
 		SELECT *
 		FROM "Recipes"
@@ -74,7 +74,7 @@ def SELECT_ALL_FROM_RecipesIngredients_WHERE_Recipes_id(cursor, Recipes_id: int)
 
 
 @connect
-def SELECT_ALL_FROM_RecipesIngredients_WHERE_Ingredients_name(cursor, Ingredients_name: str) -> dict|None:
+def SELECT_ALL_FROM_RecipesIngredients_WHERE_Ingredients_name(cursor, Ingredients_name: str) -> Optional[dict]:
 	query: str = """
 		SELECT *
 		FROM "RecipesIngredients"
@@ -120,7 +120,7 @@ def SELECT_time_FROM_RecipesHistory_WHERE_Recipes_id(cursor, Recipes_id) -> list
 # ———————————————————————————————————————————————————— INGREDIENT ———————————————————————————————————————————————————— #
 
 @connect
-def SELECT_ALL_FROM_Ingredients(cursor) -> dict|None:
+def SELECT_ALL_FROM_Ingredients(cursor) -> list[dict]:
 	query: str = """
 		SELECT *
 		FROM "Ingredients"
@@ -131,7 +131,7 @@ def SELECT_ALL_FROM_Ingredients(cursor) -> dict|None:
 
 
 @connect
-def SELECT_ALL_FROM_Ingredients_WHERE_id(cursor, id: int) -> dict|None:
+def SELECT_ALL_FROM_Ingredients_WHERE_id(cursor, id: int) -> Optional[dict]:
 	query: str = """
 		SELECT *
 		FROM "Ingredients"
@@ -143,7 +143,7 @@ def SELECT_ALL_FROM_Ingredients_WHERE_id(cursor, id: int) -> dict|None:
 
 
 @connect
-def SELECT_ALL_FROM_Ingredients_WHERE_name(cursor, name: str) -> dict|None:
+def SELECT_ALL_FROM_Ingredients_WHERE_name(cursor, name: str) -> Optional[dict]:
 	query: str = """
 		SELECT *
 		FROM "Ingredients"
@@ -152,3 +152,19 @@ def SELECT_ALL_FROM_Ingredients_WHERE_name(cursor, name: str) -> dict|None:
 	"""
 	cursor.execute(query, (name,))
 	return next(cursor, None)
+
+
+@connect
+def SELECT_ALL_FROM_Ingredients_WHERE_name_like(cursor, name: str) -> list[dict]:
+	query: str = """
+		SELECT *
+		FROM "Ingredients"
+		WHERE  EXISTS (
+			SELECT -- can be empty 
+			FROM unnest("names") "name"
+			WHERE "name" LIKE %s
+		)
+		  AND "is_deleted" = FALSE;
+	"""
+	cursor.execute(query, (name,))
+	return [ingredient for ingredient in cursor]
