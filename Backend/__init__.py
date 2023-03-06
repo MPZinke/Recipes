@@ -43,5 +43,4 @@ def add_url(app: Flask, url: str, GET: callable=None, **methods: Dict[str, calla
 		raise Exception(f"At least one HTTP method must be supplied for URL '{url}")
 
 	urls = set(url for url in [url.rstrip("/"), f"{url}/" if(url[-1] != "/") else url] if(url))
-	print(urls, methods)
 	[app.add_url_rule(url, url, method_function, methods=list(methods)) for url in urls]

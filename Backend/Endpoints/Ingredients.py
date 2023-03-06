@@ -13,7 +13,6 @@ def GET_ingredients():
 
 
 def GET_ingredients_search(search: str):
-	print(f"%{search}%")
 	ingredients: list[Ingredient] = Ingredient.search(f"%{search}%")
 	return render_template("Ingredients/Index.j2", title="Ingredients", ingredients=ingredients)
 
