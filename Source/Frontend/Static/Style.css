@@ -22,6 +22,11 @@ body
 	font-family: Helvetica;
 }
 
+div
+{
+	padding: 8px;
+}
+
 a
 {
 	color: var(--link-color);
