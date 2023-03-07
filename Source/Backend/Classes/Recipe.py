@@ -22,8 +22,8 @@ from math import prod
 from typing import TypeVar
 
 
-from Classes import RecipeIngredient
-from DB import Queries
+from Backend.Classes import RecipeIngredient
+from Backend.DB import Queries
 
 
 Recipe = TypeVar("Recipe");

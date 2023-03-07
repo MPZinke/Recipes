@@ -4,7 +4,7 @@ import json
 from typing import TypeVar
 
 
-from DB import Queries
+from Backend.DB import Queries
 
 
 Ingredient = TypeVar("Ingredient");

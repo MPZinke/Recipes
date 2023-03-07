@@ -3,8 +3,8 @@
 from flask import render_template
 
 
-from Classes import Ingredient
-from DB import Queries
+from Backend.Classes import Ingredient
+from Backend.DB import Queries
 
 
 def GET_ingredients():

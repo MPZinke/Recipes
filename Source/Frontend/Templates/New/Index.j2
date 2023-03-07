@@ -13,25 +13,16 @@
 {% extends "Header.j2" %}
 {% block body %}
 	<form>
-		<title>
-			New Recipe
-		</title>
-		<h3>
-			Recipe
-		</h3>
+		<h1>
+			<input
+			  id="name-input"
+			  class="form-control form-control-lg"
+			  onclick="update_json(this, `name`);"
+			  placeholder="Recipe Name"
+			  type="text"
+			/>
+		</h1>
 		<table>
-			<tr>
-				<td>
-					Recipe Name
-				</td>
-				<td>
-					<input
-					  name="name-input"
-					  id="name-input"
-					  type="text"
-					/>
-				</td>
-			</tr>
 			<tr>
 				<td>
 					Instructions

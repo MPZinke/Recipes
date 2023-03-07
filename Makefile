@@ -1,7 +1,7 @@
 
 
 run:
-	python3 Backend/Main.py
+	python3 Source/Main.py
 
 
 install:

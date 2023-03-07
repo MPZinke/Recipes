@@ -5,7 +5,7 @@ __author__ = "MPZinke"
 ########################################################################################################################
 #                                                                                                                      #
 #   created by: MPZinke                                                                                                #
-#   on 2023.03.06                                                                                                      #
+#   on 2023.03.07                                                                                                      #
 #                                                                                                                      #
 #   DESCRIPTION:                                                                                                       #
 #   BUGS:                                                                                                              #
@@ -14,5 +14,4 @@ __author__ = "MPZinke"
 ########################################################################################################################
 
 
-from Endpoints import Ingredients
-from Endpoints import Recipes
+from Backend.Endpoints import API

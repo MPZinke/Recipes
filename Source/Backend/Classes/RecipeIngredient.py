@@ -5,8 +5,8 @@ import json
 from typing import TypeVar
 
 
-from DB import Queries
-from Classes import Ingredient
+from Backend.Classes import Ingredient
+from Backend.DB import Queries
 
 
 RecipeIngredient = TypeVar("Recipe");

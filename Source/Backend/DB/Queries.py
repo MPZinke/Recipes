@@ -17,7 +17,7 @@ __author__ = "MPZinke"
 from typing import Any, Optional
 
 
-from DB.Connection import connect
+from Backend.DB.Connection import connect
 
 
 # —————————————————————————————————————————————————————— RECIPE —————————————————————————————————————————————————————— #
