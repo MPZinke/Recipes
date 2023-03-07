@@ -14,7 +14,6 @@ __author__ = "MPZinke"
 ########################################################################################################################
 
 
-from decimal import Decimal
 from flask import Flask, render_template, request
 import os
 from pathlib import Path
@@ -43,9 +42,7 @@ app.jinja_env.filters["str"] = str
 
 @app.route("/")
 def GET_():
-	# FROM: https://stackoverflow.com/a/36011663
-	# return "<a href='alarm-clock://' target='_blank'>Timer</a>"
-	return "<a href='clock-timer://'>Timer</a>"
+	return Endpoints.Recipes.GET_recipes()
 
 
 @app.route("/favicon.ico")
@@ -53,33 +50,8 @@ def GET_favicon_ico():
 	return ""
 
 
-@app.route("/testing/tooltip")
-def GET_testing_datatlist():
-	return """
-	<span title="See this when you hover">
-		Ingredient
-	</span>
-"""
-
 # ————————————————————————————————————————————————————— RECIPES  ————————————————————————————————————————————————————— #
 # ———————————————————————————————————————————————————————————————————————————————————————————————————————————————————— #
-
-@app.route("/recipes", methods=["GET"])
-def GET_recipes():
-	recipes: list[Recipe] = Recipe.all()
-	return render_template("Recipes/Index.j2", title="Recipes", recipes=recipes)
-
-
-@app.route("/recipe/<string:recipe_name>", methods=["GET"])
-def GET_recipe(recipe_name: str):
-	multiplier_text: str = request.args.get("multiplier", "1.0")
-	if(re.fullmatch(r"[0-9]+(\.[0-9]+)?", multiplier_text) is None):
-		raise Exception(r"Recipe multiplier must be of format '[0-9]+(\.[0-9]+)?'")
-
-	multiplier = Decimal(multiplier_text)
-	recipe: Recipe = Recipe.from_name(recipe_name) * multiplier
-	return render_template("Recipe/Index.j2", title=recipe.name(), recipe=recipe)
-
 
 # ——————————————————————————————————————————————————— RECIPES::NEW ——————————————————————————————————————————————————— #
 
@@ -144,6 +116,9 @@ def GET_api_ingredients():
 
 
 def main():
+	add_url(app, "/recipes", Endpoints.Recipes.GET_recipes)
+	add_url(app, "/recipe/<string:recipe_name>", Endpoints.Recipes.GET_recipe)
+
 	add_url(app, "/ingredients", Endpoints.Ingredients.GET_ingredients)
 	add_url(app, "/ingredients/<string:search>", Endpoints.Ingredients.GET_ingredients_search)
 	add_url(app, "/ingredient/<string:ingredient_name>", Endpoints.Ingredients.GET_ingredient)

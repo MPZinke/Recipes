@@ -160,9 +160,9 @@ def SELECT_ALL_FROM_Ingredients_WHERE_name_like(cursor, name: str) -> list[dict]
 		SELECT *
 		FROM "Ingredients"
 		WHERE  EXISTS (
-			SELECT -- can be empty 
+			SELECT
 			FROM unnest("names") "name"
-			WHERE "name" LIKE %s
+			WHERE LOWER("name") LIKE LOWER(%s)
 		)
 		  AND "is_deleted" = FALSE;
 	"""
