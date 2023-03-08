@@ -42,7 +42,7 @@ def add_frontend_routes(server: Flask) -> None:
 	add_url(server, "/ingredients/<string:search>", Frontend.Endpoints.Ingredients.GET_ingredients_search)
 	add_url(server, "/ingredient/<string:ingredient_name>", Frontend.Endpoints.Ingredients.GET_ingredient)
 
-	add_url(server, "/new", GET=Frontend.Endpoints.New.GET_new, POST=Frontend.Endpoints.New.POST_new)
+	add_url(server, "/new/recipe", GET=Frontend.Endpoints.New.GET_new_recipe, POST=Frontend.Endpoints.New.POST_new)
 	add_url(server, "/new/recipe_ingredient", Frontend.Endpoints.New.GET_new_recipe_ingredient)
 	add_url(server, "/new/instruction/section", Frontend.Endpoints.New.GET_new_instruction_section)
 	add_url(server, "/new/instruction/section-dictionary", Frontend.Endpoints.New.GET_new_instruction_section_dictionary)

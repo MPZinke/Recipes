@@ -1,0 +1,216 @@
+
+
+<div
+  id="new_RecipeIngredient-{{ uuid }}-div"
+  class="boxed recipe_ingredient-div"
+>
+	<div
+	  class="row"
+	>
+		<label
+		  for="RecipeIngredient_name_singular-{{ uuid }}-input"
+		  class="col-sm-2 col-form-label"
+		>
+			Names
+		</label>
+		<div
+		  class="col-sm-5"
+		>
+			<input
+			  id="RecipeIngredient_name_singular-{{ uuid }}-input"
+			  class="form-control"
+			  type="text"
+			  value="{{ ingredient.names()[0] }}"
+			  readonly
+			/>
+		</div>
+		<div
+		  class="col-sm-5"
+		>
+			<input
+			  class="form-control"
+			  type="text"
+			  value="{{ ingredient.names()[1] }}"
+			  readonly
+			/>
+		</div>
+	</div>
+
+	<div
+	  class="row"
+	>
+		<label
+		  for="RecipeIngredient_brand-{{ uuid }}-input"
+		  class="col-sm-2 col-form-label"
+		>
+			Brand
+		</label>
+		<div
+		  class="col-sm-10"
+		>
+			<input
+			  id="RecipeIngredient_brand-{{ uuid }}-input"
+			  class="form-control"
+			  type="text"
+			  value="{{ ingredient.brand() }}"
+			  readonly
+			/>
+		</div>
+	</div>
+
+	<div
+	  class="row"
+	>
+		<label
+		  for="RecipeIngredient_description-{{ uuid }}-textarea"
+		  class="col-sm-2 col-form-label"
+		>
+			Description
+		</label>
+		<div
+		  class="col-sm-10"
+		>
+			<textarea
+			  id="RecipeIngredient_description-{{ uuid }}-textarea"
+			  class="form-control"
+			  type="text"
+			  readonly
+			>{{ ingredient.description() }}</textarea>
+		</div>
+	</div>
+
+	<div
+	  class="row"
+	>
+		<label
+		  for="RecipeIngredient_amount-{{ uuid }}-input"
+		  class="col-sm-2 col-form-label"
+		>
+			Amount
+		</label>
+		<div
+		  class="col-sm-10"
+		>
+			<input
+			  id="RecipeIngredient_amount-{{ uuid }}-input"
+			  class="form-control"
+			  type="text"
+			  value="{{ ingredient.amount() }}"
+			  readonly
+			/>
+		</div>
+	</div>
+
+	<div
+	  class="row"
+	>
+		<label
+		  for="RecipeIngredient_unit_singular-{{ uuid }}-input"
+		  class="col-sm-2 col-form-label"
+		>
+			Units
+		</label>
+		<div
+		  class="col-sm-5"
+		>
+			<input
+			  id="RecipeIngredient_unit_singular-{{ uuid }}-input"
+			  class="form-control"
+			  type="text"
+			  value="{{ ingredient.units()[0] }}"
+			  readonly
+			/>
+		</div>
+		<div
+		  class="col-sm-5"
+		>
+			<input
+			  class="form-control"
+			  type="text"
+			  value="{{ ingredient.units()[1] }}"
+			  readonly
+			/>
+		</div>
+	</div>
+
+	<div
+	  class="row"
+	>
+		<label
+		  for="RecipeIngredient_quality-{{ uuid }}-input"
+		  class="col-sm-2 col-form-label"
+		>
+			Quality
+		</label>
+		<div
+		  class="col-sm-10"
+		>
+			<input
+			  id="RecipeIngredient_quality-{{ uuid }}-input"
+			  class="form-control"
+			  type="text"
+			  value="{{ ingredient.quality() }}"
+			  readonly
+			/>
+		</div>
+	</div>
+
+	<div
+	  class="row"
+	>
+		<label
+		  for="RecipeIngredient_is_required-{{ uuid }}-select"
+		  class="col-sm-2 col-form-label"
+		>
+			Is Required
+		</label>
+		<div
+		  class="col-sm-10"
+		>
+			<select
+			  type="text"
+			  class="form-control"
+			  readonly
+			>
+				<option
+				  value="{{ ingredient.is_required() }}" selected
+				>
+					{% if ingredient.is_required() %}
+						True
+					{% else %}
+						False
+					{% endif %}
+				</option>
+			</select>
+		</div>
+	</div>
+
+	<div
+	  class="row"
+	>
+		<label
+		  for="RecipeIngredient_notes-{{ uuid }}-textarea"
+		  class="col-sm-2 col-form-label"
+		>
+			Notes
+		</label>
+		<div
+		  class="col-sm-10"
+		>
+			<textarea
+			  id="RecipeIngredient_notes-{{ uuid }}-textarea"
+			  class="form-control"
+			  type="text"
+			  readonly
+			>{{ ingredient.notes() }}</textarea>
+		</div>
+	</div>
+
+	<button
+	  type="button"
+	  onclick="New.RecipeIngredient.delete_RecipeIngredient_from_new_RecipeIngredients(`{{ uuid }}`)"
+	>
+		Remove
+	</button>
+</div>
+

@@ -1,0 +1,39 @@
+
+<!----------------------------------------------------------------------------------------------------------------------
+-                                                                                                                      -
+-    Created by: MPZinke on 2023.02.05                                                                                 -
+-                                                                                                                      -
+-    DESCRIPTION:                                                                                                      -
+-    BUGS:                                                                                                             -
+-    FUTURE:                                                                                                           -
+-                                                                                                                      -
+----------------------------------------------------------------------------------------------------------------------->
+
+
+{% extends "Header.j2" %}
+{% block body %}
+	<form>
+		{% include("New/Recipe/Name.j2") %}
+		{% include("New/Recipe/Servings.j2") %}
+		{% include("New/Recipe/Rating.j2") %}
+		{% include("New/Recipe/PrepTime.j2") %}
+		{% include("New/Recipe/CookTime.j2") %}
+		{% include("New/Recipe/TotalTime.j2") %}
+		{% include("New/Recipe/Notes.j2") %}
+	</form>
+
+	<script>
+		var New =
+		{
+			update_json:
+			function(element, keys)
+			{
+
+			}
+		};
+	</script>
+
+	{% include("New/Recipe/RecipeIngredient/Index.j2") %}
+	{% include("New/Recipe/Instruction/Index.j2") %}
+
+{% endblock %}

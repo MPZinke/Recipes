@@ -13,7 +13,7 @@ RecipeIngredient = TypeVar("Recipe");
 
 
 class RecipeIngredient(Ingredient):
-	def __init__(self, *, id: int, brand: str, names: str, description: str, group: str, amount: Decimal,
+	def __init__(self, *, id: int, brand: str, names: list[str], description: str, group: str, amount: Decimal,
 	  units: list[str], quality: str, is_required: bool, notes: str, Ingredients_id: int):
 		Ingredient.__init__(self, id=Ingredients_id, brand=brand, names=names, description=description)
 		self._Ingredients_id: int = Ingredients_id

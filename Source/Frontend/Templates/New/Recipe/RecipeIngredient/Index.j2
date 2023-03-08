@@ -2,22 +2,29 @@
 	<h3>
 		Recipe Ingredients
 	</h3>
+
 	<div
-	  id="recipe_ingredients-div"
+	  id="Recipe_RecipeIngredients-new_RecipeIngredients-div"
 	>
 	</div>
 
-	{% include "New/RecipeIngredient/Modal.j2" %}
+	{% include "New/Recipe/RecipeIngredient/Modal.j2" %}
 
-	<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#new_recipe_ingredient-modal">
+	<button
+	  type="button"
+	  class="btn btn-light"
+	  data-bs-toggle="modal"
+	  data-bs-target="#Recipe_RecipeIngredient-new_RecipeIngredient-modal"
+	>
 		Add Ingredient
 	</button>
 </div>
 
+
 <script>
 	// ——————————————————————————————————————————————————— SUBMIT ——————————————————————————————————————————————————— //
 
-	function json_builder()
+	function New_RecipeIngredient_json_builder()
 	{
 		const recipe_ingredients_div = document.getElementById("recipe_ingredients-div");
 		const recipe_ingredient_divs = recipe_ingredients_div.getElementsByClassName("recipe_ingredient-div");
@@ -52,61 +59,55 @@
 
 	// —————————————————————————————————————————————————— DISPLAY  —————————————————————————————————————————————————— //
 
-	function add_new_recipe_ingredient_html()
+	New.RecipeIngredient =
 	{
-		const recipe_ingredients_div = document.getElementById("recipe_ingredients-div");
-
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.open("GET", `/new/recipe_ingredient`, false);
-		xmlhttp.send();
-		if(xmlhttp.status == 400)
+		Modal:
 		{
-			alert('There was an error 400');
-		}
-		else if(xmlhttp.status != 200)
+			add_RecipeIngredient_from_modal_to_new_RecipeIngredients:
+			function(element)
+			{
+				const name_singular = document.getElementById("RecipeIngredient_name_singular-modal-input").value;
+				const name_plural = document.getElementById("RecipeIngredient_name_plural-modal-input").value;
+				const brand = document.getElementById("RecipeIngredient_brand-modal-input").value;
+				const description = document.getElementById("RecipeIngredient_description-modal-textarea").value;
+				const amount = document.getElementById("RecipeIngredient_amount-modal-input").value;
+				const unit_singular = document.getElementById("RecipeIngredient_unit_singular-modal-input").value;
+				const unit_plural = document.getElementById("RecipeIngredient_unit_plural-modal-input").value;
+				const quality = document.getElementById("RecipeIngredient_quality-modal-input").value;
+				const notes = document.getElementById("RecipeIngredient_notes-modal-textarea").value;
+
+				const recipe_ingredients_div = document.getElementById("recipe_ingredients-div");
+
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.open("GET", `/new/recipe_ingredient`, false);
+				xmlhttp.send();
+				if(xmlhttp.status == 400)
+				{
+					alert('There was an error 400');
+				}
+				else if(xmlhttp.status != 200)
+				{
+					alert('add_new_recipe_ingredient_html::something else other than 200 was returned');
+				}
+
+				const fragment = document.createRange().createContextualFragment(xmlhttp.responseText);
+				recipe_ingredients_div.appendChild(fragment);
+			}
+		},
+
+		delete_RecipeIngredient_from_new_RecipeIngredients:
+		function(uuid)
 		{
-			alert('add_new_recipe_ingredient_html::something else other than 200 was returned');
+			const new_RecipeIngredient_div = document.getElementById(`new_RecipeIngredient-${uuid}-div`)
+			const recipe_ingredients_div = new_RecipeIngredient_div.parentNode;
+			recipe_ingredients_div.removeChild(new_RecipeIngredient_div);
 		}
-
-		const fragment = document.createRange().createContextualFragment(xmlhttp.responseText);
-		recipe_ingredients_div.appendChild(fragment);
-	}
+	};
 
 
-	function delete_ingredient(ingredient_div)
-	{
-		const recipe_ingredients_div = ingredient_div.parentNode;
-		recipe_ingredients_div.removeChild(ingredient_div);
-
-		const recipe_ingredients = recipe_ingredients_div.children;
-		if(recipe_ingredients.length == 0)
-		{
-			add_new_recipe_ingredient_html();
-		}
-		else
-		{
-			for(let x = 0; x < recipe_ingredients.length; x++){}
-		}
-	}
 
 
 	// ————————————————————————————————————————————————— DATA  LIST ————————————————————————————————————————————————— //
-
-	function associate_datalists()
-	{
-		const recipe_ingredient_divs = document.getElementsByClassName("recipe_ingredient-div");
-		for(let x = 0; x < recipe_ingredient_divs.length; x++)
-		{
-			const recipe_ingredient_div = recipe_ingredient_divs[x];
-
-			const ingredient_singular_name_input = recipe_ingredient_div.querySelector(".ingredient_singular_name-input");
-			const ingredient_plural_name_input = recipe_ingredient_div.querySelector(".ingredient_plural_name-input");
-
-			const ingredient_name_singular_datalist = recipe_ingredient_div.querySelector(".ingredient_name_singular-datalist");
-			const ingredient_name_plural_datalist = recipe_ingredient_div.querySelector(".ingredient_name_plural-datalist");
-		}
-	}
-
 
 	function datalist_options(datalist_ingredients)
 	{
