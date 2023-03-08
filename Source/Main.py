@@ -31,14 +31,6 @@ TEMPLATE_FOLDER = os.path.join(ROOT_DIR, "Frontend/Templates")
 STATIC_FOLDER = os.path.join(ROOT_DIR, "Frontend/Static")
 
 
-# ————————————————————————————————————————————————————— RECIPES  ————————————————————————————————————————————————————— #
-# ———————————————————————————————————————————————————————————————————————————————————————————————————————————————————— #
-
-# ——————————————————————————————————————————————————— RECIPES::NEW ——————————————————————————————————————————————————— #
-
-
-# ——————————————————————————————————————————————————— INGREDIENTS  ——————————————————————————————————————————————————— #
-
 def add_frontend_routes(server: Flask) -> None:
 	add_url(server, "/", Frontend.Endpoints.Recipes.GET_recipes)
 	add_url(server, "/favicon.ico", Frontend.Endpoints.GET_favicon_icon)
@@ -61,7 +53,6 @@ def add_frontend_routes(server: Flask) -> None:
 
 def add_api_routes(server: Flask) -> None:
 	add_url(server, "/api/ingredients", Backend.Endpoints.API.Ingredients.GET_ingredients)
-
 
 
 # —————————————————————————————————————————————————————— TIMER  —————————————————————————————————————————————————————— #

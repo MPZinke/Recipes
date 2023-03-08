@@ -5,16 +5,13 @@
 	<div
 	  id="recipe_ingredients-div"
 	>
-		{% include "New/RecipeIngredient/New.j2" %}
 	</div>
 
-	<button
-	  type="button"
-	  onclick="add_new_recipe_ingredient_html();"
-	>
-		+ Add An Ingredient
+	{% include "New/RecipeIngredient/Modal.j2" %}
+
+	<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#new_recipe_ingredient-modal">
+		Add Ingredient
 	</button>
-	<button type="button" onclick="console.log(json_builder());">Test</button>
 </div>
 
 <script>
