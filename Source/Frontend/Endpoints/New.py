@@ -14,7 +14,7 @@ __author__ = "MPZinke"
 ########################################################################################################################
 
 
-from flask import render_template
+from flask import render_template, request
 import uuid
 
 
@@ -31,27 +31,26 @@ def POST_new():
 
 
 def GET_new_recipe_ingredient():
-	ingredient = RecipeIngredient(id=0, brand="", names=["Test Ingredient", "Test Ingredients"], description="Test",
-	  group="", amount=1.0, units=["Unit", "Units"], quality="Testful", is_required=False, notes="This is a test",
-	  Ingredients_id=0)
-	return render_template("New/RecipeIngredient/New.j2", uuid=uuid.uuid4(), ingredient=ingredient)
+	print(request.json)
+	ingredient = RecipeIngredient(id=0, **request.json, Ingredients_id=0)
+	return render_template("New/Recipe/RecipeIngredient/New.j2", uuid=uuid.uuid4(), ingredient=ingredient)
 
 
 def GET_new_instruction_section():
-	return render_template("New/Instruction/Section.j2")
+	return render_template("New/Recipe/Instruction/Section.j2")
 
 
 def GET_new_instruction_section_dictionary():
-	return render_template("New/Instruction/SectionDictionary.j2")
+	return render_template("New/Recipe/Instruction/SectionDictionary.j2")
 
 
 def GET_new_instruction_step():
-	return render_template("New/Instruction/Step.j2")
+	return render_template("New/Recipe/Instruction/Step.j2")
 
 
 def GET_new_instruction_step_section(section: str):
-	return render_template("New/Instruction/Step.j2", section=section)
+	return render_template("New/Recipe/Instruction/Step.j2", section=section)
 
 
 def GET_new_instruction_step_list():
-	return render_template("New/Instruction/StepList.j2")
+	return render_template("New/Recipe/Instruction/StepList.j2")

@@ -34,7 +34,7 @@
 				  class="row"
 				>
 					<label
-					  for="RecipeIngredient_name_singular-modal-input"
+					  for="Recipe_RecipeIngredient-name_singular-modal-input"
 					  class="col-sm-2 col-form-label"
 					>
 						Names
@@ -43,7 +43,7 @@
 					  class="col-sm-5"
 					>
 						<input
-						  id="RecipeIngredient_name_singular-modal-input"
+						  id="Recipe_RecipeIngredient-name_singular-modal-input"
 						  class="form-control"
 						  type="text"
 						  placeholder="Singular"
@@ -53,7 +53,7 @@
 					  class="col-sm-5"
 					>
 						<input
-						  id="RecipeIngredient_name_plural-modal-input"
+						  id="Recipe_RecipeIngredient-name_plural-modal-input"
 						  class="form-control"
 						  type="text"
 						  placeholder="Plural"
@@ -65,7 +65,7 @@
 				  class="row"
 				>
 					<label
-					  for="RecipeIngredient_brand-modal-input"
+					  for="Recipe_RecipeIngredient-brand-modal-input"
 					  class="col-sm-2 col-form-label"
 					>
 						Brand
@@ -74,7 +74,7 @@
 					  class="col-sm-10"
 					>
 						<input
-						  id="RecipeIngredient_brand-modal-input"
+						  id="Recipe_RecipeIngredient-brand-modal-input"
 						  class="form-control"
 						  type="text"
 						/>
@@ -85,7 +85,7 @@
 				  class="row"
 				>
 					<label
-					  for="RecipeIngredient_description-modal-textarea"
+					  for="Recipe_RecipeIngredient-description-modal-textarea"
 					  class="col-sm-2 col-form-label"
 					>
 						Description
@@ -94,7 +94,7 @@
 					  class="col-sm-10"
 					>
 						<textarea
-						  id="RecipeIngredient_description-modal-textarea"
+						  id="Recipe_RecipeIngredient-description-modal-textarea"
 						  class="form-control"
 						  type="text"
 						></textarea>
@@ -105,16 +105,16 @@
 				  class="row"
 				>
 					<label
-					  for="RecipeIngredient_amount-modal-input"
+					  for="Recipe_RecipeIngredient-group-modal-input"
 					  class="col-sm-2 col-form-label"
 					>
-						Amount
+						Group
 					</label>
 					<div
 					  class="col-sm-10"
 					>
 						<input
-						  id="RecipeIngredient_amount-modal-input"
+						  id="Recipe_RecipeIngredient-group-modal-input"
 						  class="form-control"
 						  type="text"
 						/>
@@ -125,7 +125,27 @@
 				  class="row"
 				>
 					<label
-					  for="RecipeIngredient_unit_singular-modal-input"
+					  for="Recipe_RecipeIngredient-amount-modal-input"
+					  class="col-sm-2 col-form-label"
+					>
+						Amount
+					</label>
+					<div
+					  class="col-sm-10"
+					>
+						<input
+						  id="Recipe_RecipeIngredient-amount-modal-input"
+						  class="form-control"
+						  type="number"
+						/>
+					</div>
+				</div>
+
+				<div
+				  class="row"
+				>
+					<label
+					  for="Recipe_RecipeIngredient-unit_singular-modal-input"
 					  class="col-sm-2 col-form-label"
 					>
 						Units
@@ -134,7 +154,7 @@
 					  class="col-sm-5"
 					>
 						<input
-						  id="RecipeIngredient_unit_singular-modal-input"
+						  id="Recipe_RecipeIngredient-unit_singular-modal-input"
 						  class="form-control"
 						  type="text"
 						  placeholder="Singular"
@@ -144,7 +164,7 @@
 					  class="col-sm-5"
 					>
 						<input
-						  id="RecipeIngredient_unit_plural-modal-input"
+						  id="Recipe_RecipeIngredient-unit_plural-modal-input"
 						  class="form-control"
 						  type="text"
 						  placeholder="Plural"
@@ -156,7 +176,7 @@
 				  class="row"
 				>
 					<label
-					  for="RecipeIngredient_quality-modal-input"
+					  for="Recipe_RecipeIngredient-quality-modal-input"
 					  class="col-sm-2 col-form-label"
 					>
 						Quality
@@ -165,7 +185,7 @@
 					  class="col-sm-10"
 					>
 						<input
-						  id="RecipeIngredient_quality-modal-input"
+						  id="Recipe_RecipeIngredient-quality-modal-input"
 						  class="form-control"
 						  type="text"
 						/>
@@ -176,7 +196,7 @@
 				  class="row"
 				>
 					<label
-					  for="RecipeIngredient_is_required-select-modal"
+					  for="Recipe_RecipeIngredient-is_required-modal-select"
 					  class="col-sm-2 col-form-label"
 					>
 						Is Required
@@ -185,6 +205,7 @@
 					  class="col-sm-10"
 					>
 						<select
+						  id="Recipe_RecipeIngredient-is_required-modal-select"
 						  type="text"
 						  class="form-control"
 						>
@@ -211,7 +232,7 @@
 				  class="row"
 				>
 					<label
-					  for="RecipeIngredient_notes-modal-textarea"
+					  for="Recipe_RecipeIngredient-notes-modal-textarea"
 					  class="col-sm-2 col-form-label"
 					>
 						Notes
@@ -220,7 +241,7 @@
 					  class="col-sm-10"
 					>
 						<textarea
-						  id="RecipeIngredient_notes-modal-textarea"
+						  id="Recipe_RecipeIngredient-notes-modal-textarea"
 						  class="form-control"
 						  type="text"
 						></textarea>
@@ -241,7 +262,7 @@
 				<button
 				  type="button"
 				  class="btn btn-primary"
-				  onclick="New.RecipeIngredient.Modal.add_RecipeIngredient_from_modal_to_new_RecipeIngredients(this);"
+				  onclick="Recipe.RecipeIngredient.Modal.add_RecipeIngredient_from_modal_to_new_RecipeIngredients();"
 				>
 					Add Ingredient
 				</button>

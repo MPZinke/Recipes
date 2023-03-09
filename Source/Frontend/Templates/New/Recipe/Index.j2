@@ -12,6 +12,17 @@
 
 {% extends "Header.j2" %}
 {% block body %}
+	<script>
+		var Recipe =
+		{
+			update_json:
+			function(element, keys)
+			{
+
+			}
+		};
+	</script>
+
 	<form>
 		{% include("New/Recipe/Name.j2") %}
 		{% include("New/Recipe/Servings.j2") %}
@@ -21,17 +32,6 @@
 		{% include("New/Recipe/TotalTime.j2") %}
 		{% include("New/Recipe/Notes.j2") %}
 	</form>
-
-	<script>
-		var New =
-		{
-			update_json:
-			function(element, keys)
-			{
-
-			}
-		};
-	</script>
 
 	{% include("New/Recipe/RecipeIngredient/Index.j2") %}
 	{% include("New/Recipe/Instruction/Index.j2") %}

@@ -73,4 +73,10 @@
 	$(function () {
 		$('[data-toggle="tooltip"]').tooltip()
 	});
+
+
+	function html_to_element(html)
+	{
+		return document.createRange().createContextualFragment(html);
+	}
 </script>

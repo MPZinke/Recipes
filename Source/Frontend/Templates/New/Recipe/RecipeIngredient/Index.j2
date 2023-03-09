@@ -4,7 +4,7 @@
 	</h3>
 
 	<div
-	  id="Recipe_RecipeIngredients-new_RecipeIngredients-div"
+	  id="Recipe_RecipeIngredient-new_RecipeIngredients-div"
 	>
 	</div>
 
@@ -59,39 +59,51 @@
 
 	// —————————————————————————————————————————————————— DISPLAY  —————————————————————————————————————————————————— //
 
-	New.RecipeIngredient =
+	Recipe.RecipeIngredient =
 	{
 		Modal:
 		{
 			add_RecipeIngredient_from_modal_to_new_RecipeIngredients:
-			function(element)
+			function()
 			{
-				const name_singular = document.getElementById("RecipeIngredient_name_singular-modal-input").value;
-				const name_plural = document.getElementById("RecipeIngredient_name_plural-modal-input").value;
-				const brand = document.getElementById("RecipeIngredient_brand-modal-input").value;
-				const description = document.getElementById("RecipeIngredient_description-modal-textarea").value;
-				const amount = document.getElementById("RecipeIngredient_amount-modal-input").value;
-				const unit_singular = document.getElementById("RecipeIngredient_unit_singular-modal-input").value;
-				const unit_plural = document.getElementById("RecipeIngredient_unit_plural-modal-input").value;
-				const quality = document.getElementById("RecipeIngredient_quality-modal-input").value;
-				const notes = document.getElementById("RecipeIngredient_notes-modal-textarea").value;
+				const recipe_ingredients_div = document.getElementById("Recipe_RecipeIngredient-new_RecipeIngredients-div");
 
-				const recipe_ingredients_div = document.getElementById("recipe_ingredients-div");
+				const recipe_ingredient_data =
+				{
+					names:
+					[
+						document.getElementById("Recipe_RecipeIngredient-name_singular-modal-input").value,
+						document.getElementById("Recipe_RecipeIngredient-name_plural-modal-input").value
+					],
+					brand: document.getElementById("Recipe_RecipeIngredient-brand-modal-input").value,
+					description: document.getElementById("Recipe_RecipeIngredient-description-modal-textarea").value,
+					group: document.getElementById("Recipe_RecipeIngredient-group-modal-input").value,
+					amount: document.getElementById("Recipe_RecipeIngredient-amount-modal-input").value,
+					units:
+					[
+						document.getElementById("Recipe_RecipeIngredient-unit_singular-modal-input").value,
+						document.getElementById("Recipe_RecipeIngredient-unit_plural-modal-input").value
+					],
+					quality: document.getElementById("Recipe_RecipeIngredient-quality-modal-input").value,
+					is_required: document.getElementById("Recipe_RecipeIngredient-is_required-modal-select").value,
+					notes: document.getElementById("Recipe_RecipeIngredient-notes-modal-textarea").value
+				};
 
 				var xmlhttp = new XMLHttpRequest();
-				xmlhttp.open("GET", `/new/recipe_ingredient`, false);
-				xmlhttp.send();
+				xmlhttp.open("POST", "/new/recipe/recipe_ingredient", false);
+				xmlhttp.setRequestHeader("Content-Type", "application/json");
+				xmlhttp.send(JSON.stringify(recipe_ingredient_data));
 				if(xmlhttp.status == 400)
 				{
-					alert('There was an error 400');
+					return alert('There was an error 400');
 				}
 				else if(xmlhttp.status != 200)
 				{
-					alert('add_new_recipe_ingredient_html::something else other than 200 was returned');
+					return alert('add_new_recipe_ingredient_html::something else other than 200 was returned');
 				}
 
-				const fragment = document.createRange().createContextualFragment(xmlhttp.responseText);
-				recipe_ingredients_div.appendChild(fragment);
+				recipe_ingredients_div.appendChild(html_to_element(xmlhttp.responseText));
+				$('#Recipe_RecipeIngredient-new_RecipeIngredient-modal').modal('hide');
 			}
 		},
 
