@@ -10,19 +10,24 @@
 ----------------------------------------------------------------------------------------------------------------------->
 
 
+<script>
+	var Recipe =
+	{
+		update_json:
+		function(element, keys)
+		{
+
+		},
+		RecipeIngredient:
+		{
+			Modal: {}
+		}
+	};
+</script>
+
+
 {% extends "Header.j2" %}
 {% block body %}
-	<script>
-		var Recipe =
-		{
-			update_json:
-			function(element, keys)
-			{
-
-			}
-		};
-	</script>
-
 	<form>
 		{% include("New/Recipe/Name.j2") %}
 		{% include("New/Recipe/Servings.j2") %}

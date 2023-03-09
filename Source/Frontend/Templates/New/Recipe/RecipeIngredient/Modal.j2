@@ -270,3 +270,80 @@
 		</div>
 	</div>
 </div>
+
+
+<script>
+	Recipe.RecipeIngredient.Modal.add_RecipeIngredient_from_modal_to_new_RecipeIngredients =
+	function()
+	{
+		const recipe_ingredients_div = document.getElementById("Recipe_RecipeIngredient-new_RecipeIngredients-div");
+		const recipe_ingredient_data = Recipe.RecipeIngredient.Modal.get_RecipeIngredient_data();
+
+		// ———— ADJUST UI ———— //
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("POST", "/new/recipe/recipe_ingredient", false);
+		xmlhttp.setRequestHeader("Content-Type", "application/json");
+		xmlhttp.send(JSON.stringify(recipe_ingredient_data));
+		if(xmlhttp.status == 400)
+		{
+			return alert('There was an error 400');
+		}
+		else if(xmlhttp.status != 200)
+		{
+			return alert('add_new_recipe_ingredient_html::something else other than 200 was returned');
+		}
+
+		// Add built data to page
+		recipe_ingredients_div.appendChild(html_to_element(xmlhttp.responseText));
+
+		// Reset modal
+		$('#Recipe_RecipeIngredient-new_RecipeIngredient-modal').modal('hide');
+		Recipe.RecipeIngredient.Modal.clear_new_RecipeIngredient_modal();
+	};
+
+
+	Recipe.RecipeIngredient.Modal.clear_new_RecipeIngredient_modal =
+	function()
+	{
+		document.getElementById("Recipe_RecipeIngredient-name_singular-modal-input").value = "";
+		document.getElementById("Recipe_RecipeIngredient-name_plural-modal-input").value
+		document.getElementById("Recipe_RecipeIngredient-brand-modal-input").value = "";
+		document.getElementById("Recipe_RecipeIngredient-description-modal-textarea").value = "";
+		document.getElementById("Recipe_RecipeIngredient-group-modal-input").value = "";
+		document.getElementById("Recipe_RecipeIngredient-amount-modal-input").value = "";
+		document.getElementById("Recipe_RecipeIngredient-unit_singular-modal-input").value = "";
+		document.getElementById("Recipe_RecipeIngredient-unit_plural-modal-input").value
+		document.getElementById("Recipe_RecipeIngredient-quality-modal-input").value = "";
+		document.getElementById("Recipe_RecipeIngredient-is_required-modal-select").value = "";
+		document.getElementById("Recipe_RecipeIngredient-notes-modal-textarea").value = "";
+	};
+
+
+	Recipe.RecipeIngredient.Modal.get_RecipeIngredient_data =
+	function()
+	{
+		const recipe_ingredient_data =
+		{
+			names:
+			[
+				document.getElementById("Recipe_RecipeIngredient-name_singular-modal-input").value,
+				document.getElementById("Recipe_RecipeIngredient-name_plural-modal-input").value
+			],
+			brand: document.getElementById("Recipe_RecipeIngredient-brand-modal-input").value,
+			description: document.getElementById("Recipe_RecipeIngredient-description-modal-textarea").value,
+			group: document.getElementById("Recipe_RecipeIngredient-group-modal-input").value,
+			amount: document.getElementById("Recipe_RecipeIngredient-amount-modal-input").value,
+			units:
+			[
+				document.getElementById("Recipe_RecipeIngredient-unit_singular-modal-input").value,
+				document.getElementById("Recipe_RecipeIngredient-unit_plural-modal-input").value
+			],
+			quality: document.getElementById("Recipe_RecipeIngredient-quality-modal-input").value,
+			is_required: document.getElementById("Recipe_RecipeIngredient-is_required-modal-select").value,
+			notes: document.getElementById("Recipe_RecipeIngredient-notes-modal-textarea").value
+		};
+
+		return recipe_ingredient_data;
+	};
+
+</script>
