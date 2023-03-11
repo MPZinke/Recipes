@@ -11,23 +11,18 @@
 
 
 <script>
-	var Recipe =
-	{
-		update_json:
-		function(element, keys)
-		{
-
-		},
-		RecipeIngredient:
-		{
-			Modal: {}
-		}
-	};
+	var Recipe = {};  // Initialize namespace `Recipe`
 </script>
 
 
 {% extends "Header.j2" %}
 {% block body %}
+	<input
+	  id="Recipe-new_Recipe_json-div"
+	  name="Recipe-new_Recipe_json-div"
+	  value="{&quot;RecipeIngredients&quot;: []}"
+	  hidden
+	/>
 	<form>
 		{% include("New/Recipe/Name.j2") %}
 		{% include("New/Recipe/Servings.j2") %}
@@ -38,7 +33,34 @@
 		{% include("New/Recipe/Notes.j2") %}
 	</form>
 
-	{% include("New/Recipe/RecipeIngredient/Index.j2") %}
 	{% include("New/Recipe/Instruction/Index.j2") %}
+	{% include("New/Recipe/RecipeIngredients/Index.j2") %}
+
+<script>
+	Recipe.update_json =
+	function(value, ...keys)
+	{
+		const new_Recipe_json_div = document.getElementById("Recipe-new_Recipe_json-div");
+		let Recipe_json = JSON.parse(new_Recipe_json_div.value)
+
+		let current_value = Recipe_json;
+		for(let x = 0; x < keys.length-1; x++)
+		{
+			current_value = current_value[keys];
+		}
+
+		if(current_value[keys[keys.length-1]] !== undefined && Array.isArray(current_value[keys[keys.length-1]]))
+		{
+			current_value[keys[keys.length-1]].push(value);
+		}
+		else
+		{
+			current_value[keys[keys.length-1]] = value;
+		}
+
+		console.log(Recipe_json);  // TESTING
+		new_Recipe_json_div.value = JSON.stringify(Recipe_json);
+	};
+</script>
 
 {% endblock %}

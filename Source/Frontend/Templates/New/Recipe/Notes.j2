@@ -13,7 +13,7 @@
 		<textarea
 		  id="Recipe-notes-textarea"
 		  class="form-control"
-		  onclick="update_json(this, `notes`);"
+		  onchange="Recipe.update_json(this.value, `notes`);"
 		  type="number"
 		  rows="3"
 		>

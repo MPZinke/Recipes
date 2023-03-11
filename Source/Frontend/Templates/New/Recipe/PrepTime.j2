@@ -13,7 +13,7 @@
 		<input
 		  id="Recipe-prep_time-input"
 		  class="form-control"
-		  onclick="update_json(this, `prep_time`);"
+		  onchange="Recipe.update_json(this.value, `prep_time`);"
 		  type="number"
 		/>
 	</div>

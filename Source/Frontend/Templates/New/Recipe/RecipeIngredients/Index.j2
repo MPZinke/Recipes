@@ -1,20 +1,24 @@
 <div>
+	<script>
+		Recipe.RecipeIngredient = {};  // Initialize namespace `Recipe.RecipeIngredient`
+	</script>
+
 	<h3>
 		Recipe Ingredients
 	</h3>
 
 	<div
-	  id="Recipe_RecipeIngredient-new_RecipeIngredients-div"
+	  id="Recipe_RecipeIngredients-new_RecipeIngredients-div"
 	>
 	</div>
 
-	{% include "New/Recipe/RecipeIngredient/Modal.j2" %}
+	{% include "New/Recipe/RecipeIngredients/Modal.j2" %}
 
 	<button
 	  type="button"
 	  class="btn btn-light"
 	  data-bs-toggle="modal"
-	  data-bs-target="#Recipe_RecipeIngredient-new_RecipeIngredient-modal"
+	  data-bs-target="#Recipe_RecipeIngredients-new_RecipeIngredient-modal"
 	>
 		Add Ingredient
 	</button>
@@ -22,6 +26,7 @@
 
 
 <script>
+
 	// ——————————————————————————————————————————————————— SUBMIT ——————————————————————————————————————————————————— //
 
 	function New_RecipeIngredient_json_builder()

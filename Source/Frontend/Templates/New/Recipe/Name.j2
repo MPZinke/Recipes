@@ -7,7 +7,7 @@
 		<input
 		  id="Recipe-name-input"
 		  class="form-control form-control-lg col-sm-4"
-		  onclick="update_json(this, `name`);"
+		  onchange="Recipe.update_json(this.value, `name`);"
 		  placeholder="Recipe Name"
 		  type="text"
 		/>

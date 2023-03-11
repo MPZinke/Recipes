@@ -13,8 +13,10 @@
 		<input
 		  id="Recipe-rating-input"
 		  class="form-control"
-		  onclick="update_json(this, `rating`);"
+		  onchange="Recipe.update_json(this.value, `rating`);"
 		  type="number"
+		  min="0"
+		  max="5"
 		/>
 	</div>
 </div>

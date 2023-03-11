@@ -31,9 +31,8 @@ def POST_new():
 
 
 def GET_new_recipe_ingredient():
-	print(request.json)
-	ingredient = RecipeIngredient(id=0, **request.json, Ingredients_id=0)
-	return render_template("New/Recipe/RecipeIngredient/New.j2", uuid=uuid.uuid4(), ingredient=ingredient)
+	ingredient = RecipeIngredient(id=0, Ingredients_id=0, **request.json)
+	return render_template("New/Recipe/RecipeIngredients/New.j2", uuid=uuid.uuid4(), ingredient=ingredient)
 
 
 def GET_new_instruction_section():
