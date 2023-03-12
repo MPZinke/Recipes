@@ -1,7 +1,7 @@
+<script>
+	Recipe.Instructions = {};  // Initialize namespace `Recipe.Instructions`
+</script>
 <div>
-	<script>
-		Recipe.Instruction = {};  // Initialize namespace `Recipe.Instruction`
-	</script>
 
 	<h3>
 		Instructions
@@ -12,11 +12,13 @@
 	>
 	</div>
 
+	{% include("New/Recipe/Instructions/Modal.j2") %}
+
 	<button
 	  type="button"
 	  class="btn btn-light"
 	  data-bs-toggle="modal"
-	  data-bs-target="#Recipe_Instruction-new_Instruction_list-modal"
+	  data-bs-target="#Recipe_Instructions-new_Instruction_list-modal"
 	>
 		Add List
 	</button>
@@ -24,37 +26,10 @@
 	  type="button"
 	  class="btn btn-light"
 	  data-bs-toggle="modal"
-	  data-bs-target="#Recipe_Instruction-new_Instruction_section-modal"
+	  data-bs-target="#Recipe_Instructions_Modal-new_Instruction_section-modal"
 	>
 		Add Section
 	</button>
-</div>
-
-
-<h3
-  style="padding-top: 16px"
->
-	Recipe Instructions
-</h3>
-<div
-  id="recipe_instructions-div"
->
-	<div
-	  class="content"
-	>
-		<button
-			type="button"
-			onclick="add_step_list(this.parentNode, true);"
-		>
-			+ Add List
-		</button>
-		<button"
-		  type="button"
-		  onclick="add_section_dictionary(this.parentNode, true);"
-		>
-			+ Add Section
-		</button>
-	</div>
 </div>
 
 <script>

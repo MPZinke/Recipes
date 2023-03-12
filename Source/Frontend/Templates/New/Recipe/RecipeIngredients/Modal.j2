@@ -1,5 +1,5 @@
 <script>
-	Recipe.RecipeIngredient.Modal = {};  // Initialize namespace `Recipe.RecipeIngredient.Modal`
+	Recipe.RecipeIngredients.Modal = {};  // Initialize namespace `Recipe.RecipeIngredients.Modal`
 </script>
 
 
@@ -50,8 +50,8 @@
 						<input
 						  id="Recipe_RecipeIngredients-name_singular-modal-input"
 						  class="form-control"
-						  onkeyup="Recipe.RecipeIngredient.Modal.set_submit_enablement();"
-						  onchange="Recipe.RecipeIngredient.Modal.set_submit_enablement();"
+						  onkeyup="Recipe.RecipeIngredients.Modal.set_submit_enablement();"
+						  onchange="Recipe.RecipeIngredients.Modal.set_submit_enablement();"
 						  type="text"
 						  placeholder="Singular"
 						/>
@@ -62,8 +62,8 @@
 						<input
 						  id="Recipe_RecipeIngredients-name_plural-modal-input"
 						  class="form-control"
-						  onkeyup="Recipe.RecipeIngredient.Modal.set_submit_enablement();"
-						  onchange="Recipe.RecipeIngredient.Modal.set_submit_enablement();"
+						  onkeyup="Recipe.RecipeIngredients.Modal.set_submit_enablement();"
+						  onchange="Recipe.RecipeIngredients.Modal.set_submit_enablement();"
 						  type="text"
 						  placeholder="Plural"
 						/>
@@ -215,7 +215,7 @@
 					>
 						<select
 						  id="Recipe_RecipeIngredients-is_required-modal-select"
-						  onchange="Recipe.RecipeIngredient.Modal.set_submit_enablement();"
+						  onchange="Recipe.RecipeIngredients.Modal.set_submit_enablement();"
 						  type="text"
 						  class="form-control"
 						>
@@ -276,7 +276,7 @@
 				  id="Recipe_RecipeIngredients-submit-modal-button"
 				  type="button"
 				  class="btn btn-primary"
-				  onclick="Recipe.RecipeIngredient.Modal.add_RecipeIngredient_from_modal_to_new_RecipeIngredients();"
+				  onclick="Recipe.RecipeIngredients.Modal.add_RecipeIngredient_from_modal_to_new_RecipeIngredients();"
 				  disabled
 				>
 					Add Ingredient
@@ -288,11 +288,11 @@
 
 
 <script>
-	Recipe.RecipeIngredient.Modal.add_RecipeIngredient_from_modal_to_new_RecipeIngredients =
+	Recipe.RecipeIngredients.Modal.add_RecipeIngredient_from_modal_to_new_RecipeIngredients =
 	function add_RecipeIngredient_from_modal_to_new_RecipeIngredients()
 	{
 		const recipe_ingredients_div = document.getElementById("Recipe_RecipeIngredients-new_RecipeIngredients-div");
-		const recipe_ingredient_data = Recipe.RecipeIngredient.Modal.get_RecipeIngredient_data();
+		const recipe_ingredient_data = Recipe.RecipeIngredients.Modal.get_RecipeIngredient_data();
 
 		// ———— ADJUST UI ———— //
 		var xmlhttp = new XMLHttpRequest();
@@ -313,13 +313,13 @@
 
 		// Reset modal
 		$('#Recipe_RecipeIngredients-new_RecipeIngredient-modal').modal('hide');
-		Recipe.RecipeIngredient.Modal.clear_new_RecipeIngredient_modal();
+		Recipe.RecipeIngredients.Modal.clear_new_RecipeIngredient_modal();
 
-		Recipe.update_json(recipe_ingredient_data, "RecipeIngredients");
+		Recipe.NEW_RECIPE.RecipeIngredients.push(recipe_ingredient_data);
 	};
 
 
-	Recipe.RecipeIngredient.Modal.clear_new_RecipeIngredient_modal =
+	Recipe.RecipeIngredients.Modal.clear_new_RecipeIngredient_modal =
 	function clear_new_RecipeIngredient_modal()
 	{
 		document.getElementById("Recipe_RecipeIngredients-name_singular-modal-input").value = "";
@@ -338,7 +338,7 @@
 	};
 
 
-	Recipe.RecipeIngredient.Modal.set_submit_enablement =
+	Recipe.RecipeIngredients.Modal.set_submit_enablement =
 	function set_submit_enablement()
 	{
 		const submit_button = document.getElementById("Recipe_RecipeIngredients-submit-modal-button");
@@ -362,7 +362,7 @@
 	}
 
 
-	Recipe.RecipeIngredient.Modal.get_RecipeIngredient_data =
+	Recipe.RecipeIngredients.Modal.get_RecipeIngredient_data =
 	function get_RecipeIngredient_data()
 	{
 		const recipe_ingredient_data =
