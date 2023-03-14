@@ -26,8 +26,9 @@
 					<input
 					  id="Recipe_Instructions_Modal-new_Instruction_section_name-modal-input"
 					  class="form-control form-control-lg col-sm-4"
-					  onchange="Recipe.Instructions.Modal.Section.update_section_json();"
 					  placeholder="Instruction Section Name"
+					  onchange="Recipe.Instructions.Modal.Section.check_section_name(this);"
+					  onkeyup="Recipe.Instructions.Modal.Section.check_section_name(this);"
 					  type="text"
 					/>
 				</h1>
@@ -62,7 +63,6 @@
 			>
 				<button
 				  class="btn btn-light"
-				  data-bs-toggle="modal"
 				  onclick="Recipe.Instructions.Modal.Section.add_section_to_json();"
 				>
 					Add Instruction To Section
@@ -114,6 +114,13 @@
 				<button
 				  class="btn btn-primary"
 				  data-bs-target="#Recipe_Instructions_Modal-new_Instruction_section-modal"
+				  data-bs-toggle="modal"
+				>
+					Cancel
+				</button>
+				<button
+				  class="btn btn-primary"
+				  data-bs-target="#Recipe_Instructions_Modal-new_Instruction_section-modal"
 				  onclick="Recipe.Instructions.Modal.Section.add_list_item();"
 				  data-bs-toggle="modal"
 				>
@@ -129,21 +136,45 @@
 	Recipe.Instructions.Modal.Section.List = [];
 
 
-	Recipe.Instructions.Modal.Section.update_section_json = 
-	function update_section_json()
+	Recipe.Instructions.Modal.Section.check_section_name = 
+	function check_section_name(section_input)
 	{
-		const section_name = document.getElementById("Recipe_Instructions_Modal-new_Instruction_section_name-modal-input").value;
+		const section_name = section_input.value;
 
-		let Recipe_instruction_section;
 		if(Recipe.NEW_RECIPE.Instructions === undefined)
 		{
-			Recipe.NEW_RECIPE.Instructions = {section_name: []};
+			return;
+		}
+
+		if(Recipe.NEW_RECIPE.Instructions[section_name] === undefined)
+		{
+			section_input.classList.remove("is-invalid");
 		}
 		else
 		{
-			Recipe_instruction_section = Recipe.NEW_RECIPE.Instructions[section_name];
+			section_input.classList.add("is-invalid");
+		}
+	};
+
+
+
+	Recipe.Instructions.Modal.Section.add_section_to_json =
+	function add_section_to_json()
+	{
+		const section_id = "Recipe_Instructions_Modal-new_Instruction_section_name-modal-input";
+		const section_name = document.getElementById(section_id).value;
+
+		if(Recipe.NEW_RECIPE.Instructions === undefined)
+		{
+			Recipe.NEW_RECIPE.Instructions = {};
 		}
 
+		Recipe.NEW_RECIPE.Instructions[section_name] = Recipe.Instructions.Modal.Section.List;
+		console.log(Recipe.NEW_RECIPE);
+
+		Recipe.Instructions.Modal.Section.List = [];
+		section_name.value = "";
+		$('#Recipe_Instructions_Modal-new_Instruction_section-modal').modal('hide');
 	};
 
 
@@ -162,13 +193,15 @@
 	Recipe.Instructions.Modal.Section.add_list_item =
 	function add_list_item()
 	{
+		const list_ul = document.getElementById("Recipe_Instructions_Modal-new_Instruction_section_list-modal-ul");
 		const list_item_textarea = document.getElementById("Recipe_Instructions_Modal-new_list_item-modal-textarea");
 		const list_item = list_item_textarea.value;
+		list_item_textarea.innerHTML = "";
+
 		Recipe.Instructions.Modal.Section.List.push(list_item);
 
-		list_item_textarea.innerHTML = "";
 		const uuid4 = Recipe.uuid4();
-		const list_html = `
+		const list_element = html_to_element(`
 		<li
 		  id="Recipe_Instructions_Modal-list_item-${uuid4}-modal-li"
 		  class="list-group-item"
@@ -181,9 +214,8 @@
 			>
 				Remove
 			</button>
-		</li>`;
-		const list_ul = document.getElementById("Recipe_Instructions_Modal-new_Instruction_section_list-modal-ul");
-		list_ul.appendChild(html_to_element(list_html));
+		</li>`);
+		list_ul.appendChild(list_element);
 	};
 
 
