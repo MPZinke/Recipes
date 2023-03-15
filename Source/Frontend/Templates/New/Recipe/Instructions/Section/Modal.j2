@@ -1,20 +1,21 @@
 <script>
 	Recipe.Instructions.Section = {};  // Initialize namespace `Recipe.Instructions.Modal`
-	Recipe.Instructions.Section.List = {};  // Initialize namespace `Recipe.Instructions.Modal.List`
+	Recipe.Instructions.Section.INSTRUCTIONS = {};  // Initialize namespace `Recipe.Instructions.Modal.List`
 	Recipe.Instructions.Section.Modal = {};  // Initialize namespace `Recipe.Instructions.Section.Modal`
 
-	Recipe.Instructions.Section.Modal.new_Instruction_section_name_input = undefined;
-	Recipe.Instructions.Section.Modal.new_Instruction_section_list_ul = undefined;
-	Recipe.Instructions.Section.Modal.new_Instruction_section_name_input = undefined;
-	Recipe.Instructions.Section.Modal.new_Instruction_section_list_name_h1 = undefined;
-	Recipe.Instructions.Section.Modal.new_Instruction_section_list_ul = undefined;
-	Recipe.Instructions.Section.Modal.new_list_item_textarea = undefined;
+	Recipe.Instructions.Section.Modal.NEW_INSTRUCTION_SECTION_NAME_INPUT = undefined;
+	Recipe.Instructions.Section.Modal.NEW_INSTRUCTION_SECTION_LIST_UL = undefined;
+	Recipe.Instructions.Section.Modal.NEW_INSTRUCTION_SECTION_NAME_INPUT = undefined;
+	Recipe.Instructions.Section.Modal.NEW_INSTRUCTION_SECTION_LIST_NAME_H1 = undefined;
+	Recipe.Instructions.Section.Modal.NEW_INSTRUCTION_SECTION_LIST_UL = undefined;
+	Recipe.Instructions.Section.Modal.NEW_LIST_ITEM_TEXTAREA = undefined;
+	Recipe.Instructions.Section.Modal.ADD_NEW_INSTRUCTION_SECTION_BUTTON = undefined;
 </script>
+
 <div
   class="modal modal-xl fade"
   id="Recipe_Instructions_Section_Modal-new_Instruction_section-modal"
   aria-hidden="true"
-  aria-labelledby="exampleModalToggleLabel"
   tabindex="-1"
 >
 	<div
@@ -28,10 +29,9 @@
 			>
 				<h1
 				  class="modal-title fs-5"
-				  id="exampleModalToggleLabel"
 				>
 					<input
-					  id="Recipe_Instructions_Section_Modal-new_Instruction_section_name-modal-input"
+					  id="Recipe_Instructions_Section_Modal-new_Instruction_section_name-input"
 					  class="form-control form-control-lg col-sm-4"
 					  placeholder="Instruction Section Name"
 					  onchange="Recipe.Instructions.Section.Modal.check_section_name(this);"
@@ -44,6 +44,7 @@
 				  class="btn-close"
 				  data-bs-dismiss="modal"
 				  aria-label="Close"
+				  onclick="Recipe.Instructions.show_type_selection_buttons();"
 				>
 				</button>
 			</div>
@@ -51,7 +52,7 @@
 			  class="modal-body"
 			>
 				<ul
-				  id="Recipe_Instructions_Section_Modal-new_Instruction_section_list-modal-ul"
+				  id="Recipe_Instructions_Section_Modal-new_Instruction_section_list-ul"
 				  class="list-group"
 				>
 				</ul>
@@ -69,8 +70,14 @@
 			  class="modal-footer"
 			>
 				<button
+				  id="Recipe_Instructions_Section_Modal-add_new_Instruction_section_button-button"
 				  class="btn btn-primary"
-				  onclick="Recipe.Instructions.Section.Modal.add_section_to_json();"
+				  onclick="
+				    // Must be in this order
+				    let uuid4 = Recipe.uuid4();
+				    Recipe.Instructions.Section.Modal.add_section_Instruction_to_Recipe_json(uuid4);
+				    Recipe.Instructions.Section.Modal.add_section_Instruction_to_new_Instructions(uuid4);
+				  "
 				>
 					Add Instruction To Section
 				</button>
@@ -97,13 +104,13 @@
 			>
 				<h1
 				  class="modal-title fs-5"
-				  id="Recipe_Instructions_Section_Modal-new_Instruction_section_list_name-modal-h1"
+				  id="Recipe_Instructions_Section_Modal-new_Instruction_section_list_name-h1"
 				>
 				</h1>
 				<button
-				  type="button"
-				  class="btn-close"
-				  data-bs-dismiss="modal"
+				  class="btn btn-close btn-secondary"
+				  data-bs-target="#Recipe_Instructions_Section_Modal-new_Instruction_section-modal"
+				  data-bs-toggle="modal"
 				  aria-label="Close"
 				></button>
 			</div>
@@ -111,7 +118,7 @@
 			  class="modal-body"
 			>
 				<textarea
-				  id="Recipe_Instructions_Section_Modal-new_list_item-modal-textarea"
+				  id="Recipe_Instructions_Section_Modal-new_list_item-textarea"
 				  class="form-control"
 				></textarea>
 			</div>
@@ -119,16 +126,9 @@
 			  class="modal-footer"
 			>
 				<button
-				  class="btn btn-light"
-				  data-bs-target="#Recipe_Instructions_Section_Modal-new_Instruction_section-modal"
-				  data-bs-toggle="modal"
-				>
-					Cancel
-				</button>
-				<button
 				  class="btn btn-primary"
 				  data-bs-target="#Recipe_Instructions_Section_Modal-new_Instruction_section-modal"
-				  onclick="Recipe.Instructions.Section.Modal.add_list_item();"
+				  onclick="Recipe.Instructions.Section.Modal.add_Instruction_to_Instruction_section_modal();"
 				  data-bs-toggle="modal"
 				>
 					Add To Section
@@ -140,18 +140,92 @@
 
 
 <script>
-	Recipe.Instructions.Section.Modal.new_Instruction_section_name_input = 
-	  document.getElementById("Recipe_Instructions_Section_Modal-new_Instruction_section_name-modal-input");
-	Recipe.Instructions.Section.Modal.new_Instruction_section_list_ul = 
-	  document.getElementById("Recipe_Instructions_Section_Modal-new_Instruction_section_list-modal-ul");
-	Recipe.Instructions.Section.Modal.new_Instruction_section_name_input = 
-	  document.getElementById("Recipe_Instructions_Section_Modal-new_Instruction_section_name-modal-input");
-	Recipe.Instructions.Section.Modal.new_Instruction_section_list_name_h1 = 
-	  document.getElementById("Recipe_Instructions_Section_Modal-new_Instruction_section_list_name-modal-h1");
-	Recipe.Instructions.Section.Modal.new_Instruction_section_list_ul = 
-	  document.getElementById("Recipe_Instructions_Section_Modal-new_Instruction_section_list-modal-ul");
-	Recipe.Instructions.Section.Modal.new_list_item_textarea = 
-	  document.getElementById("Recipe_Instructions_Section_Modal-new_list_item-modal-textarea");
+	Recipe.Instructions.Section.Modal.NEW_INSTRUCTION_SECTION_NAME_INPUT = 
+	  document.getElementById("Recipe_Instructions_Section_Modal-new_Instruction_section_name-input");
+	Recipe.Instructions.Section.Modal.NEW_INSTRUCTION_SECTION_LIST_UL = 
+	  document.getElementById("Recipe_Instructions_Section_Modal-new_Instruction_section_list-ul");
+	Recipe.Instructions.Section.Modal.NEW_INSTRUCTION_SECTION_NAME_INPUT = 
+	  document.getElementById("Recipe_Instructions_Section_Modal-new_Instruction_section_name-input");
+	Recipe.Instructions.Section.Modal.NEW_INSTRUCTION_SECTION_LIST_NAME_H1 = 
+	  document.getElementById("Recipe_Instructions_Section_Modal-new_Instruction_section_list_name-h1");
+	Recipe.Instructions.Section.Modal.NEW_INSTRUCTION_SECTION_LIST_UL = 
+	  document.getElementById("Recipe_Instructions_Section_Modal-new_Instruction_section_list-ul");
+	Recipe.Instructions.Section.Modal.NEW_LIST_ITEM_TEXTAREA = 
+	  document.getElementById("Recipe_Instructions_Section_Modal-new_list_item-textarea");
+	Recipe.Instructions.Section.Modal.ADD_NEW_INSTRUCTION_SECTION_BUTTON = 
+	  document.getElementById("Recipe_Instructions_Section_Modal-add_new_Instruction_section_button-button");
+
+
+	Recipe.Instructions.Section.Modal.add_Instruction_to_Instruction_section_modal =
+	function add_Instruction_to_Instruction_section_modal()
+	{
+		const uuid4 = Recipe.uuid4();
+
+		const list_item = Recipe.Instructions.Section.Modal.NEW_LIST_ITEM_TEXTAREA.value;
+		Recipe.Instructions.Section.INSTRUCTIONS[uuid4] = list_item;
+
+		Recipe.Instructions.Section.Modal.NEW_LIST_ITEM_TEXTAREA.value = "";
+		const list_element = html_to_element(`
+		<li
+		  id="Recipe_Instructions_Section_Modal-list_item-${uuid4}-li"
+		  class="list-group-item d-flex justify-content-between"
+		>
+			${list_item}
+			<button
+			  type="button"
+			  class="btn btn-light ms-auto"
+			  onclick="Recipe.Instructions.Section.Modal.delete_list_item(\`${uuid4}\`)"
+			>
+				Remove
+			</button>
+		</li>`);
+		Recipe.Instructions.Section.Modal.NEW_INSTRUCTION_SECTION_LIST_UL.appendChild(list_element);
+	};
+
+
+	Recipe.Instructions.Section.Modal.add_section_Instruction_to_Recipe_json =
+	function add_section_Instruction_to_Recipe_json(uuid4)
+	{
+		const section_name = Recipe.Instructions.Section.Modal.NEW_INSTRUCTION_SECTION_NAME_INPUT.value;
+
+		if(Recipe.NEW_RECIPE.Instructions === undefined)
+		{
+			Recipe.NEW_RECIPE.Instructions = {};
+		}
+
+		Recipe.NEW_RECIPE.Instructions[uuid4] = {[section_name]: Recipe.Instructions.Section.INSTRUCTIONS};
+		Recipe.Instructions.Section.INSTRUCTIONS = {};
+	};
+
+
+	Recipe.Instructions.Section.Modal.add_section_Instruction_to_new_Instructions =
+	function add_section_Instruction_to_new_Instructions(uuid4)
+	{
+		const section_name = Recipe.Instructions.Section.Modal.NEW_INSTRUCTION_SECTION_NAME_INPUT.value;
+		const section_instructions = Object.values(Recipe.NEW_RECIPE.Instructions[uuid4][section_name]);
+		const section_data = {[uuid4]: {[section_name]: section_instructions}};
+
+		// ———— ADJUST UI ———— //
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("POST", "/new/recipe/instruction/section", false);
+		xmlhttp.setRequestHeader("Content-Type", "application/json");
+		xmlhttp.send(JSON.stringify(section_data));
+		if(xmlhttp.status == 400)
+		{
+			return alert('There was an error 400');
+		}
+		else if(xmlhttp.status != 200)
+		{
+			return alert('add_new_recipe_ingredient_html::something else other than 200 was returned');
+		}
+
+		// Add built data to page
+		Recipe.Instructions.NEW_INSTRUCTIONS_DIV.appendChild(html_to_element(xmlhttp.responseText));
+
+		Recipe.Instructions.Section.Modal.NEW_INSTRUCTION_SECTION_NAME_INPUT.value = "";
+		Recipe.Instructions.Section.Modal.NEW_INSTRUCTION_SECTION_LIST_UL.innerHTML = "";
+		$('#Recipe_Instructions_Section_Modal-new_Instruction_section-modal').modal('hide');
+	};
 
 
 	Recipe.Instructions.Section.Modal.check_section_name = 
@@ -167,82 +241,30 @@
 		if(Recipe.NEW_RECIPE.Instructions[section_name] === undefined)
 		{
 			section_input.classList.remove("is-invalid");
+			Recipe.Instructions.Section.Modal.ADD_NEW_INSTRUCTION_SECTION_BUTTON.disabled = false;
 		}
 		else
 		{
 			section_input.classList.add("is-invalid");
+			Recipe.Instructions.Section.Modal.ADD_NEW_INSTRUCTION_SECTION_BUTTON.disabled = true;
 		}
-	};
-
-
-
-	Recipe.Instructions.Section.Modal.add_section_to_page =
-	function add_section_to_page()
-	{
-		// const
-	};
-
-
-	Recipe.Instructions.Section.Modal.add_section_to_json =
-	function add_section_to_json()
-	{
-		const section_name = Recipe.Instructions.Section.Modal.new_Instruction_section_name_input.value;
-
-		if(Recipe.NEW_RECIPE.Instructions === undefined)
-		{
-			Recipe.NEW_RECIPE.Instructions = {};
-		}
-
-		Recipe.NEW_RECIPE.Instructions[section_name] = Recipe.Instructions.Section.Modal.List;
-		Recipe.Instructions.Section.List = {};
-
-		Recipe.Instructions.Section.Modal.new_Instruction_section_name_input.value = "";
-		Recipe.Instructions.Section.Modal.new_Instruction_section_list_ul.innerHTML = "";
-		$('#Recipe_Instructions_Section_Modal-new_Instruction_section-modal').modal('hide');
-	};
-
-
-	Recipe.Instructions.Section.Modal.open_list_modal =
-	function open_list_modal()
-	{
-		const section_name = Recipe.Instructions.Section.Modal.new_Instruction_section_name_input.value;
-		Recipe.Instructions.Section.Modal.new_Instruction_section_list_name_h1.innerHTML = section_name;
-	};
-
-
-	Recipe.Instructions.Section.Modal.add_list_item =
-	function add_list_item()
-	{
-		const uuid4 = Recipe.uuid4();
-
-		const list_item = Recipe.Instructions.Section.Modal.new_list_item_textarea.value;
-		Recipe.Instructions.Section.List[uuid4] = list_item;
-
-		Recipe.Instructions.Section.Modal.new_list_item_textarea.value = "";
-		const list_element = html_to_element(`
-		<li
-		  id="Recipe_Instructions_Section_Modal-list_item-${uuid4}-modal-li"
-		  class="list-group-item"
-		>
-			${list_item}
-			<button
-			  type="button"
-			  class="btn btn-light"
-			  onclick="Recipe.Instructions.Section.Modal.delete_list_item(\`${uuid4}\`)"
-			>
-				Remove
-			</button>
-		</li>`);
-		Recipe.Instructions.Section.Modal.new_Instruction_section_list_ul.appendChild(list_element);
 	};
 
 
 	Recipe.Instructions.Section.Modal.delete_list_item =
 	function delete_list_item(uuid4)
 	{
-		const Instruction_li = document.getElementById(`Recipe_Instructions_Section_Modal-list_item-${uuid4}-modal-li`);
+		const Instruction_li = document.getElementById(`Recipe_Instructions_Section_Modal-list_item-${uuid4}-li`);
 		Instruction_li.parentNode.removeChild(Instruction_li);
 
 		delete Recipe.Instructions.Section.Modal.List[uuid4];
 	}
+
+
+	Recipe.Instructions.Section.Modal.open_list_modal =
+	function open_list_modal()
+	{
+		const section_name = Recipe.Instructions.Section.Modal.NEW_INSTRUCTION_SECTION_NAME_INPUT.value;
+		Recipe.Instructions.Section.Modal.NEW_INSTRUCTION_SECTION_LIST_NAME_H1.innerHTML = section_name;
+	};
 </script>

@@ -43,13 +43,9 @@ def add_frontend_routes(server: Flask) -> None:
 	add_url(server, "/ingredient/<string:ingredient_name>", Frontend.Endpoints.Ingredients.GET_ingredient)
 
 	New = Frontend.Endpoints.New
-	add_url(server, "/new/recipe", GET=New.GET_new_recipe, POST=New.POST_new)
-	add_url(server, "/new/recipe/recipe_ingredient", POST=New.GET_new_recipe_ingredient)
-	add_url(server, "/new/recipe/instruction/section", New.GET_new_instruction_section)
-	add_url(server, "/new/recipe/instruction/section-dictionary", New.GET_new_instruction_section_dictionary)
-	add_url(server, "/new/recipe/instruction/step", New.GET_new_instruction_step)
-	add_url(server, "/new/recipe/instruction/step/<string:section>", New.GET_new_instruction_step_section)
-	add_url(server, "/new/recipe/instruction/step-list", New.GET_new_instruction_step_list)
+	add_url(server, "/new/recipe", GET=New.GET_new_recipe)
+	add_url(server, "/new/recipe/recipe_ingredient", POST=New.POST_new_recipe_ingredient)
+	add_url(server, "/new/recipe/instruction/section", POST=New.POST_new_instruction_section)
 
 
 def add_api_routes(server: Flask) -> None:

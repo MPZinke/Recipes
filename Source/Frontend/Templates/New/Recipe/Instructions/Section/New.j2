@@ -1,0 +1,28 @@
+<div
+  id="Recipe_Instructions_Section_New-new_Instruction-{{ uuid }}-div"
+  class="boxed recipe_ingredient-div"
+>
+	<div
+	  class="d-flex justify-content-between"
+	>
+		<h3>
+			{{ section }}
+		</h3>
+		<button
+		  type="button"
+		  class="btn btn-secondary ms-auto"
+		  onclick="Recipe.Instructions.delete_Instruction_from_new_Instructions(`{{ uuid }}`)"
+		>
+			Remove
+		</button>
+	</div>
+	<ul class="list-group">
+		{% for instruction in instructions %}
+			<li
+			  class="list-group-item"
+			>
+				{{ instruction }}
+			</li>
+		{% endfor %}
+	</ul>
+</div>

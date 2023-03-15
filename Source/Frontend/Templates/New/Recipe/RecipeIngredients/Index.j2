@@ -1,5 +1,6 @@
 <script>
 	Recipe.RecipeIngredients = {};  // Initialize namespace `Recipe.RecipeIngredients`
+	Recipe.RecipeIngredients.NEW_RECIPEINGREDIENTS_DIV = undefined;
 </script>
 <div>
 
@@ -26,6 +27,17 @@
 
 
 <script>
+	Recipe.RecipeIngredients.NEW_RECIPEINGREDIENTS_DIV =
+	  document.getElementById("Recipe_RecipeIngredients-new_RecipeIngredients-div");
+
+
+	Recipe.RecipeIngredients.delete_RecipeIngredient_from_new_RecipeIngredients =
+	function(uuid)
+	{
+		const new_RecipeIngredient_div = document.getElementById(`Recipe_RecipeIngredients_New-new_RecipeIngredient-${uuid}-div`)
+		const recipe_ingredients_div = Recipe.RecipeIngredients.NEW_RECIPEINGREDIENTS_DIV;
+		recipe_ingredients_div.removeChild(new_RecipeIngredient_div);
+	};
 
 	// ——————————————————————————————————————————————————— SUBMIT ——————————————————————————————————————————————————— //
 
@@ -63,14 +75,6 @@
 
 
 	// —————————————————————————————————————————————————— DISPLAY  —————————————————————————————————————————————————— //
-
-	Recipe.RecipeIngredients.delete_RecipeIngredient_from_new_RecipeIngredients =
-	function(uuid)
-	{
-		const new_RecipeIngredient_div = document.getElementById(`Recipe_RecipeIngredients_New-new_RecipeIngredient-${uuid}-div`)
-		const recipe_ingredients_div = new_RecipeIngredient_div.parentNode;
-		recipe_ingredients_div.removeChild(new_RecipeIngredient_div);
-	};
 
 
 	// ————————————————————————————————————————————————— DATA  LIST ————————————————————————————————————————————————— //

@@ -26,13 +26,19 @@ def GET_new_recipe():
 	return render_template("New/Recipe/Index.j2", title="New Recipe", ingredients=ingredients)
 
 
-def POST_new():
-	return "Posty McPostface"
-
-
-def GET_new_recipe_ingredient():
+def POST_new_recipe_ingredient():
+	# TODO: ensure RecipeIngredient format
 	ingredient = RecipeIngredient(id=0, Ingredients_id=0, **request.json)
 	return render_template("New/Recipe/RecipeIngredients/New.j2", uuid=uuid.uuid4(), ingredient=ingredient)
+
+
+def POST_new_instruction_section():
+	print(request.json)
+	uuid = next(iter(request.json.keys()))
+	section = next(iter(request.json[uuid].keys()))
+	instructions = request.json[uuid][section]
+	return render_template("New/Recipe/Instructions/Section/New.j2", uuid=uuid, section=section,
+	  instructions=instructions)
 
 
 def GET_new_instruction_section():

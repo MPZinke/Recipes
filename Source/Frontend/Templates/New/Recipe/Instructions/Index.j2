@@ -1,5 +1,8 @@
 <script>
 	Recipe.Instructions = {};  // Initialize namespace `Recipe.Instructions`
+	Recipe.Instructions.NEW_INSTRUCTIONS_DIV = undefined;
+	Recipe.Instructions.LIST_TYPE_SELECT_BUTTON = undefined;
+	Recipe.Instructions.SECTION_TYPE_SELECT_BUTTON = undefined;
 </script>
 <div>
 
@@ -8,32 +11,80 @@
 	</h3>
 
 	<div
-	  id="Recipe_Instruction-new_Instructions-div"
+	  id="Recipe_Instructions-new_Instructions-div"
 	>
 	</div>
 
 	{% include("New/Recipe/Instructions/Section/Modal.j2") %}
 
 	<button
+	  id="Recipe_Instructions-list_type_select_button-button"
 	  type="button"
 	  class="btn btn-light"
 	  data-bs-toggle="modal"
 	  data-bs-target="#Recipe_Instructions-new_Instruction_list-modal"
+	  onclick="Recipe.Instructions.hide_type_select_buttons(this);"
 	>
 		Add List
 	</button>
 	<button
+	  id="Recipe_Instructions-section_type_select_button-button"
 	  type="button"
 	  class="btn btn-light"
 	  data-bs-toggle="modal"
 	  data-bs-target="#Recipe_Instructions_Section_Modal-new_Instruction_section-modal"
+	  onclick="Recipe.Instructions.hide_type_select_buttons(this);"
 	>
 		Add Section
 	</button>
 </div>
 
 <script>
-	// —————————————————————————————————————————————— INSTRUCTION  —————————————————————————————————————————————— //
+	Recipe.Instructions.NEW_INSTRUCTIONS_DIV = document.getElementById("Recipe_Instructions-new_Instructions-div");
+	Recipe.Instructions.LIST_TYPE_SELECT_BUTTON =
+	  document.getElementById("Recipe_Instructions-list_type_select_button-button");
+	Recipe.Instructions.SECTION_TYPE_SELECT_BUTTON =
+	  document.getElementById("Recipe_Instructions-section_type_select_button-button");
+
+
+	Recipe.Instructions.delete_Instruction_from_new_Instructions =
+	function delete_Instruction_from_new_Instructions(uuid4)
+	{
+		const instruction =
+		  document.getElementById(`Recipe_Instructions_List_New-new_Instruction-${uuid4}-div`) ||
+		  document.getElementById(`Recipe_Instructions_Section_New-new_Instruction-${uuid4}-div`);
+		Recipe.Instructions.NEW_INSTRUCTIONS_DIV.removeChild(instruction);
+
+		Recipe.Instructions.show_type_selection_buttons();
+
+		delete Recipe.Instructions[uuid4];
+	};
+
+
+	Recipe.Instructions.hide_type_select_buttons =
+	function hide_type_select_buttons(selected_type_button)
+	{
+		if(selected_type_button.id == Recipe.Instructions.LIST_TYPE_SELECT_BUTTON.id)
+		{
+			Recipe.Instructions.SECTION_TYPE_SELECT_BUTTON.style.display = "none";
+		}
+		else
+		{
+			Recipe.Instructions.LIST_TYPE_SELECT_BUTTON.style.display = "none";
+		}
+	}
+
+
+	Recipe.Instructions.show_type_selection_buttons =
+	function show_type_selection_buttons()
+	{
+		if(Recipe.Instructions.NEW_INSTRUCTIONS_DIV.children.length == 0)
+		{
+			Recipe.Instructions.LIST_TYPE_SELECT_BUTTON.style.display = "";
+			Recipe.Instructions.SECTION_TYPE_SELECT_BUTTON.style.display = "";
+		}
+	}
+
 
 	function add_section_dictionary(button, replace=false)
 	{

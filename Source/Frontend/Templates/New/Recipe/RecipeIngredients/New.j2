@@ -3,6 +3,18 @@
   class="boxed recipe_ingredient-div"
 >
 	<div
+	  class="d-flex justify-content-between"
+	>
+		<button
+		  type="button"
+		  class="btn btn-secondary ms-auto"
+		  onclick="Recipe.RecipeIngredient.delete_RecipeIngredient_from_new_RecipeIngredients(`{{ uuid }}`)"
+		>
+			Remove
+		</button>
+	</div>
+
+	<div
 	  class="row"
 	>
 		<label
@@ -213,12 +225,4 @@
 			>{{ ingredient.notes() }}</textarea>
 		</div>
 	</div>
-
-	<button
-	  type="button"
-	  class="btn btn-light"
-	  onclick="Recipe.RecipeIngredient.delete_RecipeIngredient_from_new_RecipeIngredients(`{{ uuid }}`)"
-	>
-		Remove
-	</button>
 </div>
