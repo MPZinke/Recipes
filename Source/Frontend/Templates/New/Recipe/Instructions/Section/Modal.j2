@@ -1,0 +1,248 @@
+<script>
+	Recipe.Instructions.Section = {};  // Initialize namespace `Recipe.Instructions.Modal`
+	Recipe.Instructions.Section.List = {};  // Initialize namespace `Recipe.Instructions.Modal.List`
+	Recipe.Instructions.Section.Modal = {};  // Initialize namespace `Recipe.Instructions.Section.Modal`
+
+	Recipe.Instructions.Section.Modal.new_Instruction_section_name_input = undefined;
+	Recipe.Instructions.Section.Modal.new_Instruction_section_list_ul = undefined;
+	Recipe.Instructions.Section.Modal.new_Instruction_section_name_input = undefined;
+	Recipe.Instructions.Section.Modal.new_Instruction_section_list_name_h1 = undefined;
+	Recipe.Instructions.Section.Modal.new_Instruction_section_list_ul = undefined;
+	Recipe.Instructions.Section.Modal.new_list_item_textarea = undefined;
+</script>
+<div
+  class="modal modal-xl fade"
+  id="Recipe_Instructions_Section_Modal-new_Instruction_section-modal"
+  aria-hidden="true"
+  aria-labelledby="exampleModalToggleLabel"
+  tabindex="-1"
+>
+	<div
+	  class="modal-dialog modal-dialog-centered"
+	>
+		<div
+		  class="modal-content"
+		>
+			<div
+			  class="modal-header"
+			>
+				<h1
+				  class="modal-title fs-5"
+				  id="exampleModalToggleLabel"
+				>
+					<input
+					  id="Recipe_Instructions_Section_Modal-new_Instruction_section_name-modal-input"
+					  class="form-control form-control-lg col-sm-4"
+					  placeholder="Instruction Section Name"
+					  onchange="Recipe.Instructions.Section.Modal.check_section_name(this);"
+					  onkeyup="Recipe.Instructions.Section.Modal.check_section_name(this);"
+					  type="text"
+					/>
+				</h1>
+				<button
+				  type="button"
+				  class="btn-close"
+				  data-bs-dismiss="modal"
+				  aria-label="Close"
+				>
+				</button>
+			</div>
+			<div
+			  class="modal-body"
+			>
+				<ul
+				  id="Recipe_Instructions_Section_Modal-new_Instruction_section_list-modal-ul"
+				  class="list-group"
+				>
+				</ul>
+
+				<button
+				  class="btn btn-light"
+				  data-bs-target="#Recipe_Instructions_Section_Modal-new_Instruction_section_list_item-modal"
+				  onclick="Recipe.Instructions.Section.Modal.open_list_modal();"
+				  data-bs-toggle="modal"
+				>
+					Add an Instruction
+				</button>
+			</div>
+			<div
+			  class="modal-footer"
+			>
+				<button
+				  class="btn btn-primary"
+				  onclick="Recipe.Instructions.Section.Modal.add_section_to_json();"
+				>
+					Add Instruction To Section
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div
+  class="modal modal-xl fade"
+  id="Recipe_Instructions_Section_Modal-new_Instruction_section_list_item-modal"
+  aria-hidden="true"
+  aria-labelledby="Recipe_Instructions_Section_Modal-new_Instruction_section_list_name-h1"
+  tabindex="-1"
+>
+	<div
+	  class="modal-dialog modal-dialog-centered"
+	>
+		<div
+		  class="modal-content"
+		>
+			<div
+			  class="modal-header"
+			>
+				<h1
+				  class="modal-title fs-5"
+				  id="Recipe_Instructions_Section_Modal-new_Instruction_section_list_name-modal-h1"
+				>
+				</h1>
+				<button
+				  type="button"
+				  class="btn-close"
+				  data-bs-dismiss="modal"
+				  aria-label="Close"
+				></button>
+			</div>
+			<div
+			  class="modal-body"
+			>
+				<textarea
+				  id="Recipe_Instructions_Section_Modal-new_list_item-modal-textarea"
+				  class="form-control"
+				></textarea>
+			</div>
+			<div
+			  class="modal-footer"
+			>
+				<button
+				  class="btn btn-light"
+				  data-bs-target="#Recipe_Instructions_Section_Modal-new_Instruction_section-modal"
+				  data-bs-toggle="modal"
+				>
+					Cancel
+				</button>
+				<button
+				  class="btn btn-primary"
+				  data-bs-target="#Recipe_Instructions_Section_Modal-new_Instruction_section-modal"
+				  onclick="Recipe.Instructions.Section.Modal.add_list_item();"
+				  data-bs-toggle="modal"
+				>
+					Add To Section
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script>
+	Recipe.Instructions.Section.Modal.new_Instruction_section_name_input = 
+	  document.getElementById("Recipe_Instructions_Section_Modal-new_Instruction_section_name-modal-input");
+	Recipe.Instructions.Section.Modal.new_Instruction_section_list_ul = 
+	  document.getElementById("Recipe_Instructions_Section_Modal-new_Instruction_section_list-modal-ul");
+	Recipe.Instructions.Section.Modal.new_Instruction_section_name_input = 
+	  document.getElementById("Recipe_Instructions_Section_Modal-new_Instruction_section_name-modal-input");
+	Recipe.Instructions.Section.Modal.new_Instruction_section_list_name_h1 = 
+	  document.getElementById("Recipe_Instructions_Section_Modal-new_Instruction_section_list_name-modal-h1");
+	Recipe.Instructions.Section.Modal.new_Instruction_section_list_ul = 
+	  document.getElementById("Recipe_Instructions_Section_Modal-new_Instruction_section_list-modal-ul");
+	Recipe.Instructions.Section.Modal.new_list_item_textarea = 
+	  document.getElementById("Recipe_Instructions_Section_Modal-new_list_item-modal-textarea");
+
+
+	Recipe.Instructions.Section.Modal.check_section_name = 
+	function check_section_name(section_input)
+	{
+		const section_name = section_input.value;
+
+		if(Recipe.NEW_RECIPE.Instructions === undefined)
+		{
+			return;
+		}
+
+		if(Recipe.NEW_RECIPE.Instructions[section_name] === undefined)
+		{
+			section_input.classList.remove("is-invalid");
+		}
+		else
+		{
+			section_input.classList.add("is-invalid");
+		}
+	};
+
+
+
+	Recipe.Instructions.Section.Modal.add_section_to_page =
+	function add_section_to_page()
+	{
+		// const
+	};
+
+
+	Recipe.Instructions.Section.Modal.add_section_to_json =
+	function add_section_to_json()
+	{
+		const section_name = Recipe.Instructions.Section.Modal.new_Instruction_section_name_input.value;
+
+		if(Recipe.NEW_RECIPE.Instructions === undefined)
+		{
+			Recipe.NEW_RECIPE.Instructions = {};
+		}
+
+		Recipe.NEW_RECIPE.Instructions[section_name] = Recipe.Instructions.Section.Modal.List;
+		Recipe.Instructions.Section.List = {};
+
+		Recipe.Instructions.Section.Modal.new_Instruction_section_name_input.value = "";
+		Recipe.Instructions.Section.Modal.new_Instruction_section_list_ul.innerHTML = "";
+		$('#Recipe_Instructions_Section_Modal-new_Instruction_section-modal').modal('hide');
+	};
+
+
+	Recipe.Instructions.Section.Modal.open_list_modal =
+	function open_list_modal()
+	{
+		const section_name = Recipe.Instructions.Section.Modal.new_Instruction_section_name_input.value;
+		Recipe.Instructions.Section.Modal.new_Instruction_section_list_name_h1.innerHTML = section_name;
+	};
+
+
+	Recipe.Instructions.Section.Modal.add_list_item =
+	function add_list_item()
+	{
+		const uuid4 = Recipe.uuid4();
+
+		const list_item = Recipe.Instructions.Section.Modal.new_list_item_textarea.value;
+		Recipe.Instructions.Section.List[uuid4] = list_item;
+
+		Recipe.Instructions.Section.Modal.new_list_item_textarea.value = "";
+		const list_element = html_to_element(`
+		<li
+		  id="Recipe_Instructions_Section_Modal-list_item-${uuid4}-modal-li"
+		  class="list-group-item"
+		>
+			${list_item}
+			<button
+			  type="button"
+			  class="btn btn-light"
+			  onclick="Recipe.Instructions.Section.Modal.delete_list_item(\`${uuid4}\`)"
+			>
+				Remove
+			</button>
+		</li>`);
+		Recipe.Instructions.Section.Modal.new_Instruction_section_list_ul.appendChild(list_element);
+	};
+
+
+	Recipe.Instructions.Section.Modal.delete_list_item =
+	function delete_list_item(uuid4)
+	{
+		const Instruction_li = document.getElementById(`Recipe_Instructions_Section_Modal-list_item-${uuid4}-modal-li`);
+		Instruction_li.parentNode.removeChild(Instruction_li);
+
+		delete Recipe.Instructions.Section.Modal.List[uuid4];
+	}
+</script>

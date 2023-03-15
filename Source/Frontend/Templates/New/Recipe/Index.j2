@@ -39,29 +39,6 @@
 	Recipe.NEW_RECIPE = {RecipeIngredients: []};
 
 
-	Recipe.update_json =
-	function update_json(value, ...keys)
-	{
-		let current_value = NEW_RECIPE;
-		for(let x = 0; x < keys.length-1; x++)
-		{
-			current_value = current_value[keys];
-		}
-
-		if(current_value[keys[keys.length-1]] !== undefined && Array.isArray(current_value[keys[keys.length-1]]))
-		{
-			current_value[keys[keys.length-1]].push(value);
-		}
-		else
-		{
-			current_value[keys[keys.length-1]] = value;
-		}
-
-		console.log(NEW_RECIPE);  // TESTING
-		Recipe.NEW_RECIPE_JSON_DIV.value = JSON.stringify(NEW_RECIPE);
-	};
-
-
 	Recipe.uuid4 =
 	function uuid4()
 	{
