@@ -17,3 +17,30 @@
 >
 	Add Section
 </button>
+
+<script>
+	Recipe.Instructions.Section.delete_Instruction_from_section =
+	function delete_Instruction_from_section(section_uuid4, instruction_uuid4)
+	{
+		const Instruction_li_id = `Recipe_Instructions_Section-section_list_item-${instruction_uuid4}-li`;
+		const Instruction_li = document.getElementById(Instruction_li_id);
+		const section_ul_id = `Recipe_Instructions_Section_New-new_section_list-${section_uuid4}-ul`;
+		const section_ul = document.getElementById(section_ul_id);
+
+		section_ul.removeChild(Instruction_li);
+
+		delete Recipe.NEW_RECIPE.Instructions[section_uuid4].instructions[instruction_uuid4];
+	};
+
+
+	Recipe.Instructions.Section.delete_section_from_new_Instructions =
+	function delete_section_from_new_Instructions(uuid4)
+	{
+		const instruction_div = document.getElementById(`Recipe_Instructions_Section_New-new_section-${uuid4}-div`);
+		Recipe.Instructions.NEW_INSTRUCTIONS_DIV.removeChild(instruction_div);
+
+		Recipe.Instructions.show_type_selection_buttons();
+
+		delete Recipe.Instructions[uuid4];
+	};
+</script>

@@ -11,7 +11,7 @@
 		<button
 		  type="button"
 		  class="btn btn-secondary ms-auto"
-		  onclick="Recipe.Instructions.delete_section_from_new_Instructions(`{{ section_uuid }}`);"
+		  onclick="Recipe.Instructions.Section.delete_section_from_new_Instructions(`{{ section_uuid }}`);"
 		>
 			Remove
 		</button>
@@ -29,7 +29,7 @@
 				<button
 				  type="button"
 				  class="btn btn-secondary ms-auto"
-				  onclick="Recipe.Instructions.delete_Instruction_from_section(`{{ section_uuid }}`, `{{ instruction_uuid }}`);"
+				  onclick="Recipe.Instructions.Section.delete_Instruction_from_section(`{{ section_uuid }}`, `{{ instruction_uuid }}`);"
 				>
 					Remove
 				</button>

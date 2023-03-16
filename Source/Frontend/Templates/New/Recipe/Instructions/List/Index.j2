@@ -40,4 +40,21 @@
 			Recipe.Instructions.NEW_INSTRUCTION_LIST_UL = document.getElementById("Recipe_Instructions_List-list-ul");
 		}
 	};
+
+
+	Recipe.Instructions.List.delete_Instruction_from_new_Instructions =
+	function delete_Instruction_from_new_Instructions(uuid4)
+	{
+		const Instruction_li = document.getElementById(`Recipe_Instructions_List_New-new_Instruction-${uuid4}-li`);
+		const Instruction_ul = Instruction_li.parentNode;
+		Instruction_ul.removeChild(Instruction_li);
+
+		if(Recipe.Instructions.NEW_INSTRUCTION_LIST_UL.children.length == 0)
+		{
+			Recipe.Instructions.NEW_INSTRUCTIONS_DIV.removeChild(Recipe.Instructions.NEW_INSTRUCTION_LIST_UL);
+			Recipe.Instructions.show_type_selection_buttons();
+		}
+
+		delete Recipe.NEW_RECIPE.Instructions[uuid4];
+	};
 </script>
