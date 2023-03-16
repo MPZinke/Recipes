@@ -15,28 +15,9 @@
 	>
 	</div>
 
-	{% include("New/Recipe/Instructions/Section/Modal.j2") %}
+	{% include("New/Recipe/Instructions/List/Index.j2") %}
+	{% include("New/Recipe/Instructions/Section/Index.j2") %}
 
-	<button
-	  id="Recipe_Instructions-list_type_select_button-button"
-	  type="button"
-	  class="btn btn-light"
-	  data-bs-toggle="modal"
-	  data-bs-target="#Recipe_Instructions-new_Instruction_list-modal"
-	  onclick="Recipe.Instructions.hide_type_select_buttons(this);"
-	>
-		Add List
-	</button>
-	<button
-	  id="Recipe_Instructions-section_type_select_button-button"
-	  type="button"
-	  class="btn btn-light"
-	  data-bs-toggle="modal"
-	  data-bs-target="#Recipe_Instructions_Section_Modal-new_Instruction_section-modal"
-	  onclick="Recipe.Instructions.hide_type_select_buttons(this);"
-	>
-		Add Section
-	</button>
 </div>
 
 <script>
@@ -47,18 +28,46 @@
 	  document.getElementById("Recipe_Instructions-section_type_select_button-button");
 
 
-	Recipe.Instructions.delete_Instruction_from_new_Instructions =
-	function delete_Instruction_from_new_Instructions(uuid4)
+	Recipe.Instructions.delete_section_from_new_Instructions =
+	function delete_section_from_new_Instructions(uuid4)
 	{
-		const instruction =
-		  document.getElementById(`Recipe_Instructions_List_New-new_Instruction-${uuid4}-div`) ||
-		  document.getElementById(`Recipe_Instructions_Section_New-new_Instruction-${uuid4}-div`);
-		Recipe.Instructions.NEW_INSTRUCTIONS_DIV.removeChild(instruction);
+		const instruction_div = document.getElementById(`Recipe_Instructions_Section_New-new_section-${uuid4}-div`);
+		Recipe.Instructions.NEW_INSTRUCTIONS_DIV.removeChild(instruction_div);
 
 		Recipe.Instructions.show_type_selection_buttons();
 
 		delete Recipe.Instructions[uuid4];
 	};
+
+
+	Recipe.Instructions.delete_Instruction_from_new_Instructions =
+	function delete_Instruction_from_new_Instructions(uuid4)
+	{
+		const Instruction_li = document.getElementById(`Recipe_Instructions_List_New-new_Instruction-${uuid4}-li`);
+		const Instruction_ul = Instruction_li.parentNode;
+		Instruction_ul.removeChild(Instruction_li);
+		if(Recipe.Instructions.NEW_INSTRUCTION_LIST_UL.children.length == 0)
+		{
+			Recipe.Instructions.NEW_INSTRUCTIONS_DIV.removeChild(Recipe.Instructions.NEW_INSTRUCTION_LIST_UL);
+			Recipe.Instructions.show_type_selection_buttons();
+		}
+
+		delete Recipe.NEW_RECIPE.Instructions[uuid4];
+	};
+
+
+	Recipe.Instructions.delete_Instruction_from_section =
+	function delete_Instruction_from_section(section_uuid4, instruction_uuid4)
+	{
+		const Instruction_li_id = `Recipe_Instructions_Section-section_list_item-${instruction_uuid4}-li`;
+		const Instruction_li = document.getElementById(Instruction_li_id);
+		const section_ul_id = `Recipe_Instructions_Section_New-new_section_list-${section_uuid4}-ul`;
+		const section_ul = document.getElementById(section_ul_id);
+
+		section_ul.removeChild(Instruction_li);
+
+		delete Recipe.NEW_RECIPE.Instructions[section_uuid4].instructions[instruction_uuid4];
+	}
 
 
 	Recipe.Instructions.hide_type_select_buttons =
@@ -83,106 +92,5 @@
 			Recipe.Instructions.LIST_TYPE_SELECT_BUTTON.style.display = "";
 			Recipe.Instructions.SECTION_TYPE_SELECT_BUTTON.style.display = "";
 		}
-	}
-
-
-	function add_section_dictionary(button, replace=false)
-	{
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.open("GET", `/new/instruction/section-dictionary`, false);
-		xmlhttp.send();
-		if(xmlhttp.status == 400)
-		{
-			return alert("add_section_dictionary::There was an error 400");
-		}
-		else if(xmlhttp.status != 200)
-		{
-			return alert("add_section_dictionary::something else other than 200 was returned");
-		}
-
-		if(replace)
-		{
-			const parent = button.parentNode.querySelector(".content");
-			parent.replaceChildren();
-		}
-
-		const fragment = document.createRange().createContextualFragment(xmlhttp.responseText);
-		button.parentNode.querySelector(".content").appendChild(fragment);
-	}
-
-
-	function add_section(button, replace=false)
-	{
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.open("GET", `/new/instruction/section`, false);
-		xmlhttp.send();
-		if(xmlhttp.status == 400)
-		{
-			return alert("add_section::There was an error 400");
-		}
-		else if(xmlhttp.status != 200)
-		{
-			return alert("add_section::something else other than 200 was returned");
-		}
-
-		if(replace)
-		{
-			const parent = button.parentNode.querySelector(".content");
-			parent.replaceChildren();
-		}
-
-		const fragment = document.createRange().createContextualFragment(xmlhttp.responseText);
-		button.parentNode.querySelector(".content").appendChild(fragment);
-	}
-
-
-	function add_step_list(button, replace=false)
-	{
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.open("GET", `/new/instruction/step-list`, false);
-		xmlhttp.send();
-		if(xmlhttp.status == 400)
-		{
-			return alert("add_step_list::There was an error 400");
-		}
-		else if(xmlhttp.status != 200)
-		{
-			return alert("add_step_list::something else other than 200 was returned");
-		}
-
-		if(replace)
-		{
-			const parent = button.parentNode.querySelector(".content");
-			parent.replaceChildren();
-
-		}
-
-		const fragment = document.createRange().createContextualFragment(xmlhttp.responseText);
-		button.parentNode.querySelector(".content").appendChild(fragment);
-	}
-
-
-	function add_step(button, replace=false)
-	{
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.open("GET", `/new/instruction/step`, false);
-		xmlhttp.send();
-		if(xmlhttp.status == 400)
-		{
-			return alert("add_step::There was an error 400");
-		}
-		else if(xmlhttp.status != 200)
-		{
-			return alert("add_step::something else other than 200 was returned");
-		}
-
-		if(replace)
-		{
-			const parent = button.parentNode.querySelector(".content");
-			parent.replaceChildren();
-		}
-
-		const fragment = document.createRange().createContextualFragment(xmlhttp.responseText);
-		button.parentNode.querySelector(".content").appendChild(fragment);
-	}
+	};
 </script>

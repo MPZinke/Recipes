@@ -1,0 +1,43 @@
+<script>
+	Recipe.Instructions.List = {};  // Initialize namespace `Recipe.Instructions.Modal`
+</script>
+
+
+{% include("New/Recipe/Instructions/List/Modal.j2") %}
+
+
+<button
+  id="Recipe_Instructions-list_type_select_button-button"
+  type="button"
+  class="btn btn-light"
+  data-bs-toggle="modal"
+  data-bs-target="#Recipe_Instructions_List_Modal-new_Instruction_list_item-modal"
+  onclick="
+    Recipe.Instructions.hide_type_select_buttons(this);
+    Recipe.Instructions.List.add_ul_to_new_instruction_div();"
+>
+	Add List
+</button>
+
+
+<script>
+	Recipe.Instructions.NEW_INSTRUCTION_LIST_UL = document.getElementById("Recipe_Instructions_List-list-ul");
+
+
+	Recipe.Instructions.List.add_ul_to_new_instruction_div =
+	function add_ul_to_new_instruction_div()
+	{
+		if(Recipe.Instructions.NEW_INSTRUCTIONS_DIV.children.length == 0)
+		{
+			const ul_html = `
+			<ul
+			  id="Recipe_Instructions_List-list-ul"
+			  class="list-group"
+			>
+			</ul>
+			`;
+			Recipe.Instructions.NEW_INSTRUCTIONS_DIV.appendChild(html_to_element(ul_html));
+			Recipe.Instructions.NEW_INSTRUCTION_LIST_UL = document.getElementById("Recipe_Instructions_List-list-ul");
+		}
+	};
+</script>

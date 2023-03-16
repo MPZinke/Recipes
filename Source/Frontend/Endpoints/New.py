@@ -33,12 +33,19 @@ def POST_new_recipe_ingredient():
 
 
 def POST_new_instruction_section():
+	# request.json = {"<uuid>": {"name": "<section name>", "instructions": {"<uuid>": "<instruction>", ...}}}
+	print(request.json)
+	section_uuid = next(iter(request.json.keys()))
+	section = request.json[section_uuid]
+	return render_template("New/Recipe/Instructions/Section/New.j2", section=section)
+
+
+def POST_new_instruction():
+	# request.json = {"<uuid>": {"name": " name>", "instructions": {"<uuid>": "<instruction>", ...}}}
 	print(request.json)
 	uuid = next(iter(request.json.keys()))
-	section = next(iter(request.json[uuid].keys()))
-	instructions = request.json[uuid][section]
-	return render_template("New/Recipe/Instructions/Section/New.j2", uuid=uuid, section=section,
-	  instructions=instructions)
+	instruction = request.json[uuid]
+	return render_template("New/Recipe/Instructions/List/New.j2", uuid=uuid, instruction=instruction)
 
 
 def GET_new_instruction_section():

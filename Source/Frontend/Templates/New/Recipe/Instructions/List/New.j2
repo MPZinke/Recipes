@@ -1,0 +1,13 @@
+<li
+  id="Recipe_Instructions_List_New-new_Instruction-{{ uuid }}-li"
+  class="list-group-item d-flex justify-content-between"
+>
+	{{ instruction }}
+	<button
+	  type="button"
+	  class="btn btn-secondary ms-auto"
+	  onclick="Recipe.Instructions.delete_Instruction_from_new_Instructions(`{{ uuid }}`);"
+	>
+		Remove
+	</button>
+</li>

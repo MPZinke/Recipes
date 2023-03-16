@@ -276,6 +276,7 @@
 				  id="Recipe_RecipeIngredients-submit-modal-button"
 				  type="button"
 				  class="btn btn-primary"
+				  data-bs-dismiss="modal"
 				  onclick="Recipe.RecipeIngredients.Modal.add_RecipeIngredient_from_modal_to_new_RecipeIngredients();"
 				  disabled
 				>
@@ -312,7 +313,6 @@
 		recipe_ingredients_div.appendChild(html_to_element(xmlhttp.responseText));
 
 		// Reset modal
-		$('#Recipe_RecipeIngredients-new_RecipeIngredient-modal').modal('hide');
 		Recipe.RecipeIngredients.Modal.clear_new_RecipeIngredient_modal();
 
 		Recipe.NEW_RECIPE.RecipeIngredients.push(recipe_ingredient_data);

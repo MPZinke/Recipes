@@ -1,0 +1,19 @@
+<script>
+	Recipe.Instructions.Section = {};  // Initialize namespace `Recipe.Instructions.Modal`
+	Recipe.Instructions.Section.INSTRUCTIONS = {};  // Initialize namespace `Recipe.Instructions.Modal.List`
+</script>
+
+
+{% include("New/Recipe/Instructions/Section/Modal.j2") %}
+
+
+<button
+  id="Recipe_Instructions-section_type_select_button-button"
+  type="button"
+  class="btn btn-light"
+  data-bs-toggle="modal"
+  data-bs-target="#Recipe_Instructions_Section_Modal-new_Instruction_section-modal"
+  onclick="Recipe.Instructions.hide_type_select_buttons(this);"
+>
+	Add Section
+</button>
