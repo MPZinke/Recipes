@@ -19,7 +19,7 @@ from decimal import Decimal
 from fractions import Fraction
 import json
 from math import prod
-from typing import TypeVar
+from typing import Dict, TypeVar
 
 
 from Backend.Classes import RecipeIngredient
@@ -30,7 +30,7 @@ Recipe = TypeVar("Recipe");
 
 
 class Recipe(object):
-	def __init__(self, *, id: int, name: str, instructions: dict|list, notes: str, rating: int,
+	def __init__(self, *, id: int, name: str, instructions: Dict[str, list[str]]|list, notes: str, rating: int,
 	  servings: int, prep_time: timedelta, cook_time: timedelta, total_time: timedelta, url: str,
 	  history: list[datetime], ingredients: list[RecipeIngredient]):
 		self._id: int = id
@@ -77,16 +77,23 @@ class Recipe(object):
 	@staticmethod
 	def validate(recipe: dict) -> None:
 		types = {
-			"name": str, "instructions": dict|list, "notes": str, "rating": int, "servings": int,
-			"prep_time": int|timedelta, "cook_time": int|timedelta, "total_time": int|timedelta, "url": str
+			"id": int, "name": str, "notes": str, "rating": int, "servings": int, "history": list[datetime], "url": str,
+			"prep_time": int|timedelta, "cook_time": int|timedelta, "total_time": int|timedelta,
+			"ingredients": list[dict]|list[RecipeIngredient], "instructions": Dict[str, list[str]]|list
 		}
 
 		if((missing_keys := [key for key in types if(key not in recipe)])):
 			raise KeyError(f"""Key(s) '{"', '".join(missing_keys)}' is missing from recipe definition""")
 
+		if((unknown_keys := [key for key in recipe if(key not in types)])):
+			raise KeyError(f"""Unknown key(s) '{"', '".join(unknown_keys)}'""")
+
 		for key, type in types.items():
 			if(not isinstance(recipe[key], type)):
 				raise ValueError(f"""Key '{key}' must be of type '{", ".join(type)}'""")
+
+		for recipe_ingredient in recipe["ingredients"]:
+			RecipeIngredient.validate(recipe_ingredient)
 
 
 	def __iter__(self) -> dict:

@@ -55,6 +55,27 @@ class RecipeIngredient(Ingredient):
 		return [RecipeIngredient(**ingredient) for ingredient in ingredient_data]
 
 
+	@staticmethod
+	def validate(recipe_ingredient: dict) -> None:
+		types = {
+			"id": int, "group": str, "amount": float|Decimal, "units": list[str], "quality": str, "is_required": bool,
+			"notes": str
+		}
+
+		if((missing_keys := [key for key in types if(key not in recipe)])):
+			raise KeyError(f"""Key(s) '{"', '".join(missing_keys)}' is missing from recipe ingredient definition""")
+
+		if((unknown_keys := [key for key in recipe if(key not in types)])):
+			raise KeyError(f"""Unknown key(s) '{"', '".join(unknown_keys)}'""")
+
+		for key, type in types.items():
+			if(not isinstance(recipe[key], type)):
+				raise ValueError(f"""Key '{key}' must be of type '{", ".join(type)}'""")
+
+		Ingredient.validate({"id": recipe_ingredient["Ingredients_id"], "brand": recipe_ingredient["brand"],
+		  "names": recipe_ingredient["names"], "description": recipe_ingredient["description"]})
+
+
 	def __iter__(self) -> dict:
 		yield from {
 			"id": self._id,

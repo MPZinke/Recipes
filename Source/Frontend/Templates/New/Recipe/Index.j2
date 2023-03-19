@@ -15,10 +15,6 @@
 	<script>
 		var Recipe = {};  // Initialize namespace `Recipe`
 		Recipe.NEW_RECIPE = {
-			notes: "",
-			prep_time: 0,
-			cook_time: 0,
-			total_time: 0,
 			Instructions: {},
 			RecipeIngredients: {}
 		};
@@ -53,8 +49,6 @@
 	</button>
 
 <script>
-
-
 	Recipe.uuid4 =
 	function uuid4()
 	{
@@ -72,25 +66,33 @@
 	Recipe.format =
 	function format()
 	{
-		var new_recipe_copy = JSON.parse(JSON.stringify(Recipe.NEW_RECIPE));
-		new_recipe_copy.Instructions = Object.values(new_recipe_copy.Instructions);
+		let new_recipe = {
+			name: Recipe.NEW_RECIPE.name,
+			notes: Recipe.NEW_RECIPE.notes,
+			rating: Recipe.NEW_RECIPE.rating,
+			servings: Recipe.NEW_RECIPE.servings,
+			prep_time: Recipe.NEW_RECIPE.prep_time,
+			cook_time: Recipe.NEW_RECIPE.cook_time,
+			total_time: Recipe.NEW_RECIPE.total_time,
+			url: Recipe.NEW_RECIPE.url,
+			ingredients: Object.values(Recipe.NEW_RECIPE.RecipeIngredients),
+			instructions: Object.values(Recipe.NEW_RECIPE.Instructions)
+		};
 
 		// If the instructions are sections (ie dictionaries)
-		if(new_recipe_copy.Instructions.length && typeof new_recipe_copy.Instructions[0] != "string")
+		if(new_recipe.instructions.length && typeof new_recipe.instructions[0] != "string")
 		{
 			let expanded_instructions = {};
-			new_recipe_copy.Instructions.forEach(
+			new_recipe.instructions.forEach(
 				(section) => {
 					expanded_instructions[section.name] = Object.values(section.instructions);
 				}
 			);
 
-			new_recipe_copy.Instructions = expanded_instructions;
+			new_recipe.instructions = expanded_instructions;
 		}
 
-		new_recipe_copy.RecipeIngredients = Object.values(new_recipe_copy.RecipeIngredients);
-
-		return new_recipe_copy;
+		return new_recipe;
 	};
 
 

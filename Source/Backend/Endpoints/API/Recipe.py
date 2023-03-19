@@ -22,7 +22,12 @@ from Backend.Classes import Recipe
 
 def POST_recipe_new() -> str:
 	print(request.data)
-	Recipe.validate(request.json)
+	recipe: dict = {"id": 0, "history": [], **request.json}
+	for recipe_ingredient in recipe["ingredients"]:
+		recipe_ingredient["id"] = 0
+		recipe_ingredient["Ingredient_id"] = 0
+
+	Recipe.validate(recipe)
 	return ""
 	# recipe: dict = request.json
 
