@@ -1,10 +1,22 @@
 <script>
 	Recipe.RecipeIngredients.Modal = {};  // Initialize namespace `Recipe.RecipeIngredients.Modal`
+	Recipe.RecipeIngredients.Modal.NAME_SINGULAR_INPUT = undefined;
+	Recipe.RecipeIngredients.Modal.NAME_PLURAL_INPUT = undefined;
+	Recipe.RecipeIngredients.Modal.BRAND_INPUT = undefined;
+	Recipe.RecipeIngredients.Modal.DESCRIPTION_TEXTAREA = undefined;
+	Recipe.RecipeIngredients.Modal.GROUP_INPUT = undefined;
+	Recipe.RecipeIngredients.Modal.AMOUNT_INPUT = undefined;
+	Recipe.RecipeIngredients.Modal.UNIT_SINGULAR_INPUT = undefined;
+	Recipe.RecipeIngredients.Modal.UNIT_PLURAL_INPUT = undefined;
+	Recipe.RecipeIngredients.Modal.QUALITY_INPUT = undefined;
+	Recipe.RecipeIngredients.Modal.IS_REQUIRED_SELECT = undefined;
+	Recipe.RecipeIngredients.Modal.NOTES_TEXTAREA = undefined;
+	Recipe.RecipeIngredients.Modal.SUBMIT_BUTTON = undefined;
 </script>
 
 
 <div
-  id="Recipe_RecipeIngredients-new_RecipeIngredient-modal"
+  id="Recipe_RecipeIngredients_Modal-new_RecipeIngredient-modal"
   class="modal modal-xl"
   tabindex="-1"
 >
@@ -39,7 +51,7 @@
 				  class="row"
 				>
 					<label
-					  for="Recipe_RecipeIngredients-name_singular-modal-input"
+					  for="Recipe_RecipeIngredients_Modal-name_singular-input"
 					  class="col-sm-2 col-form-label"
 					>
 						Names
@@ -48,7 +60,7 @@
 					  class="col-sm-5"
 					>
 						<input
-						  id="Recipe_RecipeIngredients-name_singular-modal-input"
+						  id="Recipe_RecipeIngredients_Modal-name_singular-input"
 						  class="form-control"
 						  onkeyup="Recipe.RecipeIngredients.Modal.set_submit_enablement();"
 						  onchange="Recipe.RecipeIngredients.Modal.set_submit_enablement();"
@@ -60,7 +72,7 @@
 					  class="col-sm-5"
 					>
 						<input
-						  id="Recipe_RecipeIngredients-name_plural-modal-input"
+						  id="Recipe_RecipeIngredients_Modal-name_plural-input"
 						  class="form-control"
 						  onkeyup="Recipe.RecipeIngredients.Modal.set_submit_enablement();"
 						  onchange="Recipe.RecipeIngredients.Modal.set_submit_enablement();"
@@ -74,7 +86,7 @@
 				  class="row"
 				>
 					<label
-					  for="Recipe_RecipeIngredients-brand-modal-input"
+					  for="Recipe_RecipeIngredients_Modal-brand-input"
 					  class="col-sm-2 col-form-label"
 					>
 						Brand
@@ -83,7 +95,7 @@
 					  class="col-sm-10"
 					>
 						<input
-						  id="Recipe_RecipeIngredients-brand-modal-input"
+						  id="Recipe_RecipeIngredients_Modal-brand-input"
 						  class="form-control"
 						  type="text"
 						/>
@@ -94,7 +106,7 @@
 				  class="row"
 				>
 					<label
-					  for="Recipe_RecipeIngredients-description-modal-textarea"
+					  for="Recipe_RecipeIngredients_Modal-description-textarea"
 					  class="col-sm-2 col-form-label"
 					>
 						Description
@@ -103,7 +115,7 @@
 					  class="col-sm-10"
 					>
 						<textarea
-						  id="Recipe_RecipeIngredients-description-modal-textarea"
+						  id="Recipe_RecipeIngredients_Modal-description-textarea"
 						  class="form-control"
 						  type="text"
 						></textarea>
@@ -114,7 +126,7 @@
 				  class="row"
 				>
 					<label
-					  for="Recipe_RecipeIngredients-group-modal-input"
+					  for="Recipe_RecipeIngredients_Modal-group-input"
 					  class="col-sm-2 col-form-label"
 					>
 						Group
@@ -123,7 +135,7 @@
 					  class="col-sm-10"
 					>
 						<input
-						  id="Recipe_RecipeIngredients-group-modal-input"
+						  id="Recipe_RecipeIngredients_Modal-group-input"
 						  class="form-control"
 						  type="text"
 						/>
@@ -134,7 +146,7 @@
 				  class="row"
 				>
 					<label
-					  for="Recipe_RecipeIngredients-amount-modal-input"
+					  for="Recipe_RecipeIngredients_Modal-amount-input"
 					  class="col-sm-2 col-form-label"
 					>
 						Amount
@@ -143,7 +155,7 @@
 					  class="col-sm-10"
 					>
 						<input
-						  id="Recipe_RecipeIngredients-amount-modal-input"
+						  id="Recipe_RecipeIngredients_Modal-amount-input"
 						  class="form-control"
 						  type="number"
 						/>
@@ -154,7 +166,7 @@
 				  class="row"
 				>
 					<label
-					  for="Recipe_RecipeIngredients-unit_singular-modal-input"
+					  for="Recipe_RecipeIngredients_Modal-unit_singular-input"
 					  class="col-sm-2 col-form-label"
 					>
 						Units
@@ -163,7 +175,7 @@
 					  class="col-sm-5"
 					>
 						<input
-						  id="Recipe_RecipeIngredients-unit_singular-modal-input"
+						  id="Recipe_RecipeIngredients_Modal-unit_singular-input"
 						  class="form-control"
 						  type="text"
 						  placeholder="Singular"
@@ -173,7 +185,7 @@
 					  class="col-sm-5"
 					>
 						<input
-						  id="Recipe_RecipeIngredients-unit_plural-modal-input"
+						  id="Recipe_RecipeIngredients_Modal-unit_plural-input"
 						  class="form-control"
 						  type="text"
 						  placeholder="Plural"
@@ -185,7 +197,7 @@
 				  class="row"
 				>
 					<label
-					  for="Recipe_RecipeIngredients-quality-modal-input"
+					  for="Recipe_RecipeIngredients_Modal-quality-input"
 					  class="col-sm-2 col-form-label"
 					>
 						Quality
@@ -194,7 +206,7 @@
 					  class="col-sm-10"
 					>
 						<input
-						  id="Recipe_RecipeIngredients-quality-modal-input"
+						  id="Recipe_RecipeIngredients_Modal-quality-input"
 						  class="form-control"
 						  type="text"
 						/>
@@ -205,7 +217,7 @@
 				  class="row"
 				>
 					<label
-					  for="Recipe_RecipeIngredients-is_required-modal-select"
+					  for="Recipe_RecipeIngredients_Modal-is_required-select"
 					  class="col-sm-2 col-form-label"
 					>
 						Is Required
@@ -214,7 +226,7 @@
 					  class="col-sm-10"
 					>
 						<select
-						  id="Recipe_RecipeIngredients-is_required-modal-select"
+						  id="Recipe_RecipeIngredients_Modal-is_required-select"
 						  onchange="Recipe.RecipeIngredients.Modal.set_submit_enablement();"
 						  type="text"
 						  class="form-control"
@@ -245,7 +257,7 @@
 				  class="row"
 				>
 					<label
-					  for="Recipe_RecipeIngredients-notes-modal-textarea"
+					  for="Recipe_RecipeIngredients_Modal-notes-textarea"
 					  class="col-sm-2 col-form-label"
 					>
 						Notes
@@ -254,7 +266,7 @@
 					  class="col-sm-10"
 					>
 						<textarea
-						  id="Recipe_RecipeIngredients-notes-modal-textarea"
+						  id="Recipe_RecipeIngredients_Modal-notes-textarea"
 						  class="form-control"
 						  type="text"
 						></textarea>
@@ -273,11 +285,15 @@
 					Close
 				</button>
 				<button
-				  id="Recipe_RecipeIngredients-submit-modal-button"
+				  id="Recipe_RecipeIngredients_Modal-submit-button"
 				  type="button"
 				  class="btn btn-primary"
 				  data-bs-dismiss="modal"
-				  onclick="Recipe.RecipeIngredients.Modal.add_RecipeIngredient_from_modal_to_new_RecipeIngredients();"
+				  onclick="
+				    let uuid4 = Recipe.uuid4();
+				    Recipe.RecipeIngredients.Modal.add_RecipeIngredient_to_Recipe_json(uuid4);
+				    Recipe.RecipeIngredients.Modal.add_RecipeIngredient_from_modal_to_new_RecipeIngredients(uuid4);
+				  "
 				  disabled
 				>
 					Add Ingredient
@@ -289,17 +305,57 @@
 
 
 <script>
-	Recipe.RecipeIngredients.Modal.add_RecipeIngredient_from_modal_to_new_RecipeIngredients =
-	function add_RecipeIngredient_from_modal_to_new_RecipeIngredients()
+
+		Recipe.RecipeIngredients.Modal.NAME_SINGULAR_INPUT =
+		  document.getElementById("Recipe_RecipeIngredients_Modal-name_singular-input");
+		Recipe.RecipeIngredients.Modal.NAME_PLURAL_INPUT =
+		  document.getElementById("Recipe_RecipeIngredients_Modal-name_plural-input");
+		Recipe.RecipeIngredients.Modal.BRAND_INPUT =
+		  document.getElementById("Recipe_RecipeIngredients_Modal-brand-input");
+		Recipe.RecipeIngredients.Modal.DESCRIPTION_TEXTAREA =
+		  document.getElementById("Recipe_RecipeIngredients_Modal-description-textarea");
+		Recipe.RecipeIngredients.Modal.GROUP_INPUT =
+		  document.getElementById("Recipe_RecipeIngredients_Modal-group-input");
+		Recipe.RecipeIngredients.Modal.AMOUNT_INPUT =
+		  document.getElementById("Recipe_RecipeIngredients_Modal-amount-input");
+		Recipe.RecipeIngredients.Modal.UNIT_SINGULAR_INPUT =
+		  document.getElementById("Recipe_RecipeIngredients_Modal-unit_singular-input");
+		Recipe.RecipeIngredients.Modal.UNIT_PLURAL_INPUT =
+		  document.getElementById("Recipe_RecipeIngredients_Modal-unit_plural-input");
+		Recipe.RecipeIngredients.Modal.QUALITY_INPUT =
+		  document.getElementById("Recipe_RecipeIngredients_Modal-quality-input");
+		Recipe.RecipeIngredients.Modal.IS_REQUIRED_SELECT =
+		  document.getElementById("Recipe_RecipeIngredients_Modal-is_required-select");
+		Recipe.RecipeIngredients.Modal.NOTES_TEXTAREA =
+		  document.getElementById("Recipe_RecipeIngredients_Modal-notes-textarea");
+
+		Recipe.RecipeIngredients.Modal.SUBMIT_BUTTON =
+		  document.getElementById("Recipe_RecipeIngredients_Modal-submit-button");
+
+
+	Recipe.RecipeIngredients.Modal.add_RecipeIngredient_to_Recipe_json =
+	function add_RecipeIngredient_to_Recipe_json(uuid4)
 	{
-		const recipe_ingredients_div = document.getElementById("Recipe_RecipeIngredients-new_RecipeIngredients-div");
-		const recipe_ingredient_data = Recipe.RecipeIngredients.Modal.get_RecipeIngredient_data();
+		if(Recipe.NEW_RECIPE.RecipeIngredients === undefined)
+		{
+			Recipe.NEW_RECIPE.RecipeIngredients = {};
+		}
+
+		Recipe.NEW_RECIPE.RecipeIngredients[uuid4] = Recipe.RecipeIngredients.Modal.get_RecipeIngredient_data();
+		console.log(Recipe.NEW_RECIPE);
+	};
+
+
+	Recipe.RecipeIngredients.Modal.add_RecipeIngredient_from_modal_to_new_RecipeIngredients =
+	function add_RecipeIngredient_from_modal_to_new_RecipeIngredients(uuid4)
+	{
+		const recipe_ingredient = {[uuid4]: Recipe.NEW_RECIPE.RecipeIngredients[uuid4]};
 
 		// ———— ADJUST UI ———— //
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("POST", "/new/recipe/recipe_ingredient", false);
 		xmlhttp.setRequestHeader("Content-Type", "application/json");
-		xmlhttp.send(JSON.stringify(recipe_ingredient_data));
+		xmlhttp.send(JSON.stringify(recipe_ingredient));
 		if(xmlhttp.status == 400)
 		{
 			return alert('There was an error 400');
@@ -310,56 +366,30 @@
 		}
 
 		// Add built data to page
-		recipe_ingredients_div.appendChild(html_to_element(xmlhttp.responseText));
+		Recipe.RecipeIngredients.NEW_RECIPEINGREDIENTS_DIV.appendChild(html_to_element(xmlhttp.responseText));
 
 		// Reset modal
 		Recipe.RecipeIngredients.Modal.clear_new_RecipeIngredient_modal();
-
-		Recipe.NEW_RECIPE.RecipeIngredients.push(recipe_ingredient_data);
 	};
 
 
 	Recipe.RecipeIngredients.Modal.clear_new_RecipeIngredient_modal =
 	function clear_new_RecipeIngredient_modal()
 	{
-		document.getElementById("Recipe_RecipeIngredients-name_singular-modal-input").value = "";
-		document.getElementById("Recipe_RecipeIngredients-name_plural-modal-input").value = "";
-		document.getElementById("Recipe_RecipeIngredients-brand-modal-input").value = "";
-		document.getElementById("Recipe_RecipeIngredients-description-modal-textarea").value = "";
-		document.getElementById("Recipe_RecipeIngredients-group-modal-input").value = "";
-		document.getElementById("Recipe_RecipeIngredients-amount-modal-input").value = "";
-		document.getElementById("Recipe_RecipeIngredients-unit_singular-modal-input").value = "";
-		document.getElementById("Recipe_RecipeIngredients-unit_plural-modal-input").value
-		document.getElementById("Recipe_RecipeIngredients-quality-modal-input").value = "";
-		document.getElementById("Recipe_RecipeIngredients-is_required-modal-select").selectedIndex = 0;
-		document.getElementById("Recipe_RecipeIngredients-notes-modal-textarea").value = "";
+		Recipe.RecipeIngredients.Modal.NAME_SINGULAR_INPUT.value = "";
+		Recipe.RecipeIngredients.Modal.NAME_PLURAL_INPUT.value = "";
+		Recipe.RecipeIngredients.Modal.BRAND_INPUT.value = "";
+		Recipe.RecipeIngredients.Modal.DESCRIPTION_TEXTAREA.value = "";
+		Recipe.RecipeIngredients.Modal.GROUP_INPUT.value = "";
+		Recipe.RecipeIngredients.Modal.AMOUNT_INPUT.value = "";
+		Recipe.RecipeIngredients.Modal.UNIT_SINGULAR_INPUT.value = "";
+		Recipe.RecipeIngredients.Modal.UNIT_PLURAL_INPUT.value
+		Recipe.RecipeIngredients.Modal.QUALITY_INPUT.value = "";
+		Recipe.RecipeIngredients.Modal.IS_REQUIRED_SELECT.selectedIndex = 0;
+		Recipe.RecipeIngredients.Modal.NOTES_TEXTAREA.value = "";
 
-		document.getElementById("Recipe_RecipeIngredients-submit-modal-button").disabled = true;
+		Recipe.RecipeIngredients.Modal.SUBMIT_BUTTON.disabled = true;
 	};
-
-
-	Recipe.RecipeIngredients.Modal.set_submit_enablement =
-	function set_submit_enablement()
-	{
-		const submit_button = document.getElementById("Recipe_RecipeIngredients-submit-modal-button");
-
-		if(document.getElementById("Recipe_RecipeIngredients-name_singular-modal-input").value == "")
-		{
-			submit_button.disabled = true;
-		}
-		else if(document.getElementById("Recipe_RecipeIngredients-name_plural-modal-input").value == "")
-		{
-			submit_button.disabled = true;
-		}
-		else if(document.getElementById("Recipe_RecipeIngredients-is_required-modal-select").value == "-1")
-		{
-			submit_button.disabled = true;
-		}
-		else
-		{
-			submit_button.disabled = false;
-		}
-	}
 
 
 	Recipe.RecipeIngredients.Modal.get_RecipeIngredient_data =
@@ -369,24 +399,48 @@
 		{
 			names:
 			[
-				document.getElementById("Recipe_RecipeIngredients-name_singular-modal-input").value,
-				document.getElementById("Recipe_RecipeIngredients-name_plural-modal-input").value
+				Recipe.RecipeIngredients.Modal.NAME_SINGULAR_INPUT.value,
+				Recipe.RecipeIngredients.Modal.NAME_PLURAL_INPUT.value
 			],
-			brand: document.getElementById("Recipe_RecipeIngredients-brand-modal-input").value,
-			description: document.getElementById("Recipe_RecipeIngredients-description-modal-textarea").value,
-			group: document.getElementById("Recipe_RecipeIngredients-group-modal-input").value,
-			amount: document.getElementById("Recipe_RecipeIngredients-amount-modal-input").value,
+			brand: Recipe.RecipeIngredients.Modal.BRAND_INPUT.value,
+			description: Recipe.RecipeIngredients.Modal.DESCRIPTION_TEXTAREA.value,
+			group: Recipe.RecipeIngredients.Modal.GROUP_INPUT.value,
+			amount: parseInt(Recipe.RecipeIngredients.Modal.AMOUNT_INPUT.value),
 			units:
 			[
-				document.getElementById("Recipe_RecipeIngredients-unit_singular-modal-input").value,
-				document.getElementById("Recipe_RecipeIngredients-unit_plural-modal-input").value
+				Recipe.RecipeIngredients.Modal.UNIT_SINGULAR_INPUT.value,
+				Recipe.RecipeIngredients.Modal.UNIT_PLURAL_INPUT.value
 			],
-			quality: document.getElementById("Recipe_RecipeIngredients-quality-modal-input").value,
-			is_required: document.getElementById("Recipe_RecipeIngredients-is_required-modal-select").value,
-			notes: document.getElementById("Recipe_RecipeIngredients-notes-modal-textarea").value
+			quality: Recipe.RecipeIngredients.Modal.QUALITY_INPUT.value,
+			is_required: Recipe.RecipeIngredients.Modal.IS_REQUIRED_SELECT.value,
+			notes: Recipe.RecipeIngredients.Modal.NOTES_TEXTAREA.value
 		};
 
 		return recipe_ingredient_data;
 	};
+
+
+	Recipe.RecipeIngredients.Modal.set_submit_enablement =
+	function set_submit_enablement()
+	{
+		const submit_button = Recipe.RecipeIngredients.Modal.SUBMIT_BUTTON;
+
+		if(Recipe.RecipeIngredients.Modal.NAME_SINGULAR_INPUT.value == "")
+		{
+			submit_button.disabled = true;
+		}
+		else if(Recipe.RecipeIngredients.Modal.NAME_PLURAL_INPUT.value == "")
+		{
+			submit_button.disabled = true;
+		}
+		else if(Recipe.RecipeIngredients.Modal.IS_REQUIRED_SELECT.value == "-1")
+		{
+			submit_button.disabled = true;
+		}
+		else
+		{
+			submit_button.disabled = false;
+		}
+	}
 
 </script>

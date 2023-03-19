@@ -28,8 +28,11 @@ def GET_new_recipe():
 
 def POST_new_recipe_ingredient():
 	# TODO: ensure RecipeIngredient format
-	ingredient = RecipeIngredient(id=0, Ingredients_id=0, **request.json)
-	return render_template("New/Recipe/RecipeIngredients/New.j2", uuid=uuid.uuid4(), ingredient=ingredient)
+	print(request.json)
+	section_uuid = next(iter(request.json.keys()))
+	section = request.json[section_uuid]
+	ingredient = RecipeIngredient(id=0, Ingredients_id=0, **section)
+	return render_template("New/Recipe/RecipeIngredients/New.j2", uuid=section_uuid, ingredient=ingredient)
 
 
 def POST_new_instruction_section():

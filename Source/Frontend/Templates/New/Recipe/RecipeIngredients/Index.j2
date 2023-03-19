@@ -19,7 +19,7 @@
 	  type="button"
 	  class="btn btn-light"
 	  data-bs-toggle="modal"
-	  data-bs-target="#Recipe_RecipeIngredients-new_RecipeIngredient-modal"
+	  data-bs-target="#Recipe_RecipeIngredients_Modal-new_RecipeIngredient-modal"
 	>
 		Add Ingredient
 	</button>
@@ -32,49 +32,16 @@
 
 
 	Recipe.RecipeIngredients.delete_RecipeIngredient_from_new_RecipeIngredients =
-	function(uuid)
+	function delete_RecipeIngredient_from_new_RecipeIngredients(uuid4)
 	{
-		const new_RecipeIngredient_div = document.getElementById(`Recipe_RecipeIngredients_New-new_RecipeIngredient-${uuid}-div`)
+		const new_RecipeIngredient_div = document.getElementById(`Recipe_RecipeIngredients_New-new_RecipeIngredient-${uuid4}-div`)
 		const recipe_ingredients_div = Recipe.RecipeIngredients.NEW_RECIPEINGREDIENTS_DIV;
 		recipe_ingredients_div.removeChild(new_RecipeIngredient_div);
+
+		console.log(Recipe.NEW_RECIPE);
+		delete Recipe.NEW_RECIPE.RecipeIngredients[uuid4];
+		console.log(Recipe.NEW_RECIPE);
 	};
-
-	// ——————————————————————————————————————————————————— SUBMIT ——————————————————————————————————————————————————— //
-
-	function New_RecipeIngredient_json_builder()
-	{
-		const recipe_ingredients_div = document.getElementById("recipe_ingredients-div");
-		const recipe_ingredient_divs = recipe_ingredients_div.getElementsByClassName("recipe_ingredient-div");
-
-		const recipe_ingredients = [];
-		for(let x = 0; x < recipe_ingredient_divs.length; x++)
-		{
-			const recipe_ingredient = {
-				names: [
-					recipe_ingredient_divs[x].getElementsByClassName("ingredient_singular_name-input")[0].value,
-					recipe_ingredient_divs[x].getElementsByClassName("ingredient_plural_name-input")[0].value
-				],
-				brand: recipe_ingredient_divs[x].getElementsByClassName("ingredient_brand-input")[0].value,
-				description:
-				  recipe_ingredient_divs[x].getElementsByClassName("ingredient_description-textarea")[0].value,
-				amount: recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_amount-input")[0].value,
-				units: [
-					recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_units_singular-input")[0].value,
-					recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_units_plural-input")[0].value,
-				],
-				quality: recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_quality-input")[0].value,
-				is_required:
-				  recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_is_required-select")[0].value,
-				notes: recipe_ingredient_divs[x].getElementsByClassName("recipe_ingredient_notes-textarea")[0].value
-			}
-			recipe_ingredients.push(recipe_ingredient);
-		}
-
-		return recipe_ingredients;
-	}
-
-
-	// —————————————————————————————————————————————————— DISPLAY  —————————————————————————————————————————————————— //
 
 
 	// ————————————————————————————————————————————————— DATA  LIST ————————————————————————————————————————————————— //

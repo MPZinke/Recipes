@@ -8,13 +8,57 @@
 		Total Time
 	</label>
 	<div
-	  class="col-sm-8"
+	  class="col-sm-4"
+	  style="padding: 4px;"
 	>
-		<input
-		  id="Recipe-total_time-input"
-		  class="form-control"
-		  onchange="Recipe.NEW_RECIPE.total_time = this.value;"
-		  type="number"
-		/>
+		<div
+		  class="input-group"
+		>
+			<span
+			  class="input-group-text"
+			>
+				Hours
+			</span>
+			<input
+			  id="Recipe-total_time_hours-input"
+			  type="number"
+			  class="form-control"
+			  onchange="Recipe.update_total_time();"
+			/>
+		</div>
+	</div>
+	<div
+	  class="col-sm-4"
+	  style="padding: 4px;"
+	>
+		<div
+		  class="input-group"
+		>
+			<span
+			  class="input-group-text"
+			>
+				Minutes
+			</span>
+			<input
+			  id="Recipe-total_time_minutes-input"
+			  type="number"
+			  class="form-control"
+			  onchange="Recipe.update_total_time();"
+			>
+		</div>
 	</div>
 </div>
+
+<script>
+	Recipe.TOTAL_TIME_HOURS_INPUT = document.getElementById("Recipe-total_time_hours-input");
+	Recipe.TOTAL_TIME_MINUTES_INPUT = document.getElementById("Recipe-total_time_minutes-input");
+
+
+	Recipe.update_total_time = 
+	function update_total_time()
+	{
+		const time_in_minutes = parseInt(Recipe.TOTAL_TIME_HOURS_INPUT.value || 0) * 60
+		  + parseInt(Recipe.TOTAL_TIME_MINUTES_INPUT.value || 0);
+		Recipe.NEW_RECIPE.total_time = time_in_minutes;
+	};
+</script>

@@ -51,6 +51,7 @@ def add_frontend_routes(server: Flask) -> None:
 
 def add_api_routes(server: Flask) -> None:
 	add_url(server, "/api/ingredients", Backend.Endpoints.API.Ingredients.GET_ingredients)
+	add_url(server, "/api/recipe/new", POST=Backend.Endpoints.API.Recipe.POST_recipe_new)
 
 
 # —————————————————————————————————————————————————————— TIMER  —————————————————————————————————————————————————————— #

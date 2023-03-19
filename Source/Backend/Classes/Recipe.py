@@ -74,6 +74,22 @@ class Recipe(object):
 		return Recipe(**recipe_data)
 
 
+	@staticmethod
+	def validate(recipe: dict) -> None:
+		types = {
+			"name": [str], "instructions": [dict|list], "notes": [str], "rating": [int], "servings": [int],
+			"prep_time": [timedelta], "cook_time": [timedelta], "total_time": [timedelta], "url": [str]
+		}
+
+		if((missing_keys := [key for key in types if(key not in recipe)])):
+			raise KeyError(f"""Key(s) '{"', '".join(missing_keys)}' is missing from recipe definition""")
+
+		for key, type in types.items():
+			if(not isinstance(recipe[key], type)):
+				raise ValueError(f"""Key '{key}' must be of type '{type}'""")
+
+
+
 	def __iter__(self) -> dict:
 		yield from {
 			"id": self._id,

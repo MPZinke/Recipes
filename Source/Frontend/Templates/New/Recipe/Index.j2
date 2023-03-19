@@ -35,8 +35,15 @@
 	{% include("New/Recipe/Instructions/Index.j2") %}
 	{% include("New/Recipe/RecipeIngredients/Index.j2") %}
 
+	<button
+	  type="button"
+	  onclick="Recipe.submit();"
+	>
+		Add Recipe
+	</button>
+
 <script>
-	Recipe.NEW_RECIPE = {RecipeIngredients: []};
+	Recipe.NEW_RECIPE = {};
 
 
 	Recipe.uuid4 =
@@ -52,6 +59,32 @@
 		);
 	}
 
+
+	Recipe.submit =
+	function submit()
+	{
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("POST", "/api/recipe/new", false);
+		xmlhttp.setRequestHeader("Content-Type", "application/json");
+		xmlhttp.send(JSON.stringify(Recipe.NEW_RECIPE));
+		if(xmlhttp.status == 400)
+		{
+			return alert('There was an error 400');
+		}
+		else if(xmlhttp.status != 200)
+		{
+			return alert('add_new_recipe_ingredient_html::something else other than 200 was returned');
+		}
+
+		console.log("Success");
+	};
+
+
+	Recipe.validate =
+	function validate()
+	{
+
+	};
 </script>
 
 {% endblock %}

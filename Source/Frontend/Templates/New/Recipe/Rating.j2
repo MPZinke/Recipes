@@ -13,7 +13,7 @@
 		<input
 		  id="Recipe-rating-input"
 		  class="form-control"
-		  onchange="Recipe.NEW_RECIPE.rating = this.value;"
+		  onchange="Recipe.NEW_RECIPE.rating = parseInt(this.value);"
 		  type="number"
 		  min="0"
 		  max="5"
