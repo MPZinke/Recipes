@@ -45,9 +45,7 @@
 
 	function switch_text(checkbox)
 	{
-		console.log(Array.from(checkbox.classList));
 		const section_checkbox_class = Array.from(checkbox.classList).find(val => val != "form-check-input");
-		console.log(section_checkbox_class)
 		const all_sections_checkboxes = Array.from(document.getElementsByClassName(section_checkbox_class));
 		if(all_sections_checkboxes.length > 1)
 		{

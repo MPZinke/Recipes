@@ -14,6 +14,7 @@
 {% block body %}
 	<script>
 		var Recipe = {};  // Initialize namespace `Recipe`
+		Recipe.NEW_RECIPE = {Instructions: {}, RecipeIngredients: {}};
 	</script>
 
 	<input
@@ -37,13 +38,13 @@
 
 	<button
 	  type="button"
+	  class="btn btn-primary"
 	  onclick="Recipe.submit();"
 	>
 		Add Recipe
 	</button>
 
 <script>
-	Recipe.NEW_RECIPE = {};
 
 
 	Recipe.uuid4 =
@@ -57,16 +58,43 @@
 				return v.toString(16);
 			}
 		);
-	}
+	};
+
+
+	Recipe.format =
+	function format()
+	{
+		var new_recipe_copy = JSON.parse(JSON.stringify(Recipe.NEW_RECIPE));
+		new_recipe_copy.Instructions = Object.values(new_recipe_copy.Instructions);
+
+		// If the instructions are sections (ie dictionaries)
+		if(new_recipe_copy.Instructions.length && typeof new_recipe_copy.Instructions[0] != "string")
+		{
+			let expanded_instructions = {};
+			new_recipe_copy.Instructions.forEach(
+				(section) => {
+					expanded_instructions[section.name] = Object.values(section.instructions);
+				}
+			);
+
+			new_recipe_copy.Instructions = expanded_instructions;
+		}
+
+		new_recipe_copy.RecipeIngredients = Object.values(new_recipe_copy.RecipeIngredients);
+
+		return new_recipe_copy;
+	};
 
 
 	Recipe.submit =
 	function submit()
 	{
+		const format = Recipe.format();
+
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("POST", "/api/recipe/new", false);
 		xmlhttp.setRequestHeader("Content-Type", "application/json");
-		xmlhttp.send(JSON.stringify(Recipe.NEW_RECIPE));
+		xmlhttp.send(JSON.stringify(format));
 		if(xmlhttp.status == 400)
 		{
 			return alert('There was an error 400');

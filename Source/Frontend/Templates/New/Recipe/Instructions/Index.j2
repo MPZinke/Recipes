@@ -45,7 +45,7 @@
 	Recipe.Instructions.show_type_selection_buttons =
 	function show_type_selection_buttons()
 	{
-		if(Recipe.Instructions.NEW_INSTRUCTIONS_DIV.children.length == 0)
+		if(Object.keys(Recipe.NEW_RECIPE.Instructions).length == 0)
 		{
 			Recipe.Instructions.LIST_TYPE_SELECT_BUTTON.style.display = "";
 			Recipe.Instructions.SECTION_TYPE_SELECT_BUTTON.style.display = "";

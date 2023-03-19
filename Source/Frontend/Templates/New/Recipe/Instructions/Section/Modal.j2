@@ -57,6 +57,7 @@
 
 				<button
 				  class="btn btn-light"
+				  style="margin-top: 8px;"
 				  data-bs-target="#Recipe_Instructions_Section_Modal-new_Instruction_section_instruction-modal"
 				  onclick="
 				    Recipe.Instructions.Section.Modal.open_list_modal();
@@ -174,7 +175,7 @@
 			${instruction}
 			<button
 			  type="button"
-			  class="btn btn-light ms-auto"
+			  class="btn btn-secondary ms-auto"
 			  onclick="Recipe.Instructions.Section.Modal.delete_instruction(\`${uuid4}\`)"
 			>
 				Remove
