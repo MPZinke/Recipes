@@ -17,9 +17,12 @@ __author__ = "MPZinke"
 from flask import request
 
 
+from Backend.Classes import Recipe
+
+
 def POST_recipe_new() -> str:
-	print(request.json)
 	print(request.data)
+	Recipe.validate(request.json)
 	return ""
 	# recipe: dict = request.json
 

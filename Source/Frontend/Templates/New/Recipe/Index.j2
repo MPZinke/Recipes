@@ -14,7 +14,14 @@
 {% block body %}
 	<script>
 		var Recipe = {};  // Initialize namespace `Recipe`
-		Recipe.NEW_RECIPE = {Instructions: {}, RecipeIngredients: {}};
+		Recipe.NEW_RECIPE = {
+			notes: "",
+			prep_time: 0,
+			cook_time: 0,
+			total_time: 0,
+			Instructions: {},
+			RecipeIngredients: {}
+		};
 	</script>
 
 	<input
@@ -25,6 +32,7 @@
 
 	<form>
 		{% include("New/Recipe/Name.j2") %}
+		{% include("New/Recipe/Url.j2") %}
 		{% include("New/Recipe/Servings.j2") %}
 		{% include("New/Recipe/Rating.j2") %}
 		{% include("New/Recipe/PrepTime.j2") %}
