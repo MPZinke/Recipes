@@ -28,7 +28,7 @@ INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "prep_time", 
 			"Arrange chicken breasts drained from the marinade in a baking dish.",
 			"Spread the softened cream cheese over the chicken breasts and lay spinach on top of the cream cheese.",
 			"Sprinkle mozzarella over the top.",
-			"Bake for 20-30 minutes or until chicken\'s internal temperature reaches 165˚F.",
+			"Bake for 20-30 minutes or until chicken''s internal temperature reaches 165˚F.",
 			"Enjoy!"
 		]
 	}'
