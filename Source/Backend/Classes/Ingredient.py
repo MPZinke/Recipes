@@ -58,17 +58,11 @@ class Ingredient:
 
 	@staticmethod
 	def validate(ingredient: dict) -> None:
-		types = {"id": int, "brand": str, "names": list[str], "description": str}
+		from Backend.Classes import validate_keys, validate_list
 
-		if((missing_keys := [key for key in types if(key not in recipe)])):
-			raise KeyError(f"""Key(s) '{"', '".join(missing_keys)}' is missing from ingredient definition""")
-
-		if((unknown_keys := [key for key in recipe if(key not in types)])):
-			raise KeyError(f"""Unknown key(s) '{"', '".join(unknown_keys)}'""")
-
-		for key, type in types.items():
-			if(not isinstance(recipe[key], type)):
-				raise ValueError(f"""Key '{key}' must be of type '{", ".join(type)}'""")
+		types = {"id": int, "brand": str, "names": list, "description": str}
+		validate_keys("Ingredient", ingredient, types)
+		validate_list("Names", ingredient["names"], str)
 
 
 	def __iter__(self) -> dict:

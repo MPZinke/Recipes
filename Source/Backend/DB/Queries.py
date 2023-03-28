@@ -14,7 +14,8 @@ __author__ = "MPZinke"
 ########################################################################################################################
 
 
-from typing import Any, Optional
+from datetime import datetime, timedelta
+from typing import Any, Dict, Optional
 
 
 from Backend.DB.Connection import connect
@@ -168,3 +169,19 @@ def SELECT_ALL_FROM_Ingredients_WHERE_name_like(cursor, name: str) -> list[dict]
 	"""
 	cursor.execute(query, (name,))
 	return [ingredient for ingredient in cursor]
+
+
+@connect
+def INSERT_INTO_Recipes(name: str, instructions: Dict[str, list[str]]|list, notes: str, rating: int, servings: int,
+  prep_time: timedelta, cook_time: timedelta, total_time: timedelta, url: str
+) -> int:
+	query = """
+	INSERT INTO "Recipes" ("name", "instructions", "notes", "rating", "servings", "total_time", "prep_time",
+	  "cook_time", "url"
+	) VALUES
+	(%s, %s, %s, %s, %s, %s, %s, %s, %s)
+	RETURNING *;
+	"""
+
+	cursor.execute(query, (name, instructions, notes, rating, servings, prep_time, cook_time, total_time, url))
+	return cursor.fetchone()["id"]

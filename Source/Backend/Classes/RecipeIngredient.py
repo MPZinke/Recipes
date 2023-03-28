@@ -57,20 +57,14 @@ class RecipeIngredient(Ingredient):
 
 	@staticmethod
 	def validate(recipe_ingredient: dict) -> None:
+		from Backend.Classes import validate_keys, validate_list
+
 		types = {
-			"id": int, "group": str, "amount": float|Decimal, "units": list[str], "quality": str, "is_required": bool,
-			"notes": str
+			"id": int, "group": str, "amount": float|Decimal, "units": list, "quality": str, "is_required": bool,
+			"notes": str, "brand": str, "names": list, "description": str, "Ingredients_id": int
 		}
-
-		if((missing_keys := [key for key in types if(key not in recipe)])):
-			raise KeyError(f"""Key(s) '{"', '".join(missing_keys)}' is missing from recipe ingredient definition""")
-
-		if((unknown_keys := [key for key in recipe if(key not in types)])):
-			raise KeyError(f"""Unknown key(s) '{"', '".join(unknown_keys)}'""")
-
-		for key, type in types.items():
-			if(not isinstance(recipe[key], type)):
-				raise ValueError(f"""Key '{key}' must be of type '{", ".join(type)}'""")
+		validate_keys("Recipe Ingredient", recipe_ingredient, types)
+		validate_list("Units", recipe_ingredient["units"], str)
 
 		Ingredient.validate({"id": recipe_ingredient["Ingredients_id"], "brand": recipe_ingredient["brand"],
 		  "names": recipe_ingredient["names"], "description": recipe_ingredient["description"]})

@@ -13,8 +13,15 @@
 		<input
 		  id="Recipe-servings-input"
 		  class="form-control"
-		  onchange="Recipe.NEW_RECIPE.servings = parseInt(this.value);"
+		  onchange="
+		    Recipe.NEW_RECIPE.servings = parseInt(this.value);
+		    this.classList.remove(`is-invalid`);"
+		  onkeyup="this.classList.remove(`is-invalid`);"
 		  type="number"
 		/>
 	</div>
 </div>
+
+<script>
+	Recipe.SERVINGS_INPUT = document.getElementById("Recipe-servings-input");
+</script>

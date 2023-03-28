@@ -14,7 +14,9 @@ __author__ = "MPZinke"
 ########################################################################################################################
 
 
+from datetime import timedelta
 from flask import request
+from werkzeug.exceptions import HTTPException, BadRequest
 
 
 from Backend.Classes import Recipe
@@ -22,13 +24,17 @@ from Backend.Classes import Recipe
 
 def POST_recipe_new() -> str:
 	print(request.data)
+	# try:
 	recipe: dict = {"id": 0, "history": [], **request.json}
-	for recipe_ingredient in recipe["ingredients"]:
-		recipe_ingredient["id"] = 0
-		recipe_ingredient["Ingredient_id"] = 0
+	for key in ["cook_time", "prep_time", "total_time"]:
+		recipe[key] = timedelta(minutes=recipe[key])
+
+	for x, ingredient in enumerate(recipe["ingredients"]):
+		recipe["ingredients"][x] = {"id": 0, "Ingredients_id": 0, **ingredient}
 
 	Recipe.validate(recipe)
+
 	return ""
-	# recipe: dict = request.json
 
-
+	# except (KeyError, ValueError) as error:
+	# 	raise BadRequest(description=str(error))

@@ -7,9 +7,16 @@
 		<input
 		  id="Recipe-name-input"
 		  class="form-control form-control-lg col-sm-4"
-		  onchange="Recipe.NEW_RECIPE.name = this.value;"
+		  onchange="
+		    Recipe.NEW_RECIPE.name = this.value;
+		    this.classList.remove(`is-invalid`);"
+		  onkeyup="this.classList.remove(`is-invalid`);"
 		  placeholder="Recipe Name"
 		  type="text"
 		/>
 	</div>
 </div>
+
+<script>
+	Recipe.NAME_INPUT = document.getElementById("Recipe-name-input");
+</script>

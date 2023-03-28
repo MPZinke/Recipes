@@ -62,29 +62,45 @@
 	{
 		let new_recipe = {
 			name: Recipe.NEW_RECIPE.name,
-			notes: Recipe.NEW_RECIPE.notes,
+			notes: Recipe.NEW_RECIPE.notes || '',
 			rating: Recipe.NEW_RECIPE.rating,
 			servings: Recipe.NEW_RECIPE.servings,
-			prep_time: Recipe.NEW_RECIPE.prep_time,
-			cook_time: Recipe.NEW_RECIPE.cook_time,
-			total_time: Recipe.NEW_RECIPE.total_time,
-			url: Recipe.NEW_RECIPE.url,
+			prep_time: Recipe.NEW_RECIPE.prep_time || 0,
+			cook_time: Recipe.NEW_RECIPE.cook_time || 0,
+			total_time: Recipe.NEW_RECIPE.total_time || 0,
+			url: Recipe.NEW_RECIPE.url || '',
 			ingredients: Object.values(Recipe.NEW_RECIPE.RecipeIngredients),
 			instructions: Object.values(Recipe.NEW_RECIPE.Instructions)
 		};
+
 
 		// If the instructions are sections (ie dictionaries)
 		if(new_recipe.instructions.length && typeof new_recipe.instructions[0] != "string")
 		{
 			let expanded_instructions = {};
 			new_recipe.instructions.forEach(
-				(section) => {
+				(section) =>
+				{
 					expanded_instructions[section.name] = Object.values(section.instructions);
 				}
 			);
 
 			new_recipe.instructions = expanded_instructions;
 		}
+
+		new_recipe.ingredients.forEach(
+			(ingredient) =>
+			{
+				ingredient.brand = ingredient.brand || '';
+				ingredient.description = ingredient.description || '';
+				ingredient.group = ingredient.group || '';
+				ingredient.amount = ingredient.amount ? parseFloat(ingredient.amount) : 0.0;
+				ingredient.units = ingredient.units || ['', ''];
+				ingredient.quality = ingredient.quality || '';
+				ingredient.is_required = ingredient.is_required ? true : false;
+				ingredient.notes = ingredient.notes || '';
+			}
+		);
 
 		return new_recipe;
 	};
@@ -93,6 +109,11 @@
 	Recipe.submit =
 	function submit()
 	{
+		if(!Recipe.validate())
+		{
+			return;
+		}
+
 		const format = Recipe.format();
 
 		var xmlhttp = new XMLHttpRequest();
@@ -115,7 +136,23 @@
 	Recipe.validate =
 	function validate()
 	{
+		if(Recipe.NEW_RECIPE.name == undefined)
+		{
+			Recipe.NAME_INPUT.classList.add("is-invalid");
+		}
 
+		if(Recipe.NEW_RECIPE.rating == undefined)
+		{
+			Recipe.RATING_INPUT.classList.add("is-invalid");
+		}
+
+		if(Recipe.NEW_RECIPE.servings == undefined)
+		{
+			Recipe.SERVINGS_INPUT.classList.add("is-invalid");
+		}
+
+		return Recipe.NEW_RECIPE.name != undefined && Recipe.NEW_RECIPE.rating != undefined
+		  && Recipe.NEW_RECIPE.servings != undefined;
 	};
 </script>
 

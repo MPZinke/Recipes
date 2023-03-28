@@ -13,10 +13,17 @@
 		<input
 		  id="Recipe-rating-input"
 		  class="form-control"
-		  onchange="Recipe.NEW_RECIPE.rating = parseInt(this.value);"
+		  onchange="
+		    Recipe.NEW_RECIPE.rating = parseInt(this.value);
+		    this.classList.remove(`is-invalid`);"
+		  onkeyup="this.classList.remove(`is-invalid`);"
 		  type="number"
 		  min="0"
 		  max="5"
 		/>
 	</div>
 </div>
+
+<script>
+	Recipe.RATING_INPUT = document.getElementById("Recipe-rating-input");
+</script>

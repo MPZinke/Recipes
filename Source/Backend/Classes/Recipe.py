@@ -76,24 +76,33 @@ class Recipe(object):
 
 	@staticmethod
 	def validate(recipe: dict) -> None:
+		from Backend.Classes import validate_keys, validate_list
+
 		types = {
-			"id": int, "name": str, "notes": str, "rating": int, "servings": int, "history": list[datetime], "url": str,
-			"prep_time": int|timedelta, "cook_time": int|timedelta, "total_time": int|timedelta,
-			"ingredients": list[dict]|list[RecipeIngredient], "instructions": Dict[str, list[str]]|list
+			"id": int, "name": str, "notes": str, "rating": int, "servings": int, "history": list, "url": str,
+			"prep_time": timedelta, "cook_time": timedelta, "total_time": timedelta,
+			"ingredients": list, "instructions": dict|list
 		}
-
-		if((missing_keys := [key for key in types if(key not in recipe)])):
-			raise KeyError(f"""Key(s) '{"', '".join(missing_keys)}' is missing from recipe definition""")
-
-		if((unknown_keys := [key for key in recipe if(key not in types)])):
-			raise KeyError(f"""Unknown key(s) '{"', '".join(unknown_keys)}'""")
-
-		for key, type in types.items():
-			if(not isinstance(recipe[key], type)):
-				raise ValueError(f"""Key '{key}' must be of type '{", ".join(type)}'""")
+		validate_keys("Recipe", recipe, types)
+		validate_list("history", recipe["history"], datetime)
 
 		for recipe_ingredient in recipe["ingredients"]:
 			RecipeIngredient.validate(recipe_ingredient)
+
+		if(isinstance((instructions := recipe["instructions"]), list)):
+			instructions = {"": instructions}
+		for name, instruction_list in instructions.items():
+			if(not isinstance(name, str) or not isinstance(instruction_list, list)):
+				raise ValueError(f"""Key 'instructions' must be of type 'list[str]' or 'dict[str, list[str]]'""")
+			validate_list("instructions", instruction_list, str)
+
+
+	def add(self) -> int:
+		recipe_id: int = DB.INSERT_INTO_Recipes(self._name, json.dumps(self._instructions), self._notes, self._rating,
+		  self._servings, self._prep_time, self._cook_time, self._total_time, self._url)
+
+		for recipe_ingredient in self._ingredients:
+			recipe_ingredient.add()
 
 
 	def __iter__(self) -> dict:
