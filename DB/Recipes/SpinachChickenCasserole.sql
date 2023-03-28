@@ -88,7 +88,7 @@ FROM
 	),
 	(
 		ARRAY['Cream Cheese', 'Cream Cheese']::VARCHAR(64)[2],
-		ARRAY['Ounce', 'Ounces],
+		ARRAY['Ounce', 'Ounces'],
 		8.0, '', TRUE, ''
 	),
 	(
