@@ -34,46 +34,27 @@ INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "prep_time", 
 	}'
 );
 
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Skinless Chicken Breast', 'Skinless Chicken Breasts'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Cream Cheese', 'Cream Cheese'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Spinach', 'Spinach'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Olive Oil', 'Olive Oil'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Mozzarella Cheese', 'Mozzarella Cheese'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Garlic', 'Garlic'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Red Pepper Flakes', 'Red Pepper Flakes'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Salt', 'Salt'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Pepper', 'Pepper'])
-ON CONFLICT ("names", "brand") DO NOTHING;
-
-INSERT INTO "Ingredients" ("names") VALUES
-(ARRAY['Italian Seasoning', 'Italian Seasoning'])
-ON CONFLICT ("names", "brand") DO NOTHING;
+	INSERT INTO "Ingredients" ("names")
+	SELECT "Temp"."names"
+	FROM
+	(
+		VALUES
+		(ARRAY['Skinless Chicken Breast', 'Skinless Chicken Breasts']::VARCHAR(64)[2]),
+		(ARRAY['Cream Cheese', 'Cream Cheese']::VARCHAR(64)[2]),
+		(ARRAY['Spinach', 'Spinach']::VARCHAR(64)[2]),
+		(ARRAY['Olive Oil', 'Olive Oil']::VARCHAR(64)[2]),
+		(ARRAY['Mozzarella Cheese', 'Mozzarella Cheese']::VARCHAR(64)[2]),
+		(ARRAY['Garlic', 'Garlic']::VARCHAR(64)[2]),
+		(ARRAY['Red Pepper Flakes', 'Red Pepper Flakes']::VARCHAR(64)[2]),
+		(ARRAY['Salt', 'Salt']::VARCHAR(64)[2]),
+		(ARRAY['Pepper', 'Pepper']::VARCHAR(64)[2]),
+		(ARRAY['Italian Seasoning', 'Italian Seasoning']::VARCHAR(64)[2])
+	) AS "Temp" ("names")
+	WHERE "Temp"."names" NOT IN
+	(
+		SELECT "names"
+		FROM "Ingredients"
+	);
 
 
 INSERT INTO "RecipesIngredients" ("Recipes.id", "Ingredients.id", "amount", "units", "quality", "is_required", "notes")

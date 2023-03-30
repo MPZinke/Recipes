@@ -29,7 +29,7 @@ from Backend.DB import Queries
 Recipe = TypeVar("Recipe");
 
 
-class Recipe(object):
+class Recipe:
 	def __init__(self, *, id: int, name: str, instructions: Dict[str, list[str]]|list, notes: str, rating: int,
 	  servings: int, prep_time: timedelta, cook_time: timedelta, total_time: timedelta, url: str,
 	  history: list[datetime], ingredients: list[RecipeIngredient]):
@@ -98,11 +98,13 @@ class Recipe(object):
 
 
 	def add(self) -> int:
-		recipe_id: int = DB.INSERT_INTO_Recipes(self._name, json.dumps(self._instructions), self._notes, self._rating,
+		self._id = Queries.INSERT_INTO_Recipes(self._name, json.dumps(self._instructions), self._notes, self._rating,
 		  self._servings, self._prep_time, self._cook_time, self._total_time, self._url)
 
 		for recipe_ingredient in self._ingredients:
-			recipe_ingredient.add()
+			recipe_ingredient.add(self._id)
+
+		return self._id
 
 
 	def __iter__(self) -> dict:

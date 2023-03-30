@@ -13,8 +13,8 @@ RecipeIngredient = TypeVar("Recipe");
 
 
 class RecipeIngredient(Ingredient):
-	def __init__(self, *, id: int, brand: str, names: list[str], description: str, group: str, amount: Decimal,
-	  units: list[str], quality: str, is_required: bool, notes: str, Ingredients_id: int):
+	def __init__(self, *, id: int, amount: Decimal, brand: str, names: list[str], description: str, group: str,
+	  Ingredients_id: int, is_required: bool, quality: str, notes: str, units: list[str]):
 		Ingredient.__init__(self, id=Ingredients_id, brand=brand, names=names, description=description)
 		self._Ingredients_id: int = Ingredients_id
 
@@ -68,6 +68,19 @@ class RecipeIngredient(Ingredient):
 
 		Ingredient.validate({"id": recipe_ingredient["Ingredients_id"], "brand": recipe_ingredient["brand"],
 		  "names": recipe_ingredient["names"], "description": recipe_ingredient["description"]})
+
+
+	def add(self, Recipe_id: int) -> int:
+		if((ingredient := Queries.SELECT_ALL_FROM_Ingredients_WHERE_brand_AND_names(self._brand, self._names)) is None):
+			ingredient_object = Ingredient(id=0, brand=self._brand, names=self._names, description=self._description)
+			self._Ingredients_id = ingredient_object.add()
+		else:
+			self._Ingredients_id = ingredient["id"]
+
+		self._id = Queries.INSERT_INTO_RecipesIngredients(self._amount, self._group, self._Ingredients_id,
+		  self._is_required, self._notes, self._quality, Recipe_id, self._units)
+
+		return self._id
 
 
 	def __iter__(self) -> dict:

@@ -15,10 +15,14 @@ __author__ = "MPZinke"
 
 
 from datetime import datetime, timedelta
-from typing import Any, Dict, Optional
+from decimal import Decimal
+from typing import Any, Dict, Optional, TypeVar
 
 
 from Backend.DB.Connection import connect
+
+
+Json = TypeVar("Json");
 
 
 # —————————————————————————————————————————————————————— RECIPE —————————————————————————————————————————————————————— #
@@ -31,7 +35,7 @@ def SELECT_ALL_FROM_Recipes(cursor) -> list[dict]:
 		WHERE "is_deleted" = FALSE;
 	"""
 	cursor.execute(query)
-	return [recipe for recipe in cursor]
+	return list(cursor)
 
 
 @connect
@@ -71,7 +75,7 @@ def SELECT_ALL_FROM_RecipesIngredients_WHERE_Recipes_id(cursor, Recipes_id: int)
 		ORDER BY "RecipesIngredients"."is_required" DESC, "RecipesIngredients"."group";
 	"""
 	cursor.execute(query, (Recipes_id,))
-	return [recipe_ingredient for recipe_ingredient in cursor]
+	return list(cursor)
 
 
 @connect
@@ -128,7 +132,7 @@ def SELECT_ALL_FROM_Ingredients(cursor) -> list[dict]:
 		WHERE "is_deleted" = FALSE;
 	"""
 	cursor.execute(query)
-	return [ingredient for ingredient in cursor]
+	return list(cursor)
 
 
 @connect
@@ -156,11 +160,24 @@ def SELECT_ALL_FROM_Ingredients_WHERE_name(cursor, name: str) -> Optional[dict]:
 
 
 @connect
+def SELECT_ALL_FROM_Ingredients_WHERE_brand_AND_names(cursor, brand: str, names: list[str]) -> Optional[dict]:
+	query: str = """
+		SELECT *
+		FROM "Ingredients"
+		WHERE "brand" = %s
+		  AND "names" = ARRAY[%s, %s]::VARCHAR(64)[2]
+		  AND "is_deleted" = FALSE;
+	"""
+	cursor.execute(query, (brand, names[0], names[1]))
+	return next(cursor, None)
+
+
+@connect
 def SELECT_ALL_FROM_Ingredients_WHERE_name_like(cursor, name: str) -> list[dict]:
 	query: str = """
 		SELECT *
 		FROM "Ingredients"
-		WHERE  EXISTS (
+		WHERE EXISTS (
 			SELECT
 			FROM unnest("names") "name"
 			WHERE LOWER("name") LIKE LOWER(%s)
@@ -168,11 +185,11 @@ def SELECT_ALL_FROM_Ingredients_WHERE_name_like(cursor, name: str) -> list[dict]
 		  AND "is_deleted" = FALSE;
 	"""
 	cursor.execute(query, (name,))
-	return [ingredient for ingredient in cursor]
+	return list(cursor)
 
 
 @connect
-def INSERT_INTO_Recipes(name: str, instructions: Dict[str, list[str]]|list, notes: str, rating: int, servings: int,
+def INSERT_INTO_Recipes(cursor, name: str, instructions: Json, notes: str, rating: int, servings: int,
   prep_time: timedelta, cook_time: timedelta, total_time: timedelta, url: str
 ) -> int:
 	query = """
@@ -184,4 +201,33 @@ def INSERT_INTO_Recipes(name: str, instructions: Dict[str, list[str]]|list, note
 	"""
 
 	cursor.execute(query, (name, instructions, notes, rating, servings, prep_time, cook_time, total_time, url))
+	return cursor.fetchone()["id"]
+
+
+@connect
+def INSERT_INTO_RecipesIngredients(cursor, amount: Decimal, group: str, Ingredients_id: int, is_required: bool, notes: str,
+  quality: str, Recipes_id: int, units: list[str]
+) -> int:
+	query = """
+	INSERT INTO "RecipesIngredients" ("amount", "group", "Ingredients.id", "is_required", "notes", "quality",
+	  "Recipes.id", "units")
+	VALUES
+	(%s, %s, %s, %s, %s, %s, %s, %s)
+	RETURNING *;
+	"""
+
+	cursor.execute(query, (amount, group, Ingredients_id, is_required, notes, quality, Recipes_id, units))
+	return cursor.fetchone()["id"]
+
+
+@connect
+def INSERT_INTO_Ingredients(cursor, brand: str, names: list[str], description: str) -> int:
+	query = """
+	INSERT INTO "Ingredients" ("brand", "names", "description")
+	VALUES
+	(%s, ARRAY[%s, %s]::VARCHAR(64)[2], %s)
+	RETURNING *;
+	"""
+
+	cursor.execute(query, (brand, names[0], names[1], description))
 	return cursor.fetchone()["id"]

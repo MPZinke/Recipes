@@ -65,6 +65,12 @@ class Ingredient:
 		validate_list("Names", ingredient["names"], str)
 
 
+	def add(self) -> int:
+		self._id = Queries.INSERT_INTO_Ingredients(self._brand, self._names, self._description)
+
+		return self._id
+
+
 	def __iter__(self) -> dict:
 		yield from {
 			"id": self._id,
