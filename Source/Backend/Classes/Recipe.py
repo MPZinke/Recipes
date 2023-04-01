@@ -32,7 +32,7 @@ Recipe = TypeVar("Recipe")
 
 class Recipe(BaseClass):
 	def __init__(self, *, id: int, name: str, instructions: Dict[str, list[str]]|list, notes: str, rating: int,
-	  servings: int, prep_time: timedelta, cook_time: timedelta, total_time: timedelta, url: str,
+	  servings: int|Decimal, prep_time: timedelta, cook_time: timedelta, total_time: timedelta, url: str,
 	  history: list[datetime], ingredients: list[RecipeIngredient]):
 		self.validate(self.__init__.__annotations__, locals())
 
