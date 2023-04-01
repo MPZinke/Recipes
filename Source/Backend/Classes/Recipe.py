@@ -22,17 +22,20 @@ from math import prod
 from typing import Dict, TypeVar
 
 
+from Backend.Classes import BaseClass
 from Backend.Classes import RecipeIngredient
 from Backend.DB import Queries
 
 
-Recipe = TypeVar("Recipe");
+Recipe = TypeVar("Recipe")
 
 
-class Recipe:
+class Recipe(BaseClass):
 	def __init__(self, *, id: int, name: str, instructions: Dict[str, list[str]]|list, notes: str, rating: int,
 	  servings: int, prep_time: timedelta, cook_time: timedelta, total_time: timedelta, url: str,
 	  history: list[datetime], ingredients: list[RecipeIngredient]):
+		self.validate(self.__init__.__annotations__, locals())
+
 		self._id: int = id
 		self._name: str = name
 		self._instructions: dict|list = instructions
@@ -72,29 +75,6 @@ class Recipe:
 		recipe_data["ingredients"] = RecipeIngredient.from_Recipe_id(recipe_data["id"])
 
 		return Recipe(**recipe_data)
-
-
-	@staticmethod
-	def validate(recipe: dict) -> None:
-		from Backend.Classes import validate_keys, validate_list
-
-		types = {
-			"id": int, "name": str, "notes": str, "rating": int, "servings": int, "history": list, "url": str,
-			"prep_time": timedelta, "cook_time": timedelta, "total_time": timedelta,
-			"ingredients": list, "instructions": dict|list
-		}
-		validate_keys("Recipe", recipe, types)
-		validate_list("history", recipe["history"], datetime)
-
-		for recipe_ingredient in recipe["ingredients"]:
-			RecipeIngredient.validate(recipe_ingredient)
-
-		if(isinstance((instructions := recipe["instructions"]), list)):
-			instructions = {"": instructions}
-		for name, instruction_list in instructions.items():
-			if(not isinstance(name, str) or not isinstance(instruction_list, list)):
-				raise ValueError(f"""Key 'instructions' must be of type 'list[str]' or 'dict[str, list[str]]'""")
-			validate_list("instructions", instruction_list, str)
 
 
 	def add(self) -> int:

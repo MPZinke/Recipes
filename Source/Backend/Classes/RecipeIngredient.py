@@ -2,20 +2,22 @@
 
 from decimal import Decimal
 import json
-from typing import TypeVar
+from typing import TypeVar, Optional
 
 
 from Backend.Classes import Ingredient
 from Backend.DB import Queries
 
 
-RecipeIngredient = TypeVar("Recipe");
+RecipeIngredient = TypeVar("Recipe")
 
 
 class RecipeIngredient(Ingredient):
-	def __init__(self, *, id: int, amount: Decimal, brand: str, names: list[str], description: str, group: str,
+	def __init__(self, *, id: int, amount: Optional[Decimal], brand: str, names: list[str], description: str, group: str,
 	  Ingredients_id: int, is_required: bool, quality: str, notes: str, units: list[str]):
 		Ingredient.__init__(self, id=Ingredients_id, brand=brand, names=names, description=description)
+		self.validate(self.__init__.__annotations__, locals())
+
 		self._Ingredients_id: int = Ingredients_id
 
 		self._id: int = id
@@ -53,21 +55,6 @@ class RecipeIngredient(Ingredient):
 		[ingredient.update({"Ingredients_id": ingredient.pop("Ingredients.id")}) for ingredient in ingredient_data] 
 		[ingredient.pop("Recipes.id") for ingredient in ingredient_data] 
 		return [RecipeIngredient(**ingredient) for ingredient in ingredient_data]
-
-
-	@staticmethod
-	def validate(recipe_ingredient: dict) -> None:
-		from Backend.Classes import validate_keys, validate_list
-
-		types = {
-			"id": int, "group": str, "amount": float|Decimal, "units": list, "quality": str, "is_required": bool,
-			"notes": str, "brand": str, "names": list, "description": str, "Ingredients_id": int
-		}
-		validate_keys("Recipe Ingredient", recipe_ingredient, types)
-		validate_list("Units", recipe_ingredient["units"], str)
-
-		Ingredient.validate({"id": recipe_ingredient["Ingredients_id"], "brand": recipe_ingredient["brand"],
-		  "names": recipe_ingredient["names"], "description": recipe_ingredient["description"]})
 
 
 	def add(self, Recipe_id: int) -> int:
@@ -159,7 +146,7 @@ class RecipeIngredient(Ingredient):
 		return self * amount
 
 
-	def __imul__(self, amount: int|float) -> None:
+	def __imul__(self, amount: int|float|Decimal) -> None:
 		if(isinstance(amount, float)):
 			amount = Decimal(amount)
 

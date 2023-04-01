@@ -15,6 +15,7 @@ __author__ = "MPZinke"
 
 
 from datetime import timedelta
+from decimal import Decimal
 from flask import request
 import json
 from typing import Any
@@ -26,19 +27,19 @@ from Backend.Classes import Recipe, RecipeIngredient
 
 def POST_recipe_new() -> str:
 	print(request.data)
-	# try:
-	recipe_dict: dict = {"id": 0, "history": [], **request.json}
-	for key in ["cook_time", "prep_time", "total_time"]:
-		recipe_dict[key] = timedelta(minutes=recipe_dict[key])
+	try:
+		recipe: dict = {"id": 0, "history": [], **request.json}
+		for key in ["cook_time", "prep_time", "total_time"]:
+			recipe[key] = timedelta(minutes=recipe[key])
 
-	for x, ingredient in enumerate((ingredients := recipe_dict["ingredients"])):
-		recipe_dict["ingredients"][x] = {"id": 0, "Ingredients_id": 0, **ingredient}
+		ids = {"id": 0, "Ingredients_id": 0}
+		for x, ingredient in enumerate((ingredients := recipe["ingredients"])):
+			recipe["ingredients"][x] = {**ingredient, **ids, "amount": Decimal(ingredient["amount"])}
 
-	Recipe.validate(recipe_dict)
-	recipe = Recipe(**{**recipe_dict, "ingredients": [RecipeIngredient(**ingredient) for ingredient in ingredients]})
-	recipe.add()
+		recipe = Recipe(**{**recipe, "ingredients": [RecipeIngredient(**ingredient) for ingredient in ingredients]})
+		recipe.add()
 
-	return json.dumps({"id": recipe.id()})
+		return json.dumps({"id": recipe.id()})
 
-	# except (KeyError, ValueError) as error:
-	# 	raise BadRequest(description=str(error))
+	except (KeyError, ValueError) as error:
+		raise BadRequest(description=str(error))

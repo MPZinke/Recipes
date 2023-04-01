@@ -4,14 +4,17 @@ import json
 from typing import TypeVar
 
 
+from Backend.Classes import BaseClass
 from Backend.DB import Queries
 
 
-Ingredient = TypeVar("Ingredient");
+Ingredient = TypeVar("Ingredient")
 
 
-class Ingredient:
+class Ingredient(BaseClass):
 	def __init__(self, *, id: int, brand: str, names: list[str], description: str):
+		self.validate(Ingredient.__init__.__annotations__, locals())
+
 		self._id: int = id
 		self._brand: str = brand
 		self._names: list[str] = names
@@ -54,15 +57,6 @@ class Ingredient:
 			return None
 
 		return Ingredient(**ingredient_data)
-
-
-	@staticmethod
-	def validate(ingredient: dict) -> None:
-		from Backend.Classes import validate_keys, validate_list
-
-		types = {"id": int, "brand": str, "names": list, "description": str}
-		validate_keys("Ingredient", ingredient, types)
-		validate_list("Names", ingredient["names"], str)
 
 
 	def add(self) -> int:
