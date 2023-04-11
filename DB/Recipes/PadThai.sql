@@ -37,10 +37,7 @@ BEGIN
 				"If using chicken, cook until just cooked through, about 3-4 minutes, flipping only once.",
 				"Push everything to the side of the pan.",
 				"Add a little oil and the beaten eggs",
-				"Scramble the eggs, breaking them into small pieces with a spatula as they cook."
-			],
-			"Combine":
-			[
+				"Scramble the eggs, breaking them into small pieces with a spatula as they cook.",
 				"Add noodles, sauce, bean sprouts and peanuts to the pan (reserving some peanuts for topping at the end), tossing everything to combine.",
 				"Garnish the top with green onions, extra peanuts, cilantro and lime wedges."
 			]
