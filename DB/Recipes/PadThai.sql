@@ -20,14 +20,31 @@ BEGIN
 	INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "prep_time", "cook_time", "url", "instructions") VALUES
 	(RecipeName, 5, 4, INTERVAL '30 MINUTES', INTERVAL '15 MINUTES', INTERVAL '15 MINUTES',
 		'https://tastesbetterfromscratch.com/pad-thai/#recipe',
-		'[
-			"Make sauce by combining sauce ingredients in a bowl. Set aside.",
-			"Cook noodles according to package instructions, just until tender. When done, rinse under cold water.",
-			"Stir Fry: Heat 1½ tablespoons of oil in a large saucepan over medium-high heat. Add the shrimp, chicken or tofu, garlic and bell pepper. The shrimp will cook quickly, about 1-2 minutes on each side, or until pink. If using chicken, cook until just cooked through, about 3-4 minutes, flipping only once.",
-			"Push everything to the side of the pan. Add a little oil and add the beaten eggs. Scramble the eggs, breaking them into small pieces with a spatula as they cook.",
-			"Add noodles, sauce, bean sprouts and peanuts to the pan (reserving some peanuts for topping at the end). Toss everything to combine.",
-			"Garnish the top with green onions, extra peanuts, cilantro and lime wedges."
-		]'
+		'{
+			"Sauce":
+			[
+				"Make sauce by combining sauce ingredients in a bowl. Set aside."
+			],
+			"Noodles":
+			[
+				"Cook noodles according to package instructions, just until tender.",
+				"When done, rinse under cold water."
+			],
+			"Stir Fry":
+			[
+				"Heat 1½ tablespoons of oil in a large saucepan over medium-high heat.",
+				"Add the chicken or tofu, garlic and bell pepper.",
+				"If using chicken, cook until just cooked through, about 3-4 minutes, flipping only once.",
+				"Push everything to the side of the pan.",
+				"Add a little oil and the beaten eggs",
+				"Scramble the eggs, breaking them into small pieces with a spatula as they cook."
+			],
+			"Combine":
+			[
+				"Add noodles, sauce, bean sprouts and peanuts to the pan (reserving some peanuts for topping at the end), tossing everything to combine.",
+				"Garnish the top with green onions, extra peanuts, cilantro and lime wedges."
+			]
+		}'
 	);
 
 
