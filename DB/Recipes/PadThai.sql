@@ -102,7 +102,7 @@ BEGIN
 		(
 			ARRAY['Chicken Breast', 'Chicken Breasts']::VARCHAR(64)[2],
 			'',
-			ARRAY['', ''],
+			ARRAY['Ounce', 'Ounces'],
 			8.0, '', TRUE, 'Or shrimp or extra-firm tofu. Cut into small pieces'
 		),
 		(
