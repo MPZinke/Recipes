@@ -22,6 +22,7 @@ BEGIN
 		'[
 			"Combine and stir ${title::\\{\"title\": \"Sugar, Flour, Butter, Baking Soda\", \"text\": \"dry ingredients\"\\}}.",
 			"Combine and stir ${title::\\{\"title\": \"Eggs, Banana, Butter Milk, Vanilla\", \"text\": \"wet ingredients\"\\}}.",
+			"Now add the butter you forgot in the microwave.",
 			"Combine mixtures. Do not over stir.",
 			"Optionally add pecans.",
 			"Bake at 350°F for approximately ${timer::00:50:00} or until the toothpick comes out clean.",
