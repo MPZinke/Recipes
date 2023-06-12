@@ -14,7 +14,7 @@
 DO $$
 DECLARE RecipeName VARCHAR(64);
 BEGIN
-	RecipeName := ' Turkey Stuffed Bell Peppers';
+	RecipeName := 'Turkey Stuffed Bell Peppers';
 
 
 	INSERT INTO "Recipes" ("name", "rating", "servings", "prep_time", "cook_time", "total_time", "url", "instructions") VALUES

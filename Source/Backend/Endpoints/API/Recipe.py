@@ -25,6 +25,10 @@ from werkzeug.exceptions import HTTPException, BadRequest
 from Backend.Classes import Recipe, RecipeIngredient
 
 
+def GET_recipes() -> str:
+	return json.dumps([recipe.name() for recipe in Recipe.all()], indent=4, default=str)
+
+
 def POST_recipe_new() -> str:
 	print(request.data)
 	try:
