@@ -18,5 +18,6 @@ from Backend.Classes import Ingredient
 
 
 def GET_ingredients():
+	"""Gets all ingredients"""
 	ingredients: list[Ingredient] = Ingredient.all()
 	return str(ingredients)

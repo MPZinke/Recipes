@@ -26,10 +26,12 @@ from Backend.Classes import Recipe, RecipeIngredient
 
 
 def GET_recipes() -> str:
+	"""Gets all recipes and returns them in a JSON format."""
 	return json.dumps([recipe.name() for recipe in Recipe.all()], indent=4, default=str)
 
 
 def POST_recipe_new() -> str:
+	"""Creates a new recipe and returns it in a JSON format."""
 	print(request.data)
 	try:
 		recipe: dict = {"id": 0, "history": [], **request.json}

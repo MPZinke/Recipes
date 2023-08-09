@@ -22,6 +22,7 @@ from Backend.Classes import Ingredient, RecipeIngredient
 
 
 def GET_new_recipe():
+	"""Gets all ingredients & displays them as a webpage."""
 	ingredients: list[Ingredient] = Ingredient.all()
 	return render_template("New/Recipe/Index.j2", title="New Recipe", ingredients=ingredients)
 

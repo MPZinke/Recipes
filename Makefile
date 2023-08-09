@@ -1,7 +1,7 @@
 
 
 run:
-	set -a .env; python3 Source/Main.py; set +a
+	set -a; source .env; set +a; python3 Source/Main.py
 
 
 install:
