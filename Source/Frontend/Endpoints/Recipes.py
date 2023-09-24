@@ -20,6 +20,7 @@ import re
 
 
 from Backend.Classes import Recipe
+from Frontend.HTMLRenderingHelpers import format_decimal, format_decimal_fractionally, replace_special
 
 
 def GET_recipes():
@@ -36,4 +37,10 @@ def GET_recipe(recipe_name: str):
 
 	multiplier = Decimal(multiplier_text)
 	recipe: Recipe = Recipe.from_name(recipe_name) * multiplier
-	return render_template("Recipe/Index.j2", title=recipe.name(), recipe=recipe)
+	args = {
+		"format_decimal": format_decimal,
+		"format_decimal_fractionally": format_decimal_fractionally,
+		"replace_special": replace_special,
+		"str": str
+	}
+	return render_template("Recipe/Index.j2", title=recipe.name(), recipe=recipe, **args)

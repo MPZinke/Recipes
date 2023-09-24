@@ -6,7 +6,7 @@
 
 {% macro list_ingredient(ingredient) %}
 	{% if ingredient.amount() != 0.0 %}
-		{{ ingredient.amount() | format_decimal_fractionally }}
+		{{ format_decimal_fractionally(ingredient.amount()) }}
 	{% endif %}
 
 	{{ ingredient.unit(ingredient.amount()) }}
@@ -36,13 +36,5 @@
 <div
   style="padding: 16px;"
 >
-	{% with ingredients = {} %}
-		{% for ingredient in recipe.ingredients() %}
-			{% if ingredient.group() not in ingredients %}
-				{% do ingredients.update({ingredient.group(): []}) %}
-			{% endif %}
-			{% do ingredients[ingredient.group()].append(ingredient) %}
-		{% endfor %}
-		{{ checkbox_list(ingredients, list_ingredient) }}
-	{% endwith %}
+	{{ checkbox_list(recipe.ingredient_groups(), list_ingredient) }}
 </div>

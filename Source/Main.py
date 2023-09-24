@@ -47,13 +47,13 @@ def handle_error(error):
 def main():
 	server = mpzinke.Server(name="Recipes", authorization=mpzinke.Server.no_auth, handle_error=handle_error, port=80,
 	  template_folder=TEMPLATE_FOLDER, static_folder=STATIC_FOLDER)
-	# FROM: https://stackoverflow.com/a/39858522
-	server.jinja_env.add_extension('jinja2.ext.do')
-	# FROM: https://abstractkitchen.com/blog/how-to-create-custom-jinja-filters-in-flask/
-	server.jinja_env.filters["format_decimal"] = format_decimal
-	server.jinja_env.filters["format_decimal_fractionally"] = format_decimal_fractionally
-	server.jinja_env.filters["replace_special"] = replace_special
-	server.jinja_env.filters["str"] = str
+	# # FROM: https://stackoverflow.com/a/39858522
+	# server.jinja_env.add_extension('jinja2.ext.do')
+	# # FROM: https://abstractkitchen.com/blog/how-to-create-custom-jinja-filters-in-flask/
+	# server.jinja_env.filters["format_decimal"] = format_decimal
+	# server.jinja_env.filters["format_decimal_fractionally"] = format_decimal_fractionally
+	# server.jinja_env.filters["replace_special"] = replace_special
+	# server.jinja_env.filters["str"] = str
 
 	server.route("/", Frontend.Endpoints.Recipes.GET_recipes)
 	server.route("/favicon.ico", Frontend.Endpoints.GET_favicon_icon)

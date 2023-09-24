@@ -5,7 +5,7 @@
 
 
 {% macro list_instruction(instruction) %}
-	{{ instruction | replace_special }}
+	{{ replace_special(instruction) }}
 {% endmacro %}
 
 

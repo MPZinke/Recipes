@@ -27,6 +27,7 @@ from Backend.Classes import RecipeIngredient
 from Backend.DB import Queries
 
 
+Ingredient = TypeVar("Ingredient")
 Recipe = TypeVar("Recipe")
 
 
@@ -169,6 +170,17 @@ class Recipe(BaseClass):
 
 	def ingredients(self) -> list[RecipeIngredient]:
 		return self._ingredients
+
+
+	def ingredient_groups(self) -> dict[Ingredient]:
+		ingredients = {}
+		for ingredient in self._ingredients:
+			if(ingredient.group() not in ingredients):
+				ingredients[ingredient.group()] = []
+
+			ingredients[ingredient.group()].append(ingredient)
+
+		return ingredients
 
 
 	# ——————————————————————————————————————————————————— SPECIAL  ——————————————————————————————————————————————————— #

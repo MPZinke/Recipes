@@ -3,7 +3,7 @@
 >
 	Servings:
 	<input type="number" id="servings-input" style="width:63px" min="1"
-	  value="{{ recipe.servings() | format_decimal }}" onchange="update_servings(this);"
+	  value="{{ format_decimal(recipe.servings()) }}" onchange="update_servings(this);"
 	/>
 </div>
 
@@ -12,7 +12,7 @@
 	{
 		const urlParams = new URLSearchParams(window.location.search);
 		const current_multiplier = urlParams.get("multiplier") || "1.0";
-		const current_servings = {{ recipe.servings() | format_decimal }};
+		const current_servings = {{ format_decimal(recipe.servings()) }};
 		const new_servings = element.value;
 
 		const new_multiplier = current_multiplier * new_servings / current_servings;
