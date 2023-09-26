@@ -1,19 +1,19 @@
 
 
 import json
+import mpzinke
 from typing import TypeVar
 
 
-from Backend.Classes import BaseClass
 from Backend.DB import Queries
 
 
 Ingredient = TypeVar("Ingredient")
 
 
-class Ingredient(BaseClass):
+class Ingredient(mpzinke.Validator):
 	def __init__(self, *, id: int, brand: str, names: list[str], description: str):
-		self.validate(Ingredient.__init__.__annotations__, locals())
+		mpzinke.Validator.__init__(self, locals())
 
 		self._id: int = id
 		self._brand: str = brand

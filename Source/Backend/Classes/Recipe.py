@@ -17,12 +17,12 @@ __author__ = "MPZinke"
 from datetime import datetime, timedelta
 from decimal import Decimal
 from fractions import Fraction
+import mpzinke
 import json
 from math import prod
 from typing import Dict, TypeVar
 
 
-from Backend.Classes import BaseClass
 from Backend.Classes import RecipeIngredient
 from Backend.DB import Queries
 
@@ -31,11 +31,12 @@ Ingredient = TypeVar("Ingredient")
 Recipe = TypeVar("Recipe")
 
 
-class Recipe(BaseClass):
+class Recipe(mpzinke.Validator):
 	def __init__(self, *, id: int, name: str, instructions: Dict[str, list[str]]|list, notes: str, rating: int,
-	  servings: int|Decimal, prep_time: timedelta, cook_time: timedelta, total_time: timedelta, url: str,
-	  history: list[datetime], ingredients: list[RecipeIngredient]):
-		self.validate(self.__init__.__annotations__, locals())
+		servings: int|Decimal, prep_time: timedelta, cook_time: timedelta, total_time: timedelta, url: str,
+		history: list[datetime], ingredients: list[RecipeIngredient]
+	):
+		mpzinke.Validator.__init__(self, locals())
 
 		self._id: int = id
 		self._name: str = name

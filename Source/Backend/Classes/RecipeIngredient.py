@@ -14,9 +14,9 @@ RecipeIngredient = TypeVar("Recipe")
 
 class RecipeIngredient(Ingredient):
 	def __init__(self, *, id: int, amount: Optional[Decimal], brand: str, names: list[str], description: str, group: str,
-	  Ingredients_id: int, is_required: bool, quality: str, notes: str, units: list[str]):
+		Ingredients_id: int, is_required: bool, quality: str, notes: str, units: list[str]
+	):
 		Ingredient.__init__(self, id=Ingredients_id, brand=brand, names=names, description=description)
-		self.validate(self.__init__.__annotations__, locals())
 
 		self._Ingredients_id: int = Ingredients_id
 
