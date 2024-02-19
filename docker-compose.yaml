@@ -1,0 +1,17 @@
+version: "3"
+services:
+  recipes:
+    container_name: recipes
+    image: recipes:latest
+    build:
+      context: ./Source
+      dockerfile: ../Dockerfile
+    environment:
+      - RECIPES_DB_USER=${RECIPES_DB_USER}
+      - RECIPES_DB_HOST=${RECIPES_DB_HOST}
+      - RECIPES_DB_PASSWORD=${RECIPES_DB_PASSWORD}
+    tty: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 8080:80
