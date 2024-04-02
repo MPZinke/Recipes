@@ -72,6 +72,7 @@ def main():
 
 	server.route("/api/recipes", Backend.Endpoints.API.Recipe.GET_recipes)
 	server.route("/api/ingredients", Backend.Endpoints.API.Ingredients.GET_ingredients)
+	server.route("/api/recipes/<string:recipe_name>/add_to_home_assistant", POST=Backend.Endpoints.API.HomeAssistant.POST_add_to_home_assistant)
 	server.route("/api/recipe/new", POST=Backend.Endpoints.API.Recipe.POST_recipe_new)
 
 	print(json.dumps(dict(server), indent=4))

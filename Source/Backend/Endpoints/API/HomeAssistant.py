@@ -5,7 +5,7 @@ __author__ = "MPZinke"
 ########################################################################################################################
 #                                                                                                                      #
 #   created by: MPZinke                                                                                                #
-#   on 2023.03.07                                                                                                      #
+#   on 2024.02.20                                                                                                      #
 #                                                                                                                      #
 #   DESCRIPTION:                                                                                                       #
 #   BUGS:                                                                                                              #
@@ -14,30 +14,35 @@ __author__ = "MPZinke"
 ########################################################################################################################
 
 
-from flask import jsonify
-import sys
-from werkzeug.exceptions import HTTPException
+import asyncio
+import os
+import requests
+from typing import Optional
 
 
-from Backend.Endpoints.API import HomeAssistant
-from Backend.Endpoints.API import Ingredients
-from Backend.Endpoints.API import Recipe
+from Backend.Classes import Recipe
 
 
-def handle_error(error):
+HOME_ASSISTANT_DOMAIN = os.getenv("HOME_ASSISTANT_DOMAIN")
+HOME_ASSISTANT_TOKEN = os.getenv("HOME_ASSISTANT_TOKEN")
+
+
+async def POST_add_to_home_assistant(recipe_name: str) -> list[str]:
 	"""
-	SUMMARY: Handles the return response for any server error that occurs during a request.
-	PARAMS:  Takes the error that has occured.
-	FROM: https://readthedocs.org/projects/pallet/downloads/pdf/latest/
-	 AND: https://stackoverflow.com/a/29332131
 	"""
-	print(error, file=sys.stderr)
-	if isinstance(error, HTTPException):
-		return jsonify(error=str(error)), error.code;
+	recipe: Optional[Recipe] = Recipe.from_name(recipe_name)
 
-	try:
-		exception_traceback = traceback.format_exc();
-	except:
-		exception_traceback = "Unknown traceback";
+	ingredient_strings: list[str] = []
 
-	return jsonify(error=str(error), traceback=exception_traceback), 500;
+	url = f"{HOME_ASSISTANT_DOMAIN}/api/services/shopping_list/add_item"
+	headers = {"Authorization": f"Bearer {HOME_ASSISTANT_TOKEN}"}
+	for ingredient in recipe.ingredients():
+		ingredient_amount = round(ingredient.amount(), 2)
+		ingredient_unit = ingredient.unit(ingredient_amount)
+		ingredient_name = ingredient.name(ingredient_amount)
+		ingredient_string = f"{ingredient_amount} {ingredient_unit}{' ' if(ingredient_unit) else ''}{ingredient_name}"
+
+		ingredient_strings.append(ingredient_string)
+		requests.post(url, headers=headers, json={"name": ingredient_string}, timeout=15)
+
+	return ingredient_strings
