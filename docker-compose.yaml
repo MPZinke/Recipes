@@ -10,8 +10,10 @@ services:
       - RECIPES_DB_USER=${RECIPES_DB_USER}
       - RECIPES_DB_HOST=${RECIPES_DB_HOST}
       - RECIPES_DB_PASSWORD=${RECIPES_DB_PASSWORD}
-    tty: true
+      - VIRTUAL_HOST=${RECIPES_VIRTUAL_HOST}
+    expose:
+      - "80"
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    ports:
-      - 8080:80
+    restart: "unless-stopped"
+    tty: true
