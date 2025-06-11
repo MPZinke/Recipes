@@ -26,8 +26,8 @@ from backend.classes import Recipe
 
 
 ROOT_DIR = Path(__file__).absolute().parent
-TEMPLATE_FOLDER = ROOT_DIR / "Frontend/Templates"
-STATIC_FOLDER = ROOT_DIR / "Frontend/Static"
+TEMPLATE_FOLDER = ROOT_DIR / "frontend/Templates"
+STATIC_FOLDER = ROOT_DIR / "frontend/Static"
 BLUEPRINT = Blueprint("recipes", __name__, template_folder=TEMPLATE_FOLDER, static_folder=STATIC_FOLDER)
 
 

@@ -33,8 +33,8 @@ from frontend.html_rendering_helpers import add_helpers
 
 
 ROOT_DIR = Path(__file__).absolute().parent
-TEMPLATE_FOLDER = ROOT_DIR / "Frontend/Templates"
-STATIC_FOLDER = ROOT_DIR / "Frontend/Static"
+TEMPLATE_FOLDER = ROOT_DIR / "frontend/Templates"
+STATIC_FOLDER = ROOT_DIR / "frontend/Static"
 
 
 def after_request(response):
