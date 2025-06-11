@@ -14,4 +14,4 @@ __author__ = "MPZinke"
 ########################################################################################################################
 
 
-from Frontend import Endpoints
+from frontend import endpoints

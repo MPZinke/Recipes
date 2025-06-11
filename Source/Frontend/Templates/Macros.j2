@@ -43,15 +43,14 @@
 
 {% macro quantity(amount, text, quality="", units=["", ""]) %}
 	{% set multiplier = request.args.get("multiplier", "1.0") | float %}
-	{% set amount_str = format_decimal_fractionally(Decimal(amount).__mul__(multiplier)) %}
-	{% set unit = units[(Decimal(amount).__mul__(multiplier)).as_integer_ratio()[0] > 1] %}
+	{% set amount_str = format_decimal_fractionally(Decimal(amount) * Decimal(multiplier)) %}
+	{% set unit = units[(Decimal(amount) * Decimal(multiplier)).as_integer_ratio()[0] > 1] %}
 	<span
 		data-toggle="tooltip"
 		class="underlined"
 		title="{{ amount_str }} {{ unit }} {{ quality }}"
 	>
-		{{ text }}
-	</span>
+		{{ text }}</span>
 {% endmacro %}
 
 

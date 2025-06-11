@@ -14,6 +14,6 @@ __author__ = "MPZinke"
 ########################################################################################################################
 
 
-from Backend.Classes.Ingredient import Ingredient
-from Backend.Classes.RecipeIngredient import RecipeIngredient
-from Backend.Classes.Recipe import Recipe
+from backend.classes.Ingredient import Ingredient
+from backend.classes.RecipeIngredient import RecipeIngredient
+from backend.classes.Recipe import Recipe

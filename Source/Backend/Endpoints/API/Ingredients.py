@@ -14,10 +14,17 @@ __author__ = "MPZinke"
 ########################################################################################################################
 
 
-from Backend.Classes import Ingredient
+from flask import Blueprint
 
 
-def GET_ingredients():
+from backend.classes import Ingredient
+
+
+BLUEPRINT = Blueprint("api_ingredients", __name__)
+
+
+BLUEPRINT.route("/api/ingredients")
+def ingredients():
 	"""Gets all ingredients"""
 	ingredients: list[Ingredient] = Ingredient.all()
 	return str(ingredients)

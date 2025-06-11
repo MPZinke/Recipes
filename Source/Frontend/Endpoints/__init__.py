@@ -14,10 +14,23 @@ __author__ = "MPZinke"
 ########################################################################################################################
 
 
-from Frontend.Endpoints import Ingredients
-from Frontend.Endpoints import New
-from Frontend.Endpoints import Recipes
+from pathlib import Path
 
 
+from flask import Blueprint
+
+
+from frontend.endpoints import ingredients
+from frontend.endpoints import new
+from frontend.endpoints import recipes
+
+
+ROOT_DIR = Path(__file__).absolute().parent
+TEMPLATE_FOLDER = ROOT_DIR / "Frontend/Templates"
+STATIC_FOLDER = ROOT_DIR / "Frontend/Static"
+BLUEPRINT = Blueprint("recipes", __name__, template_folder=TEMPLATE_FOLDER, static_folder=STATIC_FOLDER)
+
+
+@BLUEPRINT.route("/favicon.ico")
 def GET_favicon_icon():
 	return ""

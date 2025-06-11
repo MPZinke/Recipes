@@ -19,7 +19,7 @@ from decimal import Decimal
 from typing import Any, Dict, Optional, TypeVar
 
 
-from Backend.DB.Connection import connect
+from backend.db.connection import connect
 
 
 Json = TypeVar("Json");

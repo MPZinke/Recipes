@@ -5,7 +5,7 @@ import mpzinke
 from typing import TypeVar
 
 
-from Backend.DB import Queries
+from backend.db import queries
 
 
 Ingredient = TypeVar("Ingredient")
@@ -23,14 +23,14 @@ class Ingredient(mpzinke.Validator):
 
 	@staticmethod
 	def all() -> list[Ingredient]:
-		ingredient_data: list[dict] = Queries.SELECT_ALL_FROM_Ingredients(ignore=["is_deleted"])
+		ingredient_data: list[dict] = queries.SELECT_ALL_FROM_Ingredients(ignore=["is_deleted"])
 		ingredient_data.sort(key=lambda ingredient: ingredient["names"][0])
 		return [Ingredient(**ingredient) for ingredient in ingredient_data]
 
 
 	@staticmethod
 	def search(search) -> list[Ingredient]:
-		ingredient_data: list[dict] = Queries.SELECT_ALL_FROM_Ingredients_WHERE_name_like(search, ignore=["is_deleted"])
+		ingredient_data: list[dict] = queries.SELECT_ALL_FROM_Ingredients_WHERE_name_like(search, ignore=["is_deleted"])
 		ingredient_data.sort(key=lambda ingredient: ingredient["names"][0])
 		return [Ingredient(**ingredient) for ingredient in ingredient_data]
 
@@ -40,7 +40,7 @@ class Ingredient(mpzinke.Validator):
 		if(not isinstance(id, int)):
 			raise Exception(f"id must be of type 'int', not type '{type(id)}'")
 
-		ingredient_data: dict|None = Queries.SELECT_ALL_FROM_Ingredients_WHERE_id(id, ignore=["is_deleted"])
+		ingredient_data: dict|None = queries.SELECT_ALL_FROM_Ingredients_WHERE_id(id, ignore=["is_deleted"])
 		if(ingredient_data is None):
 			return None
 
@@ -52,7 +52,7 @@ class Ingredient(mpzinke.Validator):
 		if(not isinstance(name, str)):
 			raise Exception(f"name must be of type 'str', not type '{type(name)}'")
 
-		ingredient_data: dict|None = Queries.SELECT_ALL_FROM_Ingredients_WHERE_name(name, ignore=["is_deleted"])
+		ingredient_data: dict|None = queries.SELECT_ALL_FROM_Ingredients_WHERE_name(name, ignore=["is_deleted"])
 		if(ingredient_data is None):
 			return None
 
@@ -60,7 +60,7 @@ class Ingredient(mpzinke.Validator):
 
 
 	def add(self) -> int:
-		self._id = Queries.INSERT_INTO_Ingredients(self._brand, self._names, self._description)
+		self._id = queries.INSERT_INTO_Ingredients(self._brand, self._names, self._description)
 
 		return self._id
 

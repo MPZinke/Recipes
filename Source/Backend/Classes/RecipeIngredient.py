@@ -5,8 +5,8 @@ import json
 from typing import TypeVar, Optional
 
 
-from Backend.Classes import Ingredient
-from Backend.DB import Queries
+from backend.classes import Ingredient
+from backend.db import queries
 
 
 RecipeIngredient = TypeVar("Recipe")
@@ -34,7 +34,7 @@ class RecipeIngredient(Ingredient):
 		if(not isinstance(name, str)):
 			raise Exception(f"name must be of type 'str', not type '{type(name)}'")
 
-		recipe_ingredient_data: dict|None = Queries.SELECT_ALL_FROM_RecipesIngredients_WHERE_Ingredients_name(name,
+		recipe_ingredient_data: dict|None = queries.SELECT_ALL_FROM_RecipesIngredients_WHERE_Ingredients_name(name,
 		  ignore=["is_deleted"])
 		if(recipe_ingredient_data is None):
 			return None
@@ -50,7 +50,7 @@ class RecipeIngredient(Ingredient):
 		if(not isinstance(Recipe_id, int)):
 			raise Exception(f"Recipe_id must be of type 'int', not type '{type(Recipe_id)}'")
 
-		ingredient_data: list[dict] = Queries.SELECT_ALL_FROM_RecipesIngredients_WHERE_Recipes_id(Recipe_id,
+		ingredient_data: list[dict] = queries.SELECT_ALL_FROM_RecipesIngredients_WHERE_Recipes_id(Recipe_id,
 		  ignore=["is_deleted"])
 		[ingredient.update({"Ingredients_id": ingredient.pop("Ingredients.id")}) for ingredient in ingredient_data] 
 		[ingredient.pop("Recipes.id") for ingredient in ingredient_data] 
@@ -58,13 +58,13 @@ class RecipeIngredient(Ingredient):
 
 
 	def add(self, Recipe_id: int) -> int:
-		if((ingredient := Queries.SELECT_ALL_FROM_Ingredients_WHERE_brand_AND_names(self._brand, self._names)) is None):
+		if((ingredient := queries.SELECT_ALL_FROM_Ingredients_WHERE_brand_AND_names(self._brand, self._names)) is None):
 			ingredient_object = Ingredient(id=0, brand=self._brand, names=self._names, description=self._description)
 			self._Ingredients_id = ingredient_object.add()
 		else:
 			self._Ingredients_id = ingredient["id"]
 
-		self._id = Queries.INSERT_INTO_RecipesIngredients(self._amount, self._group, self._Ingredients_id,
+		self._id = queries.INSERT_INTO_RecipesIngredients(self._amount, self._group, self._Ingredients_id,
 		  self._is_required, self._notes, self._quality, Recipe_id, self._units)
 
 		return self._id
@@ -75,7 +75,7 @@ class RecipeIngredient(Ingredient):
 			"id": self._id,
 			"Ingredients_id": self._Ingredients_id,
 			"group": self._group,
-			"amount": self._amount,
+			"amount": float(self._amount),
 			"units": self._units,
 			"quality": self._quality,
 			"is_required": self._is_required,

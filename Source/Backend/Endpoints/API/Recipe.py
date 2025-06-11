@@ -16,21 +16,27 @@ __author__ = "MPZinke"
 
 from datetime import timedelta
 from decimal import Decimal
-from flask import request
 import json
-from typing import Any
-from werkzeug.exceptions import HTTPException, BadRequest
 
 
-from Backend.Classes import Recipe, RecipeIngredient
+from flask import Blueprint, request
+from werkzeug.exceptions import BadRequest
 
 
-def GET_recipes() -> str:
+from backend.classes import Recipe, RecipeIngredient
+
+
+BLUEPRINT = Blueprint("api_recipe", __name__)
+
+
+@BLUEPRINT.route("/api/recipes")
+def recipes() -> str:
 	"""Gets all recipes and returns them in a JSON format."""
 	return json.dumps([recipe.name() for recipe in Recipe.all()], indent=4, default=str)
 
 
-def POST_recipe_new() -> str:
+@BLUEPRINT.route("/api/recipes/new", methods=["POST"])
+def recipe_new() -> str:
 	"""Creates a new recipe and returns it in a JSON format."""
 	print(request.data)
 	try:

@@ -14,4 +14,4 @@ __author__ = "MPZinke"
 ########################################################################################################################
 
 
-from Backend.Endpoints import API
+from backend.endpoints import api

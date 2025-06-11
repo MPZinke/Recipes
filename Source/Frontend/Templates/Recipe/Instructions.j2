@@ -5,7 +5,7 @@
 
 
 {% macro list_instruction(instruction) %}
-	{{ instruction | render_value }}
+	{{ render_value(instruction) }}
 {% endmacro %}
 
 

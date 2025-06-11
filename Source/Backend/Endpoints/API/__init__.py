@@ -14,14 +14,17 @@ __author__ = "MPZinke"
 ########################################################################################################################
 
 
-from flask import jsonify
 import sys
+import traceback
+
+
+from flask import jsonify
 from werkzeug.exceptions import HTTPException
 
 
-from Backend.Endpoints.API import HomeAssistant
-from Backend.Endpoints.API import Ingredients
-from Backend.Endpoints.API import Recipe
+from backend.endpoints.api import home_assistant
+from backend.endpoints.api import ingredients
+from backend.endpoints.api import recipe
 
 
 def handle_error(error):

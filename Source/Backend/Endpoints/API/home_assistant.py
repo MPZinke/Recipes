@@ -14,22 +14,30 @@ __author__ = "MPZinke"
 ########################################################################################################################
 
 
-import asyncio
 import os
+from pathlib import Path
 import requests
 from typing import Optional
 
 
-from Backend.Classes import Recipe
+from flask import Blueprint
+
+
+from backend.classes import Recipe
 
 
 HOME_ASSISTANT_DOMAIN = os.getenv("HOME_ASSISTANT_DOMAIN")
 HOME_ASSISTANT_TOKEN = os.getenv("HOME_ASSISTANT_TOKEN")
 
 
-async def POST_add_to_home_assistant(recipe_name: str) -> list[str]:
-	"""
-	"""
+ROOT_DIR = Path(__file__).absolute().parent.parent
+TEMPLATE_FOLDER = ROOT_DIR / "Frontend/Templates"
+STATIC_FOLDER = ROOT_DIR / "Frontend/Static"
+BLUEPRINT = Blueprint("api_home_assistant", __name__, template_folder=TEMPLATE_FOLDER, static_folder=STATIC_FOLDER)
+
+
+@BLUEPRINT.route("/api/recipes/<string:recipe_name>/add_to_home_assistant", methods=["POST"])
+async def add_to_home_assistant(recipe_name: str) -> list[str]:
 	recipe: Optional[Recipe] = Recipe.from_name(recipe_name)
 
 	ingredient_strings: list[str] = []

@@ -23,8 +23,8 @@ from math import prod
 from typing import Dict, TypeVar
 
 
-from Backend.Classes import RecipeIngredient
-from Backend.DB import Queries
+from backend.classes import RecipeIngredient
+from backend.db import queries
 
 
 Ingredient = TypeVar("Ingredient")
@@ -54,10 +54,10 @@ class Recipe(mpzinke.Validator):
 
 	@staticmethod
 	def all() -> list[Recipe]:
-		recipe_data: list[dict] = Queries.SELECT_ALL_FROM_Recipes(ignore=["is_deleted"])
+		recipe_data: list[dict] = queries.SELECT_ALL_FROM_Recipes(ignore=["is_deleted"])
 		for recipe in recipe_data:
 			recipe["ingredients"] = RecipeIngredient.from_Recipe_id(recipe["id"])
-			recipe["history"] = Queries.SELECT_time_FROM_RecipesHistory_WHERE_Recipes_id(recipe["id"],
+			recipe["history"] = queries.SELECT_time_FROM_RecipesHistory_WHERE_Recipes_id(recipe["id"],
 			  ignore=["is_deleted"])
 
 		return [Recipe(**recipe) for recipe in recipe_data]
@@ -68,11 +68,11 @@ class Recipe(mpzinke.Validator):
 		if(not isinstance(name, str)):
 			raise Exception(f"name must be of type 'str', not type '{type(name)}'")
 
-		recipe_data: dict|None = Queries.SELECT_ALL_FROM_Recipes_WHERE_name(name, ignore=["is_deleted"])
+		recipe_data: dict|None = queries.SELECT_ALL_FROM_Recipes_WHERE_name(name, ignore=["is_deleted"])
 		if(recipe_data is None):
 			return None
 
-		recipe_data["history"] = Queries.SELECT_time_FROM_RecipesHistory_WHERE_Recipes_id(recipe_data["id"],
+		recipe_data["history"] = queries.SELECT_time_FROM_RecipesHistory_WHERE_Recipes_id(recipe_data["id"],
 		  ignore=["is_deleted"])
 		recipe_data["ingredients"] = RecipeIngredient.from_Recipe_id(recipe_data["id"])
 
@@ -80,7 +80,7 @@ class Recipe(mpzinke.Validator):
 
 
 	def add(self) -> int:
-		self._id = Queries.INSERT_INTO_Recipes(self._name, json.dumps(self._instructions), self._notes, self._rating,
+		self._id = queries.INSERT_INTO_Recipes(self._name, json.dumps(self._instructions), self._notes, self._rating,
 		  self._servings, self._prep_time, self._cook_time, self._total_time, self._url)
 
 		for recipe_ingredient in self._ingredients:
@@ -96,13 +96,13 @@ class Recipe(mpzinke.Validator):
 			"instructions": self._instructions,
 			"notes": self._notes,
 			"rating": self._rating,
-			"servings": self._servings,
+			"servings": float(self._servings),
 			"prep_time": self._prep_time,
 			"cook_time": self._cook_time,
 			"total_time": self._total_time,
 			"url": self._url,
-			"history": map(str, self._history),
-			"ingredients": map(dict, self._ingredients)
+			"history": list(map(str, self._history)),
+			"ingredients": list(map(dict, self._ingredients))
 		}.items()
 
 
@@ -111,7 +111,7 @@ class Recipe(mpzinke.Validator):
 
 
 	def __str__(self) -> str:
-		return json.dumps(dict(self), indent=4)
+		return json.dumps(dict(self), default=str, indent=4)
 
 
 	def id(self) -> int:

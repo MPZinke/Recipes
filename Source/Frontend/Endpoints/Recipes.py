@@ -15,21 +15,32 @@ __author__ = "MPZinke"
 
 
 from decimal import Decimal
-from flask import render_template, request
+from pathlib import Path
 import re
 
 
-from Backend.Classes import Recipe
-from Frontend.HTMLRenderingHelpers import format_decimal, format_decimal_fractionally
+from flask import Blueprint, render_template, request
 
 
-def GET_recipes():
+from backend.classes import Recipe
+
+
+ROOT_DIR = Path(__file__).absolute().parent
+TEMPLATE_FOLDER = ROOT_DIR / "Frontend/Templates"
+STATIC_FOLDER = ROOT_DIR / "Frontend/Static"
+BLUEPRINT = Blueprint("recipes", __name__, template_folder=TEMPLATE_FOLDER, static_folder=STATIC_FOLDER)
+
+
+@BLUEPRINT.route("/")
+@BLUEPRINT.route("/recipes")
+def recipes():
 	"""Gets all recipes & displays them as a webpage."""
 	recipes: list[Recipe] = Recipe.all()
 	return render_template("Recipes/Index.j2", title="Recipes", recipes=recipes)
 
 
-def GET_recipe(recipe_name: str):
+@BLUEPRINT.route("/recipe/<string:recipe_name>")
+def recipe(recipe_name: str):
 	"""Gets a specific recipe & displays it as a webpage."""
 	multiplier_text: str = request.args.get("multiplier", "1.0")
 	if(re.fullmatch(r"[0-9]+(\.[0-9]+)?", multiplier_text) is None):
@@ -37,9 +48,4 @@ def GET_recipe(recipe_name: str):
 
 	multiplier = Decimal(multiplier_text)
 	recipe: Recipe = Recipe.from_name(recipe_name) * multiplier
-	args = {
-		"format_decimal": format_decimal,
-		"format_decimal_fractionally": format_decimal_fractionally,
-		"request": request
-	}
-	return render_template("Recipe/Index.j2", title=recipe.name(), recipe=recipe, **args)
+	return render_template("Recipe/Index.j2", title=recipe.name(), recipe=recipe)

@@ -14,6 +14,6 @@ __author__ = "MPZinke"
 ########################################################################################################################
 
 
-from Backend import Classes
-from Backend import DB
-from Backend import Endpoints
+from backend import classes
+from backend import db
+from backend import endpoints
