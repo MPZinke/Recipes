@@ -12,7 +12,7 @@ services:
       - RECIPES_DB_PASSWORD=${RECIPES_DB_PASSWORD}
       - VIRTUAL_HOST=${RECIPES_VIRTUAL_HOST}
     expose:
-      - "80"
+      - 80
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: "unless-stopped"

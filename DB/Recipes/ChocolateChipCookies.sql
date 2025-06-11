@@ -23,14 +23,14 @@ BEGIN
 		'https://joyfoodsunshine.com/the-most-amazing-chocolate-chip-cookies/#recipe', 
 		'[
 			"Preheat oven to 375 degrees Farenheit. Line a baking pan with parchment paper and set aside.",
-			"Mix ${quantity::\\{\"amount\": 3.0, \"units\": [\"Cup\", \"Cups\"], \"text\": \"flour\"\\}}, ${quantity::\\{\"amount\": 1.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"text\": \"baking soda\"\\}}, ${quantity::\\{\"amount\": 1.0, \"quality\": \"Course\", \"units\": [\"Teaspoon\", \"Teaspoons\"], \"text\": \"salt\"\\}}, and ${quantity::\\{\"amount\": 0.5, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"text\": \"baking powder\"\\}} in a bowl. Set aside.",
+			"Mix {{ quantity(amount=3.0, text=\"flour\", units=[\"Cup\", \"Cups\"]) }}, {{ quantity(amount=1.0, text=\"baking soda\", units=[\"Teaspoon\", \"Teaspoons\"]) }}, {{ quantity(amount=1.0, text=\"salt\", units=[\"Teaspoon\", \"Teaspoons\"], quality=\"Course\") }}, and {{ quantity(amount=0.5, text=\"baking powder\", units=[\"Teaspoon\", \"Teaspoons\"]) }} in a bowl. Set aside.",
 			"In a separate bowl, cream together butter and sugars until combined.",
 			"Beat in eggs and vanilla until fluffy.",
 			"Mix in the dry ingredients until combined.",
 			"Add 12 oz package of chocolate chips and mix well.",
 			"Roll 2-3 Tablespoons of dough at a time into balls and place them evenly spaced on your prepared cookie sheets.",
-			"Bake in preheated oven for approximately ${timer::00:08:00}-${timer::00:10:00}. Take them out when they are just BARELY starting to turn brown.",
-			"Let them sit on the baking pan for ${timer::00:02:00} before removing to cooling rack.",
+			"Bake in preheated oven for approximately {{ timer(minutes=8) }}-{{ timer(minutes=10) }}. Take them out when they are just BARELY starting to turn brown.",
+			"Let them sit on the baking pan for {{ timer(minutes=2) }} before removing to cooling rack.",
 			"Repeat until all cookies dough has been baked."
 		]'
 	);

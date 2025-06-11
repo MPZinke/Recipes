@@ -41,6 +41,53 @@
 {% endmacro %}
 
 
+{% macro quantity(amount, text, quality="", units=["", ""]) %}
+	{% set multiplier = request.args.get("multiplier", "1.0") | float %}
+	{% set amount_str = format_decimal_fractionally(Decimal(amount).__mul__(multiplier)) %}
+	{% set unit = units[(Decimal(amount).__mul__(multiplier)).as_integer_ratio()[0] > 1] %}
+	<span
+		data-toggle="tooltip"
+		class="underlined"
+		title="{{ amount_str }} {{ unit }} {{ quality }}"
+	>
+		{{ text }}
+	</span>
+{% endmacro %}
+
+
+{% macro timer(hours=0, minutes=0, seconds=0) %}
+	{% if seconds == 0 and minutes == 0 and hours == 0 %}
+		A 0 second timer (...really?)
+	{% else %}
+		<a
+			href="shortcuts://run-shortcut?name=timer-duration&input={{ seconds + minutes * 60 + hours * 3600 }}"
+			target="_blank"
+		>
+			{% if hours != 0 %}
+				{{ hours }} hours
+			{% endif %}
+			{% if minutes != 0 %}
+				{{ minutes }} minutes
+			{% endif %}
+			{% if seconds != 0 %}
+				{{ seconds }} seconds
+			{% endif %}
+		</a>
+	{% endif %}
+{% endmacro %}
+
+
+{% macro title(title, text) %}
+	<span
+		data-toggle="tooltip"
+		class="underlined"
+		title="{{ title }}"
+	>
+		{{ text }}
+	</span>
+{% endmacro -%}
+
+
 <script>
 
 	function switch_text(checkbox)
