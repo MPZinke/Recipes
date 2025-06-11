@@ -5,7 +5,7 @@ COPY ./ /usr/local/bin/Recipes
 WORKDIR /usr/local/bin/Recipes
 
 
-RUN pip3 install mpzinke psycopg2
+RUN pip3 install flask mpzinke psycopg2
 
 
-ENTRYPOINT ["python3", "Main.py"]
+ENTRYPOINT ["python3", "."]

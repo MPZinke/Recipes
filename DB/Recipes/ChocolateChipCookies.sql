@@ -22,7 +22,7 @@ BEGIN
 	(RecipeName, 5, 36, INTERVAL '30 MINUTES', INTERVAL '10 MINUTES', INTERVAL '8 MINUTES',
 		'https://joyfoodsunshine.com/the-most-amazing-chocolate-chip-cookies/#recipe', 
 		'[
-			"Preheat oven to 375 degrees Farenheit. Line a baking pan with parchment paper and set aside.",
+			"Preheat oven to 375°F. Line a baking pan with parchment paper and set aside.",
 			"Mix {{ quantity(amount=3.0, text=\"flour\", units=[\"Cup\", \"Cups\"]) }}, {{ quantity(amount=1.0, text=\"baking soda\", units=[\"Teaspoon\", \"Teaspoons\"]) }}, {{ quantity(amount=1.0, text=\"salt\", units=[\"Teaspoon\", \"Teaspoons\"], quality=\"Course\") }}, and {{ quantity(amount=0.5, text=\"baking powder\", units=[\"Teaspoon\", \"Teaspoons\"]) }} in a bowl. Set aside.",
 			"In a separate bowl, cream together butter and sugars until combined.",
 			"Beat in eggs and vanilla until fluffy.",
