@@ -30,10 +30,7 @@ HOME_ASSISTANT_DOMAIN = os.getenv("HOME_ASSISTANT_DOMAIN")
 HOME_ASSISTANT_TOKEN = os.getenv("HOME_ASSISTANT_TOKEN")
 
 
-ROOT_DIR = Path(__file__).absolute().parent.parent
-TEMPLATE_FOLDER = ROOT_DIR / "Frontend/Templates"
-STATIC_FOLDER = ROOT_DIR / "Frontend/Static"
-BLUEPRINT = Blueprint("api_home_assistant", __name__, template_folder=TEMPLATE_FOLDER, static_folder=STATIC_FOLDER)
+BLUEPRINT = Blueprint("api_home_assistant", __name__)
 
 
 @BLUEPRINT.route("/api/recipes/<string:recipe_name>/add_to_home_assistant", methods=["POST"])

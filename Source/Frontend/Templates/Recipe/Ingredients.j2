@@ -34,15 +34,16 @@
 	Ingredients
 </h2>
 <div
-  style="padding: 16px;"
+	style="padding: 16px;"
 >
 	{{ checkbox_list(recipe.ingredient_groups(), list_ingredient) }}
 </div>
 
 
 <button
-  type="button"
-  onclick="add_ingredients_to_home_assistant()"
+	class="btn btn-primary"
+	type="button"
+	onclick="add_ingredients_to_home_assistant()"
 >
 	Add Ingredients To Home Assistant
 </button>
@@ -50,16 +51,16 @@
 	function add_ingredients_to_home_assistant()
 	{
 		var xmlhttp = new XMLHttpRequest();
-		// xmlhttp.open("POST", "/recipe/instruction/list", false);
-		// xmlhttp.setRequestHeader("Content-Type", "application/json");
-		// xmlhttp.send(JSON.stringify(instruction));
-		// if(xmlhttp.status == 400)
-		// {
-		// 	return alert('There was an error 400');
-		// }
-		// else if(xmlhttp.status != 200)
-		// {
-		// 	return alert('add_new_recipe_ingredient_html::something else other than 200 was returned');
-		// }
+		xmlhttp.open("POST", `/api/recipes/{{ recipe.name() }}/add_to_home_assistant`, false);
+		xmlhttp.setRequestHeader("Content-Type", "application/json");
+		xmlhttp.send(JSON.stringify(instruction));
+		if(xmlhttp.status == 400)
+		{
+			return alert('There was an error 400');
+		}
+		else if(xmlhttp.status != 200)
+		{
+			return alert('add_new_recipe_ingredient_html::something else other than 200 was returned');
+		}
 	}
 </script>
