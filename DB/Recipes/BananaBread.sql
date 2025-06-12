@@ -20,8 +20,8 @@ BEGIN
 	INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "cook_time", "prep_time", "instructions") VALUES
 	(RecipeName, 5, 3, INTERVAL '1 HOURS 20 MINUTES', INTERVAL '50 MINUTES', INTERVAL '30 MINUTES',
 		'[
-			"Combine and stir ${title::\\{\"title\": \"Sugar, Flour, Butter, Baking Soda\", \"text\": \"dry ingredients\"\\}}.",
-			"Combine and stir ${title::\\{\"title\": \"Eggs, Banana, Butter Milk, Vanilla\", \"text\": \"wet ingredients\"\\}}.",
+			"Combine and stir {{ title(title=\"Sugar, Flour, Butter, Baking Soda\", text=\"dry ingredients\") }}.",
+			"Combine and stir {{ title(title=\"Eggs, Banana, Butter Milk, Vanilla\", text=\"wet ingredients\") }}.",
 			"Now add the butter you forgot in the microwave.",
 			"Combine mixtures. Do not over stir.",
 			"Optionally add pecans.",

@@ -23,9 +23,9 @@ BEGIN
 	INSERT INTO "Recipes" ("name", "rating", "servings", "total_time", "url", "instructions") VALUES
 	(RecipeName, 3, 3, INTERVAL '4 HOURS', 'https://healthyfitnessmeals.com/honey-garlic-chicken/#recipe',
 		'[
-			"Prepare 2 bowls, one with beaten ${quantity::\\{\"amount\": 1.00000000, \"quality\": \"Large\", \"text\": \"egg\"\\}}, and the second with ${quantity::\\{\"amount\": 2.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"text\": \"corn starch\"\\}} mixed with a pinch of salt and pepper.",
-			"Dip the ${quantity::\\{\"amount\": 4.0, \"units\": [\"Breast\", \"Breasts\"], \"text\": \"chicken\"\\}} into the beaten egg. Place all the pieces into the cornstarch and toss to lightly and evenly coat.",
-			"Heat the ${quantity::\\{\"amount\": 1.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"text\": \"oil\"\\}} in a non-stick skillet over medium heat. Add the chicken pieces in a single layer without overlapping.",
+			"Prepare 2 bowls, one with beaten {{ quantity(amount=1.0, quality=\"Large\", text=\"egg\") }}, and the second with {{ quantity(amount=2.0, text=\"corn starch\", units=[\"Tablespoon\", \"Tablespoons\"]) }} mixed with a pinch of salt and pepper.",
+			"Dip the {{ quantity(amount=4.0, text=\"chicken\", units=[\"Breast\", \"Breasts\"]) }} into the beaten egg. Place all the pieces into the cornstarch and toss to lightly and evenly coat.",
+			"Heat the {{ quantity(amount=1.0, text=\"oil\", units=[\"Teaspoon\", \"Teaspoons\"]) } in a non-stick skillet over medium heat. Add the chicken pieces in a single layer without overlapping.",
 			"Cook until golden brown on all sides, about 8-10 minutes.",
 			"In a medium bowl whisk all the sauce ingredients. Pour sauce over the chicken and toss to coat then set aside.",
 			"Quickly wipe the pan clean with a paper towel, and add in the remaining oil.",

@@ -24,9 +24,9 @@ BEGIN
 			"Prepare The Chicken Bites":
 			[
 				"Slice chicken breasts into bite-sized chunks.",
-				"Combine ${quantity::\\{\"amount\": 2.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"text\": \"olive oil\"\\}}, ${quantity::\\{\"amount\": 2.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"text\": \"salt\"\\}}, ${quantity::\\{\"amount\": 2.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"text\": \"pepper\"\\}}, ${quantity::\\{\"amount\": 2.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"text\": \"garlic powder\"\\}}, ${quantity::\\{\"amount\": 1.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"text\": \"italian seasoning\"\\}}, and ${quantity::\\{\"amount\": 1.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"text\": \"sriracha\"\\}}.",
-				"Mix ${quantity::\\{\"amount\": 3.0, \"quality\": \"Boneless\", \"text\": \"chicken chunks\"\\}} & spices until evenly seasoned.",
-				"Marinate in the refrigerator for ${timer::00:30:00} to ${timer::01:00:00}."
+				"Combine {{ quantity(amount=2.0, text=\"olive oil\", units=[\"Tablespoon\", \"Tablespoons\"]) }}, {{ quantity(amount=2.0, text=\"salt\", units=[\"Teaspoon\", \"Teaspoons\"]) }}, {{ quantity(amount=2.0, text=\"pepper\", units=[\"Teaspoon\", \"Teaspoons\"]) }}, {{ quantity(amount=2.0, text=\"garlic powder\", units=[\"Teaspoon\", \"Teaspoons\"]) }}, {{ quantity(amount=1.0, text=\"italian seasoning\", units=[\"Teaspoon\", \"Teaspoons\"]) }}, and {{ quantity(amount=1.0, text=\"sriracha\", units=[\"Tablespoon\", \"Tablespoons\"]) }}.",
+				"Mix {{ quantity(amount=3.0, quality=\"Boneless\", text=\"chicken chunks\", units=[\"Breast\", \"Breasts\"]) }} & spices until evenly seasoned.",
+				"Marinate in the refrigerator for {{ timer(minutes=30) }} to {{ timer(hours=1) }}."
 			],
 			"Preparing The Zucchini Noodles":
 			[
@@ -38,16 +38,16 @@ BEGIN
 			"Cooking The Chicken Bites":
 			[
 				"Bring the marinated chicken bites to room temperature.",
-				"Heat ${quantity::\\{\"amount\": 2.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"text\": \"butter\"\\}}  in a large skillet over medium-low heat.",
+				"Heat {{ quantity(amount=2.0, text=\"butter\", units=[\"Tablespoon\", \"Tablespoons\"]) }} in a large skillet over medium-low heat.",
 				"Gently stir-fry the chicken pieces, in batches if needed, on all sides until golden brown.",
 				"Remove the chicken bites from the skillet and set aside to a plate."
 			],
 			"Cooking The Zucchini Noodles":
 			[
-				"In the same skillet over medium-high, add ${quantity::\\{\"amount\": 2.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"text\": \"butter\"\\}}, ${quantity::\\{\"amount\": 0.5, \"quality\": \"Juiced\", \"text\": \"lemon juice\"\\}}, ${quantity::\\{\"amount\": 1.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"text\": \"hot sauce\"\\}}, and ${quantity::\\{\"amount\": 0.25, \"units\": [\"Cup\", \"Cups\"], \"text\": \"chicken broth\"\\}}.",
+				"In the same skillet over medium-high, add {{ quantity(amount=2.0, text=\"butter\", units=[\"Tablespoon\", \"Tablespoons\"]) }}, {{ quantity(amount=0.5, text=\"lemon juice\", quantity=\"Juiced\", units=[\"Lemon\", \"Lemons\"]) }}, {{ quantity(amount=1.0, text=\"hot sauce\", units=[\"Tablespoon\", \"Tablespoons\"]) }}, and {{ quantity(amount=0.25, text=\"chicken broth\", units=[\"Cup\", \"Cups\"]) }}.",
 				"Bring to a simmer and allow to reduce for 1-2 minutes.",
 				"Stir regularly.",
-				"Stir in fresh ${quantity::\\{\"amount\": 1.0, \"units\": [\"Tablespoon\", \"Tablespoons\"], \"text\": \"fresh parsley\"\\}} and ${quantity::\\{\"amount\": 2.0, \"units\": [\"Teaspoon\", \"Teaspoons\"], \"text\": \"minced garlic\"\\}}.",
+				"Stir in fresh {{ quantity(amount=1.0, text=\"fresh parsley\", units=[\"Tablespoon\", \"Tablespoons\"]) }} and {{ quantity(amount=2.0, text=\"minced garlic\", units=[\"Teaspoon\", \"Teaspoons\"]) }}.",
 				"Add the zucchini noodles and toss for two to three minutes.",
 				"Allow the cooking juices to reduce for one minute if the zucchini noodles render too much water."
 			],
