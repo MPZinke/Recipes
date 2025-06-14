@@ -73,7 +73,7 @@ def main():
 	app.register_blueprint(backend_ingredients_blueprint)
 	app.register_blueprint(backend_recipe_blueprint)
 
-	app.run(debug=True, host="0.0.0.0", port=80)
+	app.run(debug=True, host="0.0.0.0", port=443)
 
 
 if(__name__ == "__main__"):
